@@ -1,18 +1,16 @@
- <%- include('index'); -%>
+<%- include('partials/header'); -%>
 
- <h2 class="mb-4">Events</h2>
+<body class="has-fixed-sidenav">
+    
+    <%- include('partials/sidebar'); -%>
 
-
-
-
-
- <script>
-     var listitem = document.getElementById('events');
-     listitem.classList.add('active')
- </script>
- </div>
- </div>
-
- </body>
-
- </html>
+    <section>
+        <%- include('partials/banner'); -%>
+        <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons menu">menu</i></a>
+    </section>
+</body>
+<script>
+  var listitem = document.getElementById('events');
+  listitem.classList.add('active')
+</script>
+<%- include('partials/footer') -%>
