@@ -1,12 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><%= title_top %></title>
+     <link rel="shortcut icon" type="image/x-icon" href="images/nitplogo.png" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/header.css">
 </head>
+
 <body>
-    <h1>HOME</h1>
-    
-</body>
-</html>
+
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="p-4 pt-5">
+                <img class="img logo rounded-circle mb-5" src="<%= profileimgsrc %>" alt="UserImage">
+                <div class="mb-5" style="text-align: center;">Profile</div>
+                <ul class="list-unstyled components mb-5">
+                     <!-- class="active" -->
+                    <li id="home">
+                        <a href="/home">Home</a>
+                    </li>
+                    <li id="notices">
+                        <a href="/notices">Notices</a>
+                    </li>
+                    <li id="events">
+                        <a href="/events">Events</a>
+                    </li>
+                    <li id="faculty_prof">
+                        <a href="/faculty_prof">Faculty Profile</a>
+                    </li>
+                </ul>
+
+                <div class="footer">
+                    <p>
+                        Copyright &copy;
+                        <script>document.write(new Date().getFullYear());</script> All rights reserved
+                    </p>
+                </div>
+
+            </div>
+        </nav>
+
+        
+        <!-- Page Content  -->
+        <div id="content" class="p-3 p-md-5">
+            <div class="div_header">
+                <img src="images/nitplogo.png" alt="nitplogo" class="nitplogo">
+                <div class="name_div">
+                    <div class="name_eng">NATIONAL INSTITUTE OF TECHNOLOGY, PATNA</div>
+                    <div class="name_hindi">राष्ट्रीय प्रौद्योगिकी संस्थान, पटना</div>
+                </div>
+            </div>
+            <button type="button" id="sidebarCollapse" class="btn btn-primary btn_col">
+                <i class="fa fa-bars"></i>
+                <span class="sr-only">Toggle Menu</span>
+            </button>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/main.js"></script>
+      
