@@ -1,4 +1,5 @@
-const db = require('../db')
+const db = require('../db');
+const { json } = require('express');
 
 class User {
     /**
@@ -11,10 +12,13 @@ class User {
     constructor(id, name, email, imgUrl) {
         this.id = id;
         this.name = name;
-        this.email = email
-        this.imgUrl = imgUrl
+        this.email = email | ''
+        this.imgUrl = imgUrl | ''
         
     }
+    /**
+     * @private 
+     */
     static get tableName() {
         return 'users'
     }
@@ -51,7 +55,7 @@ class User {
      * @param {number} id unique id of user
      * @returns {Promise<User>} User with id
      */
-    static find(id) {
+    static findById(id) {
         const query = `
             SELECT * FROM ${User.tableName} WHERE id=${id};
         `
@@ -62,7 +66,13 @@ class User {
                     reject(err)
                 }
                 // console.log(results)
-                resolve(results[0])
+                if(results.length == 0){
+                    reject("User does not exist")
+                }
+                else {
+                    resolve(User.parse(results[0]))
+                }
+                
             })
         })
 
@@ -94,13 +104,23 @@ class User {
     }
 
     /**
+     * Converts Javascript object to User object
+     * @param {Object} object valid javascript object
+     * @returns {User} 
+     */
+    static parse(object) {
+        const {id, name, email, imgUrl} = object
+        return new User(id, name, email, imgUrl)
+    }
+
+    /**
      * updates current user data to SQL database
      * @returns {Promise<import('mysql').OkPacket>}
      */
     save() {
         const query = `
             UPDATE ${User.tableName}
-            SET name = '${user.name}', email = '${user.email}', imgUrl = '${user.imgUrl}'
+            SET name = '${this.name}', email = '${this.email}', imgUrl = '${this.imgUrl}'
             WHERE id = ${this.id};
         `
         return new Promise((res,rej) => {

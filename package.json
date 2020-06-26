@@ -16,12 +16,9 @@
     "express-session": "^1.17.1",
     "formidable": "^1.2.2",
     "fs": "0.0.1-security",
-    "mongoose": "^5.9.20",
-    "mongoose-findorcreate": "^3.0.0",
     "mysql": "^2.18.1",
     "passport": "^0.4.1",
-    "passport-google-oauth20": "^2.0.0",
-    "passport-local-mongoose": "^6.0.1"
+    "passport-google-oauth20": "^2.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
