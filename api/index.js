@@ -24,8 +24,9 @@ router.get('/', (req, res) => {
 })
 
 
-router.get('/create',async (req, res, next) => {
-    const user = new User(21, 'Manish Kumar', 'manish@gmail.com', 'images/profile.png')
+router.get('/create/:id',async (req, res, next) => {
+    const id = req.params.id
+    const user = new User(id, 'Manish Kumar', 'manish@gmail.com', 'images/profile.png')
     User.create(user)
     .then(result => {
         res.json(result)

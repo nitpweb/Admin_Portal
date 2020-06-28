@@ -1,5 +1,5 @@
 const db = require('../db');
-const { json } = require('express');
+
 
 class User {
     /**
@@ -12,8 +12,8 @@ class User {
     constructor(id, name, email, imgUrl) {
         this.id = id;
         this.name = name;
-        this.email = email | ''
-        this.imgUrl = imgUrl | ''
+        this.email = email || ''
+        this.imgUrl = imgUrl || ''
         
     }
     /**
@@ -24,7 +24,7 @@ class User {
     }
 
     /**
-     * @returns {Promise<import('mysql').OkPacket>}
+     * @returns {Promise<Object>}
      */
     static createTable() {
         const query = `
@@ -37,16 +37,7 @@ class User {
             );
         `
         
-        return new Promise((res, rej) => {
-            db.query(query, (err, results, fields) => {
-                if(err) {
-                    console.log(err)
-                    rej(err)
-                }
-                // console.log(results)
-                res(results)
-            })
-        })
+        return db.createTable(this.tableName, query)
         
     }
 
@@ -56,25 +47,32 @@ class User {
      * @returns {Promise<User>} User with id
      */
     static findById(id) {
-        const query = `
-            SELECT * FROM ${User.tableName} WHERE id=${id};
-        `
-        return new Promise((resolve, reject) => {
-            db.query(query, (err, results, fields) => {
-                if(err) {
-                    console.log(err)
-                    reject(err)
-                }
-                // console.log(results)
-                if(results.length == 0){
-                    reject("User does not exist")
-                }
-                else {
-                    resolve(User.parse(results[0]))
-                }
+
+        // const query = `
+        //     SELECT * FROM ${User.tableName} WHERE id=${id};
+        // `
+        // return new Promise((resolve, reject) => {
+        //     db.query(query, (err, results, fields) => {
+        //         if(err) {
+        //             console.log(err)
+        //             reject(err)
+        //         }
+        //         // console.log(results)
+        //         if(results.length == 0){
+        //             reject("User does not exist")
+        //         }
+        //         else {
+        //             resolve(User.parse(results[0]))
+        //         }
                 
+        //     })
+        // })
+
+        return db.findById(id, User.tableName)
+            .then(res => User.parse(res))
+            .catch(err => {
+                throw err
             })
-        })
 
         
     }
@@ -86,11 +84,10 @@ class User {
      */
     static create(user) {
         const query = `
-            INSERT INTO ${User.tableName}
-            VALUES (${user.id}, '${user.name}', '${user.email}', '${user.imgUrl}');
+            INSERT INTO ${User.tableName} SET ?;
         `
         return new Promise((res,rej) => {
-            db.query(query, (err, results, fields) => {
+            db.query(query, user, (err, results, fields) => {
                 if(err) {
                     console.log(err)
                     rej(err)
@@ -136,5 +133,7 @@ class User {
     }
 
 }
+
+User.createTable()
 
 module.exports = User
