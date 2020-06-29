@@ -14,6 +14,17 @@ router.get('/', (req, res) => {
         .catch(err => res.json(err))
 })
 
+router.get('/:id', (req, res) => {
+    const id = req.params.id
+    Notice.findById(id)
+        .then(notice => {
+            res.json(notice)
+        })
+        .catch(err => {
+            res.json(err)
+        })
+})
+
 router.get('/create/:id', (req, res) => {
     const id = Number(req.params.id)
     let a = [new Attachment('for b.tech', '/btech')]

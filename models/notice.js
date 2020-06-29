@@ -1,5 +1,16 @@
 const db = require('../db')
 
+/**
+ * 
+ * @param {class} Class 
+ * @param {Object} obj 
+ * @returns {Class}
+ */
+function typecast(Class, obj) {
+    let t = new Class()
+    return Object.assign(t, obj)
+}
+
 class Attachment {
     constructor(caption, url) {
         this.caption = caption
@@ -64,6 +75,24 @@ class Notice {
                 res(results)
             })
         })
+    }
+
+    static find(value) {
+        db.find(value, this.tableName)
+    }
+
+    /**
+     * 
+     * @param {number} id 
+     * @returns {Promise<Notice>}
+     */
+    static findById(id) {
+        db.findById(id, this.tableName)
+            .then(res => {
+                res.attachments = JSON.parse(res.attachments)
+                return typecast(Notice, res)
+            })
+            
     }
 
     save() {
