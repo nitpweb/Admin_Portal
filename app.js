@@ -12,28 +12,14 @@ app.use('/api', apiRouter)
 
 
 // Handling admin router
-const adminRouter = require('./admin/home')
+const adminRouter = require('./admin')
 app.use('/', adminRouter)
 
+
 //Handling googleSignIn
-const googleSignIn = require('./admin/googlesign')
-app.use('/googlesign', googleSignIn)
+// const googleSignIn = require('./admin/googlesign')
+// app.use('/googlesign', googleSignIn)
 
-//Handling home
-const home = require('./admin/home')
-app.use('/home', home)
-
-//Handling notices
-const notices = require('./admin/notices')
-app.use('/notices', notices)
-
-//Handling events
-const events = require('./admin/events')
-app.use('/events', events)
-
-//Handling faculty_prof
-const faculty_prof = require('./admin/faculty_prof')
-app.use('/faculty_prof', faculty_prof)
 
 
 
