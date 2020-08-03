@@ -10,7 +10,8 @@ router.get('/', (req, res) => {
             imgUrl: '/images/person.jpg',
             name: 'Manish Kumar',
             email: 'manish@gmail.com'
-        }
+        },
+        notices: ['a','b','c','d','a','b','c','d','a','b','c','d']
     })
 })
 
