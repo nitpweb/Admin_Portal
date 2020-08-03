@@ -90,3 +90,24 @@ footer {
   text-align: center;
   margin-top: 20px;
 }
+
+.row > div {
+  height: 100%;
+}
+.btn, .btn-flat {
+  text-transform: none;
+}
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.flex.left {
+  justify-content: flex-start;
+}
+.flex.right{
+  justify-content: flex-end;
+}
+.flex > * {
+  margin: 0;
+}
