@@ -8,8 +8,9 @@ router.use(session({
 }));
 
 router.get('/',(req,res) => {
+    req.session.destroy()
     req.session=null;
-    res.redirect('/googlesign')
+    res.render('login')
 })
 
 module.exports = router

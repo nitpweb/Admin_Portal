@@ -4,9 +4,106 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/x-icon" href="images/nitplogo.png" />
     <title>Login</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="./materialize/css/materialize.min.css">
+    <style>
+        * {
+            margin:0;
+        
+            box-sizing: border-box;
+        }
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+            margin: 25px;
+            margin-top: 40%;
+            padding: 15px;
+            padding-bottom: 25px;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+        .nitpimg{
+            width: 75%;
+            float: left;
+        }
+        .personlogo{
+            border-radius: 50%;
+         
+           margin-top: 40%;
+        }
+        .login-container{
+            width: 25%;
+            float: left;
+            text-align: center;
+        }
+        /* Centered text */
+        .centered {
+            position: absolute;
+            top: 60%;
+            left: 37%;
+            font-size: 25px;
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: orange;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        }
+        
+        @media only screen and (max-width: 600px){
+            .nitpimg{
+                width: 100%;
+            }
+            .login-container{
+                width: 100%;
+            }
+            .personlogo{
+                margin-top: 10%;
+            }
+            .centered {
+                position: relative;
+                float: left;
+                left: 50%;
+                width: 100%;
+               
+            }
+            .card{
+                margin-top: -10%;
+            }
+
+        }
+    </style>
 </head>
 <body>
-    <a href=""></a>
+    <img src="./images/nitpmain.jpeg" alt="nitpimg" class="nitpimg">
+    <div class="centered"><span>Welcome to the Admin Portal of</span><br><b>NATIONAL INSTITUTE OF TECHNOLOGY, PATNA</b></div>
+    <div class="login-container">
+        <div class="card">
+            <img src="./images/img_avatar.png" alt="personlogo" style="width:100%; border-radius:50%;">
+            <div class="container">
+                <h4><b>Admin Login</b></h4>
+                <div class="col s12 m6 offset-m3 center-align">
+                    <a class="oauth-container btn darken-4 white black-text" href="/googlesign" style="text-transform:none">
+                        <div class="left">
+                            <img width="20px" style="margin-top:7px; margin-right:8px" alt="Google sign-in"
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                        </div>
+                        Login with Google
+                    </a>
+                </div>
+                
+                <!-- Compiled and minified JavaScript -->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+            </div>
+        </div>
+        <!-- <img src="./images/profiledefault.jfif" alt="personlogo" class="personlogo">
+        <a href="/googlesign">Login</a> -->
+    </div>
+    
 </body>
 </html>

@@ -23,7 +23,7 @@ router.get('/', (req, res) => {
              Navbar: req.session.Navbar
          })
      } else {
-         res.redirect("/googlesign")
+         res.render('login')
      }
 })
 
