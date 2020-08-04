@@ -1,17 +1,11 @@
 const router = require('express').Router()
 var google = require('googleapis').google;
-const session = require('express-session');
 
-router.use(session({
-    secret: "ablackcat",
-    resave: false,
-    saveUninitialized: true,
-}));
 
 var client = new google.auth.OAuth2(
     "549511704390-um1fnnkmnp4am22pn7h3tbonh0e37edo.apps.googleusercontent.com",
     "bM9qcnyWnWazzsa2Uilhsywx",
-    "http://localhost:3000/googlesign/oauth2callback"
+    "/googlesign/oauth2callback"
 );
 
  function getAuthenticationUrl() {
@@ -40,6 +34,7 @@ var client = new google.auth.OAuth2(
          oauth2.userinfo.get(
              function (err, profile) {
                  if (err) return callback(err);
+                 console.log(profile)
                  var user = {
                      id: profile.data.id,
                      email: profile.data.email,
@@ -66,8 +61,8 @@ router.get('/', function (req, res) {
 router.get('/oauth2callback', function (req, res, next) {
     getUser(req.query.code, function (err, user) {
         if (err) return next(err);
-        var onlyprofile = ['kundan3316@gmail.com', 'kundan.cs18@nitp.ac.in']
-        var allservice = ['kundan.cs18@nitp.ac.in']
+        var onlyprofile = ['kundan3316@gmail.com', 'kundan.cs18@nitp.ac.in', 'manishkumarsh120@gmail.com']
+        var allservice = ['kundan.cs18@nitp.ac.in', 'manishkumarsh120@gmail.com']
         var showall=false,showprof=false;
         for(var i=0;i<onlyprofile.length;i++){
             if(user.email==onlyprofile[i]){
@@ -85,20 +80,24 @@ router.get('/oauth2callback', function (req, res, next) {
         {
             Navbar = [{
                 link: '/notices',
-                title: 'notices'
+                title: 'notices',
+                id: 'notices'
             } ,{
                 link: '/events',
-                title: 'events'
+                title: 'events',
+                id: 'events'
             }, {
                 link: '/profile',
-                title: 'faculty profile'
+                title: 'faculty profile',
+                id: 'profile'
             }]
             req.session.Navbar = Navbar;
         }
         if (!showall && showprof) {
             Navbar = [{
                 link: '/profile',
-                title: 'faculty profile'
+                title: 'faculty profile',
+                id: 'profile'
             }]
             req.session.Navbar = Navbar;
         }
@@ -106,7 +105,7 @@ router.get('/oauth2callback', function (req, res, next) {
         // console.log("showprof",showprof);
         
         req.session.user = user;
-        res.redirect('/');
+        res.redirect('/notice');
     });
 });
 
