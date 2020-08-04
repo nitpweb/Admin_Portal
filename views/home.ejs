@@ -1,0 +1,73 @@
+
+
+ <!-- <h2 class="mb-4">Home</h2>
+
+
+
+
+
+ <script>
+     var listitem = document.getElementById('home');
+     listitem.classList.add('active')
+ </script>
+ </div>
+ </div>
+
+ </body>
+
+ </html>  -->
+
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+     
+     <title>Document</title>
+ </head>
+ <body>
+     <nav>
+         <!-- navbar content here  -->
+     </nav>
+
+     <ul id="slide-out" class="sidenav">
+         <li>
+             <div class="user-view">
+                 <div class="background">
+                     <img src="images/nitplogo.png">
+                 </div>
+                 <a href="#user"><img class="circle" src="images/person.jpg"></a>
+                 <a href="#name"><span class="white-text name">John Doe</span></a>
+                 <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+             </div>
+         </li>
+         <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+         <li><a href="#!">Second Link</a></li>
+         <li>
+             <div class="divider"></div>
+         </li>
+         <li><a class="subheader">Subheader</a></li>
+         <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+     </ul>
+     <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+     <script src="js/jquery.min.js"></script>
+     <script>
+          document.addEventListener('DOMContentLoaded', function() {
+          var elems = document.querySelectorAll('.sidenav');
+          var instances = M.Sidenav.init(elems, options);
+          });
+
+          // Initialize collapsible (uncomment the lines below if you use the dropdown variation)
+          // var collapsibleElem = document.querySelector('.collapsible');
+          // var collapsibleInstance = M.Collapsible.init(collapsibleElem, options);
+
+          // Or with jQuery
+
+          $(document).ready(function(){
+          $('.sidenav').sidenav();
+          });
+     </script>
+ </body>
+ </html>

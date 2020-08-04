@@ -1,98 +1,113 @@
 const router = require('express').Router()
+var google = require('googleapis').google;
 const session = require('express-session');
-const passport = require("passport");
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 router.use(session({
-    secret: process.env.SECRET,
+    secret: "ablackcat",
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true,
 }));
 
-router.use(passport.initialize());
-router.use(passport.session());
-
-
-/***for testing */
-
-
-const User = require('../../models/user')
-// const User = new mongoose.model("User", userSchema);
-// passport.use(User.createStrategy());
-
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(function (id, done) {
-    // User.findById(id, function (err, user) {
-    //     done(err, user);
-    // });
-    User.findById(id)
-        .then(user => done(null, user))
-        .catch(err => done(err, null))
-});
-
-/*********** */
-
-var userdata="";
-
-
-passport.use(new GoogleStrategy({
-        clientID: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        callbackURL: "http://localhost:3000/auth/google/admin",
-    },
-    function (accessToken, refreshToken, profile, cb) {
-        // console.log(profile);
-        userdata = profile;
-        // User.findOrCreate({
-        //     googleId: profile.id
-        // }, function (err, user) {
-        //     return cb(err, user);
-        // });
-        User.findById(id)
-            .then(user => {
-                return cb(null, user)
-            })
-            .catch(err => {
-                const user = new User(profile.id, profile.displayName, profile.emails[0].value, profile.photos[0].value)
-                User.create(user)
-                    .then(result => {
-                        return cb(null,user)
-                    })
-                    .catch(err => {
-                        return cb(err, null)
-                    })
-            })
-    }
-));
-
-router.get('/auth/google',
-    passport.authenticate('google', {
-        scope: ['profile', 'email']
-    }));
-
-
-router.get('/auth/google/admin',
-    passport.authenticate('google'), // complete the authenticate using the google strategy
-    (err, req, res, next) => { // custom error handler to catch any errors, such as TokenError
-        if (err.name === 'TokenError') {
-            console.log(userdata);
-            res.send(err)
-             // redirect them back to the login page
-        } else {
-            console.log(err);
-            
-            // Handle other errors here
-        }
-    },
-    (req, res) => { // On success, redirect back to '/'
-        // res.redirect('/');
-        res.send(userdata)
-        console.log("Loged In");
-        
-    }
+var client = new google.auth.OAuth2(
+    "549511704390-um1fnnkmnp4am22pn7h3tbonh0e37edo.apps.googleusercontent.com",
+    "bM9qcnyWnWazzsa2Uilhsywx",
+    "http://localhost:3000/googlesign/oauth2callback"
 );
+
+ function getAuthenticationUrl() {
+     // Use 'profile' scope to authorize fetching the user's profile
+     return client.generateAuthUrl({
+         scope: ['profile', 'email']
+     });
+ }
+
+
+ function getUser(authorizationCode, callback) {
+     // With the code returned from OAuth flow, get an access token
+     client.getToken(authorizationCode, function (err, tokens) {
+         if (err) return callback(err);
+        //  console.log(tokens);
+         
+         var OAuth2 = google.auth.OAuth2;
+         var oauth2Client = new OAuth2();
+         oauth2Client.setCredentials({
+             access_token: tokens.access_token
+         });
+         var oauth2 = google.oauth2({
+             auth: oauth2Client,
+             version: 'v2'
+         });
+         oauth2.userinfo.get(
+             function (err, profile) {
+                 if (err) return callback(err);
+                 var user = {
+                     id: profile.data.id,
+                     email: profile.data.email,
+                     name: profile.data.name,
+                     imageUrl: profile.data.picture
+                 };
+                 callback(null, user);
+             });
+     });
+     
+ }
+
+
+
+router.get('/', function (req, res) {
+    var authenticationUrl = getAuthenticationUrl();
+    res.redirect(authenticationUrl);
+    // res.send("KKJ")
+});
+
+
+
+/* Use OAuth 2.0 authorization code to fetch user's profile */
+router.get('/oauth2callback', function (req, res, next) {
+    getUser(req.query.code, function (err, user) {
+        if (err) return next(err);
+        var onlyprofile = ['kundan3316@gmail.com', 'kundan.cs18@nitp.ac.in']
+        var allservice = ['kundan.cs18@nitp.ac.in']
+        var showall=false,showprof=false;
+        for(var i=0;i<onlyprofile.length;i++){
+            if(user.email==onlyprofile[i]){
+                showprof=true;
+                break;
+            }
+        }
+        for(var i=0;i<allservice.length;i++){
+            if(user.email==allservice[i]){
+                showall=true;
+                break;
+            }
+        }
+        if(showall&&showprof)
+        {
+            Navbar = [{
+                link: '/notices',
+                title: 'notices'
+            } ,{
+                link: '/events',
+                title: 'events'
+            }, {
+                link: '/profile',
+                title: 'faculty profile'
+            }]
+            req.session.Navbar = Navbar;
+        }
+        if (!showall && showprof) {
+            Navbar = [{
+                link: '/profile',
+                title: 'faculty profile'
+            }]
+            req.session.Navbar = Navbar;
+        }
+        // console.log("showall",showall);
+        // console.log("showprof",showprof);
+        
+        req.session.user = user;
+        res.redirect('/');
+    });
+});
 
 module.exports = router

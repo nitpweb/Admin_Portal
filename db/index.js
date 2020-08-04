@@ -117,4 +117,4 @@ connection.createTable = function(name, query) {
 }
 
 
-module.exports = connection
+// module.exports = connection
