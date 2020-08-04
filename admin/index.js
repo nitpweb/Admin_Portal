@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
             Navbar: req.session.Navbar
         })
     }else{
-        res.render('login')
+        res.redirect("/login")
     }
 })
 
@@ -40,10 +40,13 @@ router.use('/notices', noticeRouter)
 const profileRouter = require('./routes/faculty_prof')
 router.use('/profile', profileRouter)
 
-const login = require("./routes/googlesign")
-router.use('/googlesign', login)
+const googlelogin = require("./routes/googlesign")
+router.use('/googlesign', googlelogin)
 
 const logout = require("./routes/logout")
 router.use('/logout',logout)
+
+const login = require("./routes/login")
+router.use('/login',login)
 
 module.exports = router

@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
             notices: ['notice']
         })
     } else {
-        res.render('login')
+        res.redirect("/login")
     }
 })
 

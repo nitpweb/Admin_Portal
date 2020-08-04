@@ -10,7 +10,7 @@ router.use(session({
 router.get('/',(req,res) => {
     req.session.destroy()
     req.session=null;
-    res.render('login')
+    res.redirect("/login")
 })
 
 module.exports = router
