@@ -1,9 +1,8 @@
 const mysql = require('mysql')
-const e = require('express')
 
 const connection = mysql.createConnection({
-    host: process.env.DB_HOST | 'localhost',
-    port: process.env.DB_PORT | 3306,
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
     user: process.env.DB_USER,
     password: "12345",
     database: process.env.DB_NAME
@@ -11,6 +10,9 @@ const connection = mysql.createConnection({
 
 connection.on('error', function(err) {
     console.log(err.code)
+})
+.on('connect', function() {
+    console.log('db connection established')
 })
 
 /**
@@ -114,6 +116,5 @@ connection.createTable = function(name, query) {
     
 }
 
-console.log('db connection established')
 
 module.exports = connection

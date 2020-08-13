@@ -3,12 +3,6 @@ var google = require('googleapis').google;
 const session = require('express-session');
 const UserList = require('./UsersList')
 
-router.use(session({
-    secret: "ablackcat",
-    resave: false,
-    saveUninitialized: true
-}));
-
 var client = new google.auth.OAuth2(
     process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,
@@ -41,6 +35,7 @@ var client = new google.auth.OAuth2(
          oauth2.userinfo.get(
              function (err, profile) {
                  if (err) return callback(err);
+                 console.log(profile)
                  var user = {
                      id: profile.data.id,
                      email: profile.data.email,
@@ -81,10 +76,12 @@ router.get('/oauth2callback', function (req, res, next) {
                 title: 'notices'
             }, {
                 link: '/events',
-                title: 'events'
+                title: 'events',
+                id: 'events'
             }, {
                 link: '/profile',
-                title: 'faculty profile'
+                title: 'faculty profile',
+                id: 'profile'
             }]
             req.session.Navbar = Navbar;
             req.session.isAdmin = "true";
