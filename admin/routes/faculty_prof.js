@@ -20,7 +20,8 @@ router.get('/', (req, res) => {
                 name: user.name,
                 email: user.email
             },
-            Navbar: req.session.Navbar
+            Navbar: req.session.Navbar,
+            Drive: req.session.isAdmin
         })
     } else {
         res.redirect("/login")

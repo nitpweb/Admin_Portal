@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
     host: process.env.DB_HOST | 'localhost',
     port: process.env.DB_PORT | 3306,
     user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
+    password: "12345",
     database: process.env.DB_NAME
 })
 
@@ -116,4 +116,4 @@ connection.createTable = function(name, query) {
 
 console.log('db connection established')
 
-// module.exports = connection
+module.exports = connection

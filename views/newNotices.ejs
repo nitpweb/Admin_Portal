@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Notices</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./materialize/css/materialize.min.css">
+</head>
+<body>
+    <h1>New Notices</h1>
+     <!-- enctype="multipart/form-data" -->
+    <form action="/uploadNotices" method="POST" enctype="multipart/form-data" id="upload_form">
+        Label<textarea name="main_title" id="" cols="30" rows="10"></textarea>
+        Open Date<input type="date" name="open_date">
+        Close Date <input type="date" name="close_date">
+        <input type="number" id="ittr" name="ittrname" style="display: none;">
+        <label>
+            <input type="checkbox" name="important" />
+            <span><i class="fa fa-star"></i> Important</span>
+        </label>
+    </form><br>
+    <button class="waves-effect waves-light btn add_button">Add Attachment +</button>
+    <button type="submit" form="upload_form" value="Submit"
+        class="waves-effect waves-light btn add_button" style="margin-left: 20px;">Submit</button>
+
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="materialize/js/materialize.min.js"></script>
+<script>
+    $(document).ready(function(){
+        var ittr=1;
+        var addButton = $('.add_button'); //Add button selector
+        var wrapper = $('form'); //Input field wrapper
+
+        //Once add button is clicked
+        $(addButton).click(function(){
+            var nametitle = "subtitle"+ittr;
+            var namefile = "filename"+ittr;
+            var fieldHTML = '<div><input type="text" name='+' \"'+nametitle+'\"'+'placeholder="SubTitle" /><input type="file" name='+' \"'+namefile+'\"'+' /></div>'
+            $(wrapper).append(fieldHTML);
+            $('#ittr').val(ittr);
+            ittr++;
+        })
+    })
+</script>
+</html>

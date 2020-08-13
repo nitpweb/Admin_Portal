@@ -21,7 +21,8 @@ router.get('/', (req, res) => {
                 email: user.email
             },
             Navbar: req.session.Navbar,
-            notices: ['notice']
+            notices: ['notice','new notice'],
+            Drive: req.session.isAdmin
         })
     } else {
         res.redirect("/login")

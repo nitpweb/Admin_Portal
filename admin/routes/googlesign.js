@@ -1,16 +1,17 @@
 const router = require('express').Router()
 var google = require('googleapis').google;
 const session = require('express-session');
+const UserList = require('./UsersList')
 
 router.use(session({
     secret: "ablackcat",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: true
 }));
 
 var client = new google.auth.OAuth2(
-    "549511704390-um1fnnkmnp4am22pn7h3tbonh0e37edo.apps.googleusercontent.com",
-    "bM9qcnyWnWazzsa2Uilhsywx",
+    process.env.CLIENT_ID,
+    process.env.CLIENT_SECRET,
     "http://localhost:3000/googlesign/oauth2callback"
 );
 
@@ -66,27 +67,19 @@ router.get('/', function (req, res) {
 router.get('/oauth2callback', function (req, res, next) {
     getUser(req.query.code, function (err, user) {
         if (err) return next(err);
-        var onlyprofile = ['kundan3316@gmail.com', 'kundan.cs18@nitp.ac.in']
-        var allservice = ['kundan.cs18@nitp.ac.in']
-        var showall=false,showprof=false;
-        for(var i=0;i<onlyprofile.length;i++){
-            if(user.email==onlyprofile[i]){
-                showprof=true;
-                break;
-            }
-        }
-        for(var i=0;i<allservice.length;i++){
-            if(user.email==allservice[i]){
-                showall=true;
-                break;
-            }
-        }
-        if(showall&&showprof)
-        {
+        const onlyprofile = UserList.onlyprofile
+        const allservice = UserList.allservice
+        const mainAdmin = UserList.mainAdmin
+        // console.log(onlyprofile);
+        // console.log(allservice);
+        // console.log(mainAdmin);
+        var showall = false,
+            showprof = false;
+        if(mainAdmin==user.email){
             Navbar = [{
                 link: '/notices',
                 title: 'notices'
-            } ,{
+            }, {
                 link: '/events',
                 title: 'events'
             }, {
@@ -94,19 +87,52 @@ router.get('/oauth2callback', function (req, res, next) {
                 title: 'faculty profile'
             }]
             req.session.Navbar = Navbar;
+            req.session.isAdmin = "true";
         }
-        if (!showall && showprof) {
-            Navbar = [{
-                link: '/profile',
-                title: 'faculty profile'
-            }]
-            req.session.Navbar = Navbar;
+        else{
+            for(var i=0;i<onlyprofile.length;i++){
+                if(user.email==onlyprofile[i]){
+                    showprof=true;
+                    break;
+                }
+            }
+            for(var i=0;i<allservice.length;i++){
+                if(user.email==allservice[i]){
+                    showall=true;
+                    break;
+                }
+            }
+            if(showall&&showprof)
+            {
+                Navbar = [{
+                    link: '/notices',
+                    title: 'notices'
+                } ,{
+                    link: '/events',
+                    title: 'events'
+                }, {
+                    link: '/profile',
+                    title: 'faculty profile'
+                }]
+                req.session.Navbar = Navbar;
+            }
+            if (!showall && showprof) {
+                Navbar = [{
+                    link: '/profile',
+                    title: 'faculty profile'
+                }]
+                req.session.Navbar = Navbar;
+            }
+            req.session.isAdmin = "false";
         }
         // console.log("showall",showall);
         // console.log("showprof",showprof);
-        
-        req.session.user = user;
-        res.redirect('/');
+        if(!showall&&!showprof&&user.email!=mainAdmin){
+            res.send("Sorry, You don't have access")
+        }else{
+            req.session.user = user;
+            res.redirect('/');
+        }
     });
 });
 

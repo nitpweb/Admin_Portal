@@ -21,7 +21,8 @@ router.get('/', (req, res) => {
                 name: user.name,
                 email: user.email
             },
-            Navbar: req.session.Navbar
+            Navbar: req.session.Navbar,
+            Drive: req.session.isAdmin
         })
     }else{
         res.redirect("/login")
@@ -48,5 +49,14 @@ router.use('/logout',logout)
 
 const login = require("./routes/login")
 router.use('/login',login)
+
+const changeDrive = require("./routes/changeDrive")
+router.use('/changeDrive',changeDrive)
+
+const newNotices = require("./routes/newNotices")
+router.use('/newNotices',newNotices)
+
+const uploadNotices = require("./routes/uploadNotice")
+router.use('/uploadNotices',uploadNotices)
 
 module.exports = router
