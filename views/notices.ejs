@@ -60,7 +60,7 @@
             <!-- Modal Trigger -->
             <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add +</a> -->
             <!-- Modal Trigger -->
-            <a class="waves-effect waves-light btn modal-trigger" href="#" onclick="toggleModel()">Add +</a>
+            <a class="waves-effect waves-light btn modal-trigger" href="#modal1"">Add +</a>
 
             <!-- Modal Structure -->
             <section class="infomodel">
@@ -124,3 +124,8 @@
 </script>
 </html>
 <%- include('partials/footer') -%>
+<script>
+  $(document).ready(function () {
+    $('modal').modal();
+  });
+</script>

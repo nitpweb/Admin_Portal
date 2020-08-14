@@ -14,6 +14,7 @@ var oAuth2Client = new google.auth.OAuth2(
 fs.readFile(TOKEN_PATH, (err, token) => {
     if (err) {
         console.log(err);
+        return;
     }
     oAuth2Client.setCredentials(JSON.parse(token));
 });

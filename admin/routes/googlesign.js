@@ -20,6 +20,7 @@ var client = new google.auth.OAuth2(
  function getUser(authorizationCode, callback) {
      // With the code returned from OAuth flow, get an access token
      client.getToken(authorizationCode, function (err, tokens) {
+         console.log(tokens);
          if (err) return callback(err);
         //  console.log(tokens);
          
@@ -60,7 +61,9 @@ router.get('/', function (req, res) {
 
 /* Use OAuth 2.0 authorization code to fetch user's profile */
 router.get('/oauth2callback', function (req, res, next) {
+    // console.log(req.query.code);
     getUser(req.query.code, function (err, user) {
+        // res.send(user)
         if (err) return next(err);
         const onlyprofile = UserList.onlyprofile
         const allservice = UserList.allservice
