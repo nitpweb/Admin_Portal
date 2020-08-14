@@ -7,36 +7,51 @@ const storage = require('../../db/storage')
 
 
 
-router.post('/',(req, res)=>{
+router.post('/', (req, res)=>{
     var form = new formidable.IncomingForm();
-    form.parse(req, function (err, fields, files) {
-        var title = fields.main_title;
-        var open_date = fields.open_date;
-        var close_date = fields.close_date;
-        var ittr = fields.ittrname;
-        var important = fields.important;
+    form.parse(req,async function (err, fields, files) {
+        if(err) {
+            res.send("Parsing Error")
+        }
+        let title = fields.main_title;
+        let open_date = fields.open_date;
+        let close_date = fields.close_date;
+        let ittr = fields.ittrname;
+        let important = fields.important;
         console.log(open_date);
         if(important==undefined)
             important = 0;
         else
             important = 1;
-        var attach = new Attachment([],[])
-        var time_as_id = new Date().getTime();
-        var notice_obj = new Notice(time_as_id, title, attach, 5, new Date(open_date).getTime(), new Date(close_date).getTime(), important)
-        Notice.create(notice_obj);
-        console.log(important);
-        console.log(ittr);
-        for (var i = 1; i <= ittr; i++) {
-            var oldPath = files["filename" + i].path;
-            var type = files["filename" + i].type;
-            storage.uploadFile(oldPath, type, files["filename" + i].name, files["filename" + i].size,i,function(index, link){
-                console.log(link);
-                Notice.updateAttachments(time_as_id, fields["subtitle" + index], link);
-                // if(index == ittr)
-                //     res.redirect('/newNotices')
-            });
+        let attatchments = []
+        // get all attatchments
+
+        try {
+            for (let i = 1; i <= ittr; i++) {
+                let file = files["filename" + i];
+    
+                let url = await storage.uploadFile(file.path, file.type, file.name, file.size);
+                let attatchment = new Attachment(fields["subtitle"+i], url);
+                // console.log(attatchment)
+                attatchments.push(attatchment)
+            }
+        } catch (error) {
+            res.send(error)
         }
-        res.redirect('/newNotices')
+        
+
+        var notice_obj = new Notice(title, attatchments, 5, new Date(open_date).getTime(), new Date(close_date).getTime(), important)
+        
+        // creating to database
+        Notice.create(notice_obj)
+            .then(result => {
+                res.redirect('/newNotices')
+            })
+            .catch(err => {
+                res.send("db update error", err)
+            });
+
+        
     });
 })
 

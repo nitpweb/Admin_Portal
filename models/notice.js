@@ -26,11 +26,12 @@ class Notice {
      * @param {Attachment[]} attach 
      * @param {number} userId
      */
-    constructor(id, title, attach, userId, openDate, closeDate, important) {
-        this.id = id
+    constructor(title, attach, userId, openDate, closeDate, important) {
+        let now = new Date().getTime();
+        this.id = now
         this.title = title
         this.attachments = attach
-        this.timestamp = new Date().getTime()
+        this.timestamp = now
         this.userId = userId
         this.openDate = openDate
         this.closeDate = closeDate
