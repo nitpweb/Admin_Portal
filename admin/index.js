@@ -12,7 +12,7 @@ router.use(session({
 
 router.get('/', (req, res) => {
     var user = req.session.user;
-    if(user!=undefined){
+    if (user != undefined) {
         res.render('index', {
             profileimgsrc: 'images/profiledefault.jfif',
             title_top: 'Home',
@@ -24,7 +24,7 @@ router.get('/', (req, res) => {
             Navbar: req.session.Navbar,
             Drive: req.session.isAdmin
         })
-    }else{
+    } else {
         res.redirect("/login")
     }
 })
@@ -45,18 +45,18 @@ const googlelogin = require("./routes/googlesign")
 router.use('/googlesign', googlelogin)
 
 const logout = require("./routes/logout")
-router.use('/logout',logout)
+router.use('/logout', logout)
 
 const login = require("./routes/login")
-router.use('/login',login)
+router.use('/login', login)
 
 const changeDrive = require("./routes/changeDrive")
-router.use('/changeDrive',changeDrive)
+router.use('/changeDrive', changeDrive)
 
 const newNotices = require("./routes/newNotices")
-router.use('/newNotices',newNotices)
+router.use('/newNotices', newNotices)
 
 const uploadNotices = require("./routes/uploadNotice")
-router.use('/uploadNotices',uploadNotices)
+router.use('/uploadNotices', uploadNotices)
 
 module.exports = router

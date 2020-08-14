@@ -1,126 +1,135 @@
 <%- include('partials/header'); -%>
 <style>
-  .main {
-    padding: 2% 2%;
-    background-color: #ebebeb;
-  }
-  
-  @media (min-width: 768px) {
     .main {
-      padding: 2% 5%;
+        padding: 2% 2%;
     }
-    .tools {
-      position: relative;
-      top: 8px;
+
+    @media (min-width: 768px) {
+        .main {
+            padding: 2% 5%;
+        }
+
+        .tools {
+            position: relative;
+            top: 8px;
+        }
+
+        .row {
+            margin-bottom: 0;
+        }
     }
-    .row {
-      margin-bottom: 0;
+
+    .add-btn {
+        border-radius: 10px;
     }
-  }
-  .add-btn {
-    border-radius: 10px;
-  }
-  .add-btn span {
-    background-color: green;
-    border: 100%;
-  }
-  .card-panel {
-    padding: 14px;
-  }
-  .notice-title {
-    margin: 8px auto;
-  }
-  .icons {
-    /* padding: 10px; */
-    background: white;
-    border-radius: 10px;
-    height: 73px;
-    width: 100px;
-    text-align: center;
-    cursor: pointer;
-  }
-  .icons i{
-    display: block;
-    font-size: 2rem;
-  }
+
+    .add-btn span {
+        background-color: green;
+        border: 100%;
+    }
+
+    .card-panel {
+        padding: 14px;
+    }
+
+    .notice-title {
+        margin: 8px auto;
+    }
+
+    .icons {
+        /* padding: 10px; */
+        background: white;
+        border-radius: 10px;
+        height: 73px;
+        width: 100px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .icons i {
+        display: block;
+        font-size: 2rem;
+    }
 </style>
+
 <body class="has-fixed-sidenav">
-    
+
     <%- include('partials/sidebar'); -%>
 
     <section>
         <%- include('partials/banner'); -%>
-        
+
     </section>
 
     <div class="main">
-      <div class="row">
-        <div class="col s12 m6 flex">
-          <h2 class="flow-text">Recent Notices</h2>
-            <!-- Modal Trigger -->
-            <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add +</a> -->
-            <!-- Modal Trigger -->
-            <a class="waves-effect waves-light btn modal-trigger" href="#" onclick="toggleModel()">Add +</a>
+        <div class="row">
+            <div class="col s12 m6 flex">
+                <h2 class="flow-text">Recent Notices</h2>
+                <!-- Modal Trigger -->
+                <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add +</a> -->
+                <!-- Modal Trigger -->
+                <a class="waves-effect waves-light btn modal-trigger" href="#" onclick="toggleModel()">Add +</a>
 
-            <!-- Modal Structure -->
-            <section class="infomodel">
-              <div id="modal1" class="modal">
-                <div class="modal-content">
-                  <h4>Modal Header</h4>
-                  <p>A bunch of text</p>
-                </div>
-                <div class="modal-footer">
-                  <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-                </div>
-              </div>
-            </section>
-        </div>
-        <div class="col s12 m6 flex right">
-          <button class="btn-flat"><i class="fa fa-history"></i></button>
-          <button class="btn-flat"><i class="fa fa-filter"></i> Filter</button>
-        </div>
-        
-      </div>
-      <ul>
-        <% for(const notice in notices) { %>
-        <li>
-          <div class="row" style="">
-            <div class="col s12 m8">
-              <div class="card-panel notice-title">
-                <span class="truncate">
-                  Advertisement for Non-teaching post. 21st July 2020 update: Recruitment is put on hold due to COVID-19 situation.
-              </span>
-                <i class="fa fa-flag"></i>
-                <span class="right"> 22/07/20 </span>
-              </div>
+                <!-- Modal Structure -->
+                <section class="infomodel">
+                    <div id="modal1" class="modal">
+                        <div class="modal-content">
+                            <h4>Modal Header</h4>
+                            <p>A bunch of text</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+                        </div>
+                    </div>
+                </section>
             </div>
-            <div class="col s12 m4 flex tools">
-              <div class="icons card-panel">
-                <i class="fa fa-eye-slash"></i>
-                <span>visible</span>
-              </div>
-              <div class="icons card-panel">
-                <i class="fa fa-star"></i>
-                <span>important</span>
-              </div>
-              <div class="icons card-panel">
-                <i class="fa fa-pencil"></i>
-                <span>edit</span>
-              </div>
+            <div class="col s12 m6 flex right">
+                <button class="btn-flat"><i class="fa fa-history"></i></button>
+                <button class="btn-flat"><i class="fa fa-filter"></i> Filter</button>
             </div>
-          </div>
-        </li>
-        <% } %>
-      </ul>
+
+        </div>
+        <ul>
+            <% for(const notice in notices) { %>
+            <li>
+                <div class="row">
+                    <div class="col s12 m8">
+                        <div class="card-panel notice-title">
+                            <span class="truncate">
+                                Advertisement for Non-teaching post. 21st July 2020 update: Recruitment is put on hold due to COVID-19 situation.
+                            </span>
+                            <i class="fa fa-flag"></i>
+                            <span class="right"> 22/07/20 </span>
+                        </div>
+                    </div>
+                    <div class="col s12 m4 flex tools">
+                        <div class="icons card-panel">
+                            <i class="fa fa-eye-slash"></i>
+                            <span>visible</span>
+                        </div>
+                        <div class="icons card-panel">
+                            <i class="fa fa-star"></i>
+                            <span>important</span>
+                        </div>
+                        <div class="icons card-panel">
+                            <i class="fa fa-pencil"></i>
+                            <span>edit</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <% } %>
+        </ul>
     </div>
 </body>
 <script>
-  $(document).ready(function () {
-    
-  });
+    $(document).ready(function() {
 
-  var listitem = document.getElementById('notices');
-  listitem.classList.add('active')
+    });
+
+    var listitem = document.getElementById('notices');
+    listitem.classList.add('active')
 </script>
+
 </html>
 <%- include('partials/footer') -%>
