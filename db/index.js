@@ -80,6 +80,38 @@ connection.find = (value, tableName) => {
     })
 }
 
+/**
+ * 
+ * @param {string} id / for id reference to row 
+ * @param {bigint} idvalue / for 
+ */
+
+ connection.update = (id, idvalue, datatoset, field, tableName) => {
+        if (!tableName) {
+            console.log('Table Name is Not valid')
+        }
+        let query = `UPDATE ${tableName} SET ${field} = ${datatoset} WHERE ${id} = ${idvalue}`;
+        connection.query(query, function (err, result) {
+            if (err) {
+                console.log(err);
+                return;
+            };
+            console.log(result.affectedRows + " record(s) updated");
+        });
+ }
+
+
+ connection.togglesearch = (id) => {
+     let query = `SELECT closeDate, timestamp FROM notices WHERE id = ${id}`
+     connection.query(query, function(err, notices){
+        if(err){
+            console.log(err);
+            return;
+        }
+        connection.update("id", id, notices[0].timestamp, "closeDate", "notices")
+        connection.update("id", id, notices[0].closeDate, "timestamp", "notices")
+     })
+ }
 
 
 /**

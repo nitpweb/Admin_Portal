@@ -8,7 +8,7 @@ const onlyprofile = [
 const allservice = ['kundan.cs18@nitp.ac.in', 'manishkumarsh120@gmail.com']
 
 
-const mainAdmin = 'intelligentharsh007@gmail.com'
+const mainAdmin = 'kundan3316@gmail.com'
 
 
 module.exports.onlyprofile = onlyprofile

@@ -34,7 +34,8 @@ module.exports = {
         });
 
         var fileMetadata = {
-            'name': (new Date().getTime()+filename)
+            'name': (new Date().getTime()+filename),
+            parents: [process.env.FOLDER_ID]
         };
 
         var media = {
@@ -59,13 +60,6 @@ module.exports = {
                     reject(err)
                 } else {
                     // console.log('File Id: ', res.data);
-                    // drive.permissions.create({
-                    //     fileId: res.data.id,
-                    //     body:{
-                    //         displayName: 'anyone',
-                    //         allowFileDiscovery: 'true'
-                    //     }
-                    // });
                     let link = res.data.webViewLink;
                     resolve(link)
                     // console.log(link);

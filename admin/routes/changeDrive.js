@@ -5,15 +5,10 @@ const readline = require('readline');
 const session = require('express-session');
 const UsersList = require('./UsersList')
 
-router.use(session({
-    secret: "ablackcat",
-    resave: false,
-    saveUninitialized: true,
-}));
-
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
 
 const TOKEN_PATH = 'token.json';
+var folderId = ""
 
 var client = new google.auth.OAuth2(
     process.env.DRIVE_ID,
@@ -36,6 +31,10 @@ function getUser(code) {
        var OAuth2 = google.auth.OAuth2;
        var oAuth2Client = new OAuth2();
        oAuth2Client.setCredentials(token);
+       console.log(token);
+    //    if(fs.existsSync(TOKEN_PATH)){
+    //         fs.unlinkSync(TOKEN_PATH);
+    //    }
        // Store the token to disk for later program executions
        fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
            if (err) return console.log(err);
@@ -47,11 +46,17 @@ function getUser(code) {
 
 
 router.get('/', function (req, res) {
-    if(req.session.user.email==UsersList.mainAdmin){
-        var authenticationUrl = getAuthenticationUrl();
-        res.redirect(authenticationUrl);
-    }else{
-        res.send("Access Denied!!!!!!!!")
+    // folderId = req.params.folderId;
+    if(req.session.user!=undefined){
+        if (req.session.user.email == UsersList.mainAdmin) {
+            var authenticationUrl = getAuthenticationUrl();
+            res.redirect(authenticationUrl);
+        } else {
+            res.send("Access Denied!!!!!!!!")
+        }
+    }
+    else{
+        res.redirect('/login')
     }
 });
 
