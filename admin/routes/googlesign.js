@@ -20,6 +20,7 @@ function getAuthenticationUrl() {
 function getUser(authorizationCode, callback) {
     // With the code returned from OAuth flow, get an access token
     client.getToken(authorizationCode, function(err, tokens) {
+        console.log(tokens);
         if (err) return callback(err);
         //  console.log(tokens);
 
@@ -35,7 +36,7 @@ function getUser(authorizationCode, callback) {
         oauth2.userinfo.get(
             function(err, profile) {
                 if (err) return callback(err);
-                console.log(profile)
+                //  console.log(profile)
                 var user = {
                     id: profile.data.id,
                     email: profile.data.email,
@@ -47,8 +48,6 @@ function getUser(authorizationCode, callback) {
     });
 
 }
-
-
 
 router.get('/', function(req, res) {
     var authenticationUrl = getAuthenticationUrl();

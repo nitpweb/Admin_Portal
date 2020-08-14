@@ -1,50 +1,11 @@
 const router = require('express').Router()
 var formidable = require('formidable');
 var fs = require('fs');
-const google = require('googleapis').google;
+const {Notice, Attachment} = require('../../models/notice') 
 
-const TOKEN_PATH = 'token.json';
+const storage = require('../../db/storage')
 
-var oAuth2Client = new google.auth.OAuth2(
-    process.env.DRIVE_ID,
-    process.env.DRIVE_SECRET,
-    "http://localhost:3000/changeDrive/oauth2callback"
-);
 
-fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) {
-        console.log(err);
-    }
-    oAuth2Client.setCredentials(JSON.parse(token));
-});
-
-function uploadFile(auth, FilePath) {
-    const drive = google.drive({
-        version: 'v3',
-        auth
-    });
-    var fileMetadata = {
-        'name': ("file"+new Date().getTime())
-    };
-    var media = {
-        mimeType: 'image/jpeg',
-        body: fs.createReadStream(FilePath)
-    };
-    drive.files.create({
-        resource: fileMetadata,
-        media: media,
-        fields: 'id ,webViewLink'
-    }, function (err, res) {
-        if (err) {
-            // Handle error
-            console.log(err);
-        } else {
-            console.log('File Id: ', res.data);
-            var link=res.data.webViewLink;
-            console.log(link);
-        }
-    });
-}
 
 router.post('/',(req, res)=>{
     var form = new formidable.IncomingForm();
@@ -54,13 +15,26 @@ router.post('/',(req, res)=>{
         var close_date = fields.close_date;
         var ittr = fields.ittrname;
         var important = fields.important;
+        console.log(open_date);
+        if(important==undefined)
+            important = 0;
+        else
+            important = 1;
+        var attach = new Attachment([],[])
+        var time_as_id = new Date().getTime();
+        var notice_obj = new Notice(time_as_id, title, attach, 5, new Date(open_date).getTime(), new Date(close_date).getTime(), important)
+        Notice.create(notice_obj);
         console.log(important);
-        var subtitles = []
-        var weblinks = []
+        console.log(ittr);
         for (var i = 1; i <= ittr; i++) {
-            subtitles.push(fields["subtitle" + i]);
             var oldPath = files["filename" + i].path;
-            uploadFile(oAuth2Client,oldPath)
+            var type = files["filename" + i].type;
+            storage.uploadFile(oldPath, type, files["filename" + i].name, files["filename" + i].size,i,function(index, link){
+                console.log(link);
+                Notice.updateAttachments(time_as_id, fields["subtitle" + index], link);
+                // if(index == ittr)
+                //     res.redirect('/newNotices')
+            });
         }
         res.redirect('/newNotices')
     });

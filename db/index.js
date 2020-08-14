@@ -4,7 +4,7 @@ const connection = mysql.createConnection({
     host: process.env.DB_HOST || 'localhost',
     port: process.env.DB_PORT || 3306,
     user: process.env.DB_USER,
-    password: "12345",
+    password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
 })
 
@@ -79,6 +79,37 @@ connection.find = (value, tableName) => {
         })
     })
 }
+
+/**
+ * To update attachment in notices
+ */
+connection.updateNotice = function(attachment, id) {
+    attachment = JSON.stringify(attachment)
+    // console.log(id);
+    var sql = `UPDATE notices SET attachments = '${attachment}' WHERE id = ${id}`;
+    connection.query(sql, function (err, result) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        console.log(result.affectedRows + " record(s) updated");
+    });
+}
+
+connection.getAttachments = function(id, caption, link) {
+    connection.query(`SELECT attachments FROM notices WHERE id = ${id}`, function (err, result) {
+        if (err) console.log(err);
+        // console.log(result[0].attachments);
+        var attachments = JSON.parse(result[0].attachments);
+        // console.log(typeof(attachments));
+        // console.log(attachments.caption);
+        attachments.caption.push(caption);
+        attachments.url.push(link);
+        console.log(attachments);
+        connection.updateNotice(attachments, id);
+    });
+}
+
 
 /**
  * Creates table only if it doesn't exist otherwise nothing

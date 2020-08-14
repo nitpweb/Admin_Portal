@@ -8,7 +8,6 @@ router.get('/', (req, res) => {
             notices.forEach(notice => {
                 notice.attachments = JSON.parse(notice.attachments)
             })
-            
             res.json(notices)
         })
         .catch(err => res.json(err))
@@ -16,6 +15,7 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
     const id = req.params.id
+    console.log(id)
     Notice.findById(id)
         .then(notice => {
             res.json(notice)
