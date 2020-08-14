@@ -8,7 +8,6 @@ router.get('/', (req, res) => {
             notices.forEach(notice => {
                 notice.attachments = JSON.parse(notice.attachments)
             })
-            
             res.json(notices)
         })
         .catch(err => res.json(err))

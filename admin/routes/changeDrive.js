@@ -47,7 +47,6 @@ function getUser(code) {
 
 
 router.get('/', function (req, res) {
-
     if(req.session.user.email==UsersList.mainAdmin){
         var authenticationUrl = getAuthenticationUrl();
         res.redirect(authenticationUrl);
