@@ -84,7 +84,7 @@ class Notice {
     }
 
     static find(value) {
-        db.find(value, this.tableName)
+        return db.find(value, this.tableName)
     }
 
     /**
@@ -93,7 +93,7 @@ class Notice {
      * @returns {Promise<Notice>}
      */
     static findById(id) {
-        db.findById(id, this.tableName)
+        return db.findById(id, this.tableName)
             .then(res => {
                 res.attachments = JSON.parse(res.attachments)
                 return typecast(Notice, res)
