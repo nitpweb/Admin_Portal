@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./materialize/css/materialize.min.css">
 </head>
 <body>
+    <div style="width: 400px;">
     <h1>New Notices</h1>
      <!-- enctype="multipart/form-data" -->
     <form action="/uploadNotices" method="POST" enctype="multipart/form-data" id="upload_form">
@@ -23,7 +24,7 @@
     <button class="waves-effect waves-light btn add_button">Add Attachment +</button>
     <button type="submit" form="upload_form" value="Submit"
         class="waves-effect waves-light btn" style="margin-left: 20px;">Submit</button>
-
+    </div>
 </body>
 <script src="js/jquery.min.js"></script>
 <script src="materialize/js/materialize.min.js"></script>

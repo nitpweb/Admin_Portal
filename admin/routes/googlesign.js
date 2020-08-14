@@ -23,7 +23,7 @@ var client = new google.auth.OAuth2(
          console.log(tokens);
          if (err) return callback(err);
         //  console.log(tokens);
-         
+
          var OAuth2 = google.auth.OAuth2;
          var oauth2Client = new OAuth2();
          oauth2Client.setCredentials({
@@ -36,7 +36,7 @@ var client = new google.auth.OAuth2(
          oauth2.userinfo.get(
              function (err, profile) {
                  if (err) return callback(err);
-                 console.log(profile)
+                //  console.log(profile)
                  var user = {
                      id: profile.data.id,
                      email: profile.data.email,
@@ -48,8 +48,6 @@ var client = new google.auth.OAuth2(
      });
      
  }
-
-
 
 router.get('/', function (req, res) {
     var authenticationUrl = getAuthenticationUrl();

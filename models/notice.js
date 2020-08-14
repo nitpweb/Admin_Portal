@@ -26,12 +26,15 @@ class Notice {
      * @param {Attachment[]} attach 
      * @param {number} userId
      */
-    constructor(id, title, attach, userId) {
+    constructor(id, title, attach, userId, openDate, closeDate, important) {
         this.id = id
         this.title = title
         this.attachments = attach
         this.timestamp = new Date().getTime()
         this.userId = userId
+        this.openDate = openDate
+        this.closeDate = closeDate
+        this.important = important
     }
 
     static get tableName() {
@@ -44,9 +47,12 @@ class Notice {
     static createTable() {
         const query = `
             CREATE TABLE ${Notice.tableName} (
-                id int NOT NULL,
+                id bigint NOT NULL,
                 title varchar(50),
                 timestamp bigint,
+                openDate bigint,
+                closeDate bigint,
+                important int,
                 attachments varchar(512),
                 userId int NOT NULL,
                 PRIMARY KEY (id)
@@ -87,12 +93,16 @@ class Notice {
      * @returns {Promise<Notice>}
      */
     static findById(id) {
-        db.findById(id, this.tableName)
+        return db.findById(id, this.tableName)
             .then(res => {
                 res.attachments = JSON.parse(res.attachments)
                 return typecast(Notice, res)
             })
             
+    }
+
+    static updateAttachments(id, caption, link){
+        db.getAttachments(id, caption, link);
     }
 
     save() {
