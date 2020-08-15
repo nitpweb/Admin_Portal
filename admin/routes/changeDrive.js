@@ -13,7 +13,7 @@ var folderId = ""
 var client = new google.auth.OAuth2(
     process.env.DRIVE_ID,
     process.env.DRIVE_SECRET,
-    "http://localhost:3000/changeDrive/oauth2callback"
+    `${process.env.DOMAIN}/changeDrive/oauth2callback`
 );
 
 function getAuthenticationUrl() {

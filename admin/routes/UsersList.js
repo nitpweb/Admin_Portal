@@ -1,11 +1,11 @@
 const { all } = require("./notices");
 
 const onlyprofile = [
-    'jayantrajhanitp@gmail.com', 'kundan.cs18@nitp.ac.in', 'akshayd@nitp.ac.in'
+    'jayantrajhanitp@gmail.com', 'kundan.cs18@nitp.ac.in', 'akshayd@nitp.ac.in', 'manish.cs18@nitp.ac.in'
 ];
 
 
-const allservice = ['kundan.cs18@nitp.ac.in', 'manishkumarsh120@gmail.com', 'akshayd@nitp.ac.in']
+const allservice = ['kundan.cs18@nitp.ac.in', 'manishkumarsh120@gmail.com', 'akshayd@nitp.ac.in', 'manish.cs18@nitp.ac.in']
 
 
 const mainAdmin = 'manishkumarsh120@gmail.com'
