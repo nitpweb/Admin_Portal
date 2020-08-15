@@ -6,7 +6,7 @@ const UserList = require('./UsersList')
 var client = new google.auth.OAuth2(
     process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,
-    `http://localhost:3000/googlesign/oauth2callback`
+    `${process.env.DOMAIN}/googlesign/oauth2callback`
 );
 
 function getAuthenticationUrl() {
@@ -100,18 +100,18 @@ router.get('/oauth2callback', function(req, res, next) {
             }
             if (showall && showprof) {
                 Navbar = [{
-                    link: '/notices',
-                    title: 'Notices',
-                    id: "notices"
-                }, {
-                    link: '/events',
-                    title: 'Events',
-                    id: 'events'
-                }, {
-                    link: '/profile',
-                    title: 'Faculty Profile',
-                    id: 'profile'
-                }]
+                link: '/notices',
+                title: 'Notices',
+                id: "notices"
+            }, {
+                link: '/events',
+                title: 'Events',
+                id: 'events'
+            }, {
+                link: '/profile',
+                title: 'Faculty Profile',
+                id: 'profile'
+            }]
                 req.session.Navbar = Navbar;
             }
             if (!showall && showprof) {
