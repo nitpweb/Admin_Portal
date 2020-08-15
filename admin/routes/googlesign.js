@@ -71,14 +71,15 @@ router.get('/oauth2callback', function(req, res, next) {
         if (mainAdmin == user.email) {
             Navbar = [{
                 link: '/notices',
-                title: 'notices'
+                title: 'Notices',
+                id: "notices"
             }, {
                 link: '/events',
-                title: 'events',
+                title: 'Events',
                 id: 'events'
             }, {
                 link: '/profile',
-                title: 'faculty profile',
+                title: 'Faculty Profile',
                 id: 'profile'
             }]
             req.session.Navbar = Navbar;
@@ -100,20 +101,24 @@ router.get('/oauth2callback', function(req, res, next) {
             if (showall && showprof) {
                 Navbar = [{
                     link: '/notices',
-                    title: 'notices'
+                    title: 'Notices',
+                    id: "notices"
                 }, {
                     link: '/events',
-                    title: 'events'
+                    title: 'Events',
+                    id: 'events'
                 }, {
                     link: '/profile',
-                    title: 'faculty profile'
+                    title: 'Faculty Profile',
+                    id: 'profile'
                 }]
                 req.session.Navbar = Navbar;
             }
             if (!showall && showprof) {
                 Navbar = [{
                     link: '/profile',
-                    title: 'faculty profile'
+                    title: 'Faculty Profile',
+                    id: 'profile'
                 }]
                 req.session.Navbar = Navbar;
             }
