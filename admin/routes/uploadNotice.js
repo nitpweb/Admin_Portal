@@ -45,7 +45,7 @@ router.post('/', (req, res)=>{
         // creating to database
         Notice.create(notice_obj)
             .then(result => {
-                res.redirect('/newNotices')
+                res.redirect('/notices')
             })
             .catch(err => {
                 res.send("db update error", err)
