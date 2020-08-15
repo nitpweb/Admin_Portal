@@ -20,7 +20,6 @@ function getAuthenticationUrl() {
 function getUser(authorizationCode, callback) {
     // With the code returned from OAuth flow, get an access token
     client.getToken(authorizationCode, function(err, tokens) {
-        console.log(tokens);
         if (err) return callback(err);
         //  console.log(tokens);
 

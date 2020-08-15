@@ -7,7 +7,15 @@
         </div>
         <a href="/logout" class="show-on-large right">Logout</a>
         <% if(Drive=="true"){ %>
-        <a class="waves-effect waves-light btn" href="/changeDrive">changeDrive</a>
+        <button class="waves-effect waves-light btn" onclick="changeDrive()">changeDrive</button>
+        <script>
+            function changeDrive() {
+                var person = prompt("Please make a folder on your respective google drive, make it public and enter its folder id here", "");
+                if (person != null) {
+                    window.location.replace(`/changeDrive`);
+                }
+            }
+        </script>
         <% } %>
     </div>
 </div>

@@ -49,13 +49,13 @@ class Notice {
         const query = `
             CREATE TABLE ${Notice.tableName} (
                 id bigint NOT NULL,
-                title varchar(50),
+                title varchar(1000),
                 timestamp bigint,
                 openDate bigint,
                 closeDate bigint,
                 important int,
-                attachments varchar(512),
-                userId int NOT NULL,
+                attachments varchar(1000),
+                userId varchar(35) NOT NULL,
                 PRIMARY KEY (id)
             );
         `
@@ -84,8 +84,8 @@ class Notice {
         })
     }
 
-    static find(value) {
-        db.find(value, this.tableName)
+    static findByUserID(userid){
+        return db.findByUserID(userid)
     }
 
     /**

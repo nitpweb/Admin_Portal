@@ -11,22 +11,7 @@ router.use(session({
 }));
 
 router.get('/', (req, res) => {
-    var user = req.session.user;
-    if (user != undefined) {
-        res.render('index', {
-            profileimgsrc: 'images/profiledefault.jfif',
-            title_top: 'Home',
-            user: {
-                imgUrl: user.imageUrl,
-                name: user.name,
-                email: user.email
-            },
-            Navbar: req.session.Navbar,
-            Drive: req.session.isAdmin
-        })
-    } else {
-        res.redirect("/login")
-    }
+    res.redirect('/notices')
 })
 
 // Handling events route
@@ -58,5 +43,11 @@ router.use('/newNotices', newNotices)
 
 const uploadNotices = require("./routes/uploadNotice")
 router.use('/uploadNotices', uploadNotices)
+
+const important_toggle = require("./routes/important_toggle")
+router.use('/important_toggle', important_toggle)
+
+const visible_toggle = require("./routes/visible_toggle")
+router.use('/visible_toggle', visible_toggle)
 
 module.exports = router

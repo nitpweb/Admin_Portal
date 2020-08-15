@@ -4,7 +4,7 @@ var fs = require('fs');
 const {Notice, Attachment} = require('../../models/notice') 
 
 const storage = require('../../db/storage')
-
+const session = require('express-session')
 
 
 router.post('/', (req, res)=>{
@@ -40,7 +40,7 @@ router.post('/', (req, res)=>{
         }
         
 
-        var notice_obj = new Notice(title, attatchments, 5, new Date(open_date).getTime(), new Date(close_date).getTime(), important)
+        var notice_obj = new Notice(title, attatchments, req.session.user.id+"", new Date(open_date).getTime(), new Date(close_date).getTime(), important)
         
         // creating to database
         Notice.create(notice_obj)

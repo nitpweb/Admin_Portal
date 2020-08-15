@@ -68,7 +68,7 @@
                 <!-- Modal Trigger -->
                 <!-- <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add +</a> -->
                 <!-- Modal Trigger -->
-                <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add +</a>
+                <a class="waves-effect waves-light btn modal-trigger" href="/newNotices">Add +</a>
 
                 <!-- Modal Structure -->
                 <section class="infomodel">
@@ -89,26 +89,44 @@
             </div>
         </div>
         <ul>
-            <% for(const notice in notices) { %>
+            <% for(var i=0;i<notices.length;i++){ %>
             <li>
+              <div style="display: none;"><%= notices[i].id %></div>
                 <div class="row">
                     <div class="col s12 m8">
                         <div class="card-panel notice-title">
                             <span class="truncate">
-                                Advertisement for Non-teaching post. 21st July 2020 update: Recruitment is put on hold due to COVID-19 situation.
+                              <%= notices[i].title %>
                             </span>
                             <i class="fa fa-flag"></i>
-                            <span class="right"> 22/07/20 </span>
+                            <% for(var j=0;j<notices[i].attachments.length;j++){ %>
+                                <a href="<%= (notices[i].attachments)[j].url %>" class="sub_a" target="blank">
+                                  <%= (notices[i].attachments)[j].caption %>
+                                </a>
+                            <% }%>
+                            <span class="right"><%= notices[i].closeDate %></span>
                         </div>
                     </div>
                     <div class="col s12 m4 flex tools">
-                        <div class="icons card-panel">
-                            <i class="fa fa-eye-slash"></i>
-                            <span>visible</span>
+                        <div class="icons card-panel visible_card">
+                           <div style="display: none;"><%= notices[i].id %></div>
+                            <% if(notices[i].isvisible == 1){ %>
+                              <i class="fa fa-eye" style="color:green;"></i>
+                              <span>Visible</span>
+                            <% }else{ %>
+                              <i class="fa fa-eye-slash" style="color: red;"></i>
+                              <span>Invisible</span>
+                            <% } %>
                         </div>
-                        <div class="icons card-panel">
-                            <i class="fa fa-star"></i>
-                            <span>important</span>
+                        <div class="icons card-panel important_card">
+                          <div style="display: none;"><%= notices[i].id %></div>
+                            <% if(notices[i].important == 1){ %>
+                              <i class="fa fa-star" style="color: red;"></i>
+                              <span>Important</span>
+                            <% }else{ %>
+                              <i class="fa fa-star" style="color:green;"></i>
+                              <span>Unimportant</span>
+                            <% } %>
                         </div>
                         <div class="icons card-panel">
                             <i class="fa fa-pencil"></i>
@@ -122,18 +140,52 @@
     </div>
 </body>
 <script>
-    $(document).ready(function() {
+  var xhttp = new XMLHttpRequest();
+  var important_arr = document.getElementsByClassName('important_card');
+  for(var i=0;i<important_arr.length;i++){
+    important_arr[i].onclick=function(){
+      var important_text = this.getElementsByTagName('span')[0].textContent;
+      var important_status = 1;
+      var main_id = this.getElementsByTagName('div')[0].textContent;
+      if(important_text == "Important"){
+        important_status = 0;
+        this.getElementsByTagName('span')[0].textContent = "Unimportant";
+        this.getElementsByTagName('i')[0].style.color = "green";
+      }else{
+        this.getElementsByTagName('span')[0].textContent = "Important";
+        this.getElementsByTagName('i')[0].style.color = "red";
+      }
+        xhttp.open("POST", "/important_toggle", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(`important=${important_status}&fileid=${main_id}`);
+      }
+  }
 
-    });
-
-    var listitem = document.getElementById('notices');
-    listitem.classList.add('active')
+  var visible_arr = document.getElementsByClassName('visible_card');
+  for(var i=0;i<visible_arr.length;i++){
+    visible_arr[i].onclick=function(){
+      var visble_text = this.getElementsByTagName('span')[0].textContent;
+      var main_id = this.getElementsByTagName('div')[0].textContent;
+      if(visble_text == "Visible"){
+        this.getElementsByTagName('span')[0].textContent = "Invisible";
+        this.getElementsByTagName('i')[0].style.color = "red";
+        this.getElementsByTagName('i')[0].classList.remove("fa-eye")
+        this.getElementsByTagName('i')[0].classList.add("fa-eye-slash")
+      }else{
+        this.getElementsByTagName('span')[0].textContent = "Visible";
+        this.getElementsByTagName('i')[0].style.color = "green";
+        this.getElementsByTagName('i')[0].classList.remove("fa-eye-slash")
+        this.getElementsByTagName('i')[0].classList.add("fa-eye")
+      }
+        xhttp.open("POST", "/visible_toggle", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(`fileid=${main_id}`);
+      }
+  }
+  
+  var listitem = document.getElementById('notices');
+  listitem.classList.add('active')
 </script>
 
 </html>
 <%- include('partials/footer') -%>
-<script>
-    $(document).ready(function() {
-        $('modal').modal();
-    });
-</script>
