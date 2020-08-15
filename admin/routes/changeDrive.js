@@ -28,18 +28,17 @@ function getAuthenticationUrl() {
 function getUser(code) {
    client.getToken(code, (err, token) => {
        if (err) return console.log(err);
-       var OAuth2 = google.auth.OAuth2;
-       var oAuth2Client = new OAuth2();
-       oAuth2Client.setCredentials(token);
+       client.setCredentials(token)
        console.log(token);
     //    if(fs.existsSync(TOKEN_PATH)){
     //         fs.unlinkSync(TOKEN_PATH);
     //    }
        // Store the token to disk for later program executions
-       fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-           if (err) return console.log(err);
-           console.log('Token stored to', TOKEN_PATH);
-       });
+       process.env.token = JSON.stringify(token);
+    //    fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+    //        if (err) return console.log(err);
+    //        console.log('Token stored to', TOKEN_PATH);
+    //    });
    });
 }
 

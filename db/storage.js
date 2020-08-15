@@ -6,17 +6,17 @@ const TOKEN_PATH = 'token.json';
 var oAuth2Client = new google.auth.OAuth2(
     process.env.DRIVE_ID,
     process.env.DRIVE_SECRET,
-    "http://localhost:3000/changeDrive/oauth2callback"
+    `${process.env.DOMAIN}/changeDrive/oauth2callback`
 );
 
-fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) {
-        console.log(err);
-        return;
-    }
-    oAuth2Client.setCredentials(JSON.parse(token));
-});
-
+// fs.readFile(TOKEN_PATH, (err, token) => {
+//     if (err) {
+//         console.log(err);
+//         return;
+//     }
+//     oAuth2Client.setCredentials(JSON.parse(token));
+// });
+let isTokenSet = false
 
 module.exports = {
     /**
@@ -28,6 +28,11 @@ module.exports = {
      * @returns {Promise<string>} Url of the uploaded file
      */
     uploadFile: function (FilePath, mimetype, filename, filesize) {
+        if(!isTokenSet) {
+            oAuth2Client.setCredentials(JSON.parse(process.env.token));
+        }
+        
+        // console.log('token', process.env.token)
         const drive = google.drive({
             version: 'v3',
             auth: oAuth2Client
@@ -57,6 +62,7 @@ module.exports = {
                 if (err) {
                     // Handle error
                     console.log(err);
+                    isTokenSet = false
                     reject(err)
                 } else {
                     // console.log('File Id: ', res.data);

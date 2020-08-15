@@ -9,8 +9,8 @@ app.use(express.static("public"));
 
 
 // Handling api routes
-// const apiRouter = require('./api')
-// app.use('/api', apiRouter)
+const apiRouter = require('./api')
+app.use('/api', apiRouter)
 
 
 // Handling admin router
