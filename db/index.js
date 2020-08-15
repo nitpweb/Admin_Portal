@@ -1,9 +1,8 @@
 const mysql = require('mysql')
-const e = require('express')
 
 const connection = mysql.createConnection({
-    host: process.env.DB_HOST | 'localhost',
-    port: process.env.DB_PORT | 3306,
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME
@@ -11,6 +10,9 @@ const connection = mysql.createConnection({
 
 connection.on('error', function(err) {
     console.log(err.code)
+})
+.on('connect', function() {
+    console.log('db connection established')
 })
 
 /**
@@ -79,6 +81,40 @@ connection.find = (value, tableName) => {
 }
 
 /**
+ * 
+ * @param {string} id / for id reference to row 
+ * @param {bigint} idvalue / for 
+ */
+
+ connection.update = (id, idvalue, datatoset, field, tableName) => {
+        if (!tableName) {
+            console.log('Table Name is Not valid')
+        }
+        let query = `UPDATE ${tableName} SET ${field} = ${datatoset} WHERE ${id} = ${idvalue}`;
+        connection.query(query, function (err, result) {
+            if (err) {
+                console.log(err);
+                return;
+            };
+            console.log(result.affectedRows + " record(s) updated");
+        });
+ }
+
+
+ connection.togglesearch = (id) => {
+     let query = `SELECT closeDate, timestamp FROM notices WHERE id = ${id}`
+     connection.query(query, function(err, notices){
+        if(err){
+            console.log(err);
+            return;
+        }
+        connection.update("id", id, notices[0].timestamp, "closeDate", "notices")
+        connection.update("id", id, notices[0].closeDate, "timestamp", "notices")
+     })
+ }
+
+
+/**
  * Creates table only if it doesn't exist otherwise nothing
  * @param {string} name name of table to be created
  * @param {string} query sql query to create desired table
@@ -114,6 +150,5 @@ connection.createTable = function(name, query) {
     
 }
 
-console.log('db connection established')
 
 module.exports = connection

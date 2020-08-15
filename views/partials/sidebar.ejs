@@ -11,10 +11,9 @@
               </div>
           </li>
           <!-- <li><div class="divider"></div></li> -->
-          <li><a class="waves-effect" href="/" id="home">Home</a></li>
-          <li><a class="waves-effect" href="/notices" id="notices">Notices</a></li>
-          <li><a class="waves-effect" href="/events" id="events">Events</a></li>
-          <li><a class="waves-effect" href="/profile" id="profile">Faculty Profile</a></li>
+          <% for(var i=0;i<Navbar.length;i++){ %>
+            <li><a class="waves-effect" href="<%= Navbar[i].link %>" id="<%= Navbar[i].id %>"><%= Navbar[i].title %></a></li>
+          <% } %>
           
     </div>
     <footer>

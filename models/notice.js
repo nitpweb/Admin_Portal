@@ -26,12 +26,16 @@ class Notice {
      * @param {Attachment[]} attach 
      * @param {number} userId
      */
-    constructor(id, title, attach, userId) {
-        this.id = id
+    constructor(title, attach, userId, openDate, closeDate, important) {
+        let now = new Date().getTime();
+        this.id = now
         this.title = title
         this.attachments = attach
-        this.timestamp = new Date().getTime()
+        this.timestamp = now
         this.userId = userId
+        this.openDate = openDate
+        this.closeDate = closeDate
+        this.important = important
     }
 
     static get tableName() {
@@ -44,11 +48,14 @@ class Notice {
     static createTable() {
         const query = `
             CREATE TABLE ${Notice.tableName} (
-                id int NOT NULL,
-                title varchar(50),
+                id bigint NOT NULL,
+                title varchar(1000),
                 timestamp bigint,
-                attachments varchar(512),
-                userId int NOT NULL,
+                openDate bigint,
+                closeDate bigint,
+                important int,
+                attachments varchar(1000),
+                userId varchar(35) NOT NULL,
                 PRIMARY KEY (id)
             );
         `
@@ -77,8 +84,8 @@ class Notice {
         })
     }
 
-    static find(value) {
-        db.find(value, this.tableName)
+    static findByUserID(userid){
+        return db.findByUserID(userid)
     }
 
     /**
@@ -87,12 +94,16 @@ class Notice {
      * @returns {Promise<Notice>}
      */
     static findById(id) {
-        db.findById(id, this.tableName)
+        return db.findById(id, this.tableName)
             .then(res => {
                 res.attachments = JSON.parse(res.attachments)
                 return typecast(Notice, res)
             })
             
+    }
+
+    static updateAttachments(id, caption, link){
+        db.getAttachments(id, caption, link);
     }
 
     save() {
