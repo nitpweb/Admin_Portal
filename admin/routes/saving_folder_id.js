@@ -6,7 +6,7 @@ router.get('/:id', (req, res) => {
     //     if (err) {
     //         res.send("Parsing Error")
     //     }
-        process.env.FOLDER_ID = req.params.id;
+        // process.env.FOLDER_ID = req.params.id;
     //})
     res.redirect('/changeDrive')
 })

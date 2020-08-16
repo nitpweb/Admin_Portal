@@ -109,6 +109,23 @@ class Notice {
     save() {
 
     }
+
+    static toggleVisibility(id) {
+        let query = `SELECT closeDate, timestamp FROM ${this.tableName} WHERE id = ${id}`
+        return db.query(query, function(err, notices){
+            if(err){
+                console.log(err);
+                return;
+            }
+            db.update("id", id, notices[0].timestamp, "closeDate", this.tableName)
+            db.update("id", id, notices[0].closeDate, "timestamp", this.tableName)
+        })
+    }
+
+    static toggleImportance(id, value) {
+        console.log(this.tableName)
+        return db.update("id", id, value, "important", this.tableName);
+    }
 }
 
 Notice.createTable()

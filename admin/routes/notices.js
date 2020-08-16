@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
         db.find({userId:`${user.id}`}, Notice.tableName)
             .then(notices => {
                 notices.forEach(notice => {
-                    console.log(notice)
+                    // console.log(notice)
                     notice.attachments = JSON.parse(notice.attachments)
                     const todaydate = new Date().getTime();
                     if(notice.openDate<=todaydate && todaydate<=notice.closeDate){

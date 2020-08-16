@@ -29,11 +29,17 @@ router.use('/profile', profileRouter)
 const googlelogin = require("./routes/googlesign")
 router.use('/googlesign', googlelogin)
 
-const logout = require("./routes/logout")
-router.use('/logout', logout)
 
-const login = require("./routes/login")
-router.use('/login', login)
+
+router.get('/login', (req, res) => {
+    res.render('login')
+})
+
+router.get('/logout',(req,res) => {
+    req.session.destroy()
+    req.session=null;
+    res.redirect("/login")
+})
 
 const changeDrive = require("./routes/changeDrive")
 router.use('/changeDrive', changeDrive)
