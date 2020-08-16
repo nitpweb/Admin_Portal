@@ -9,14 +9,19 @@ var oAuth2Client = new google.auth.OAuth2(
     `${process.env.DOMAIN}/changeDrive/oauth2callback`
 );
 
-// fs.readFile(TOKEN_PATH, (err, token) => {
-//     if (err) {
-//         console.log(err);
-//         return;
-//     }
-//     oAuth2Client.setCredentials(JSON.parse(token));
-// });
 let isTokenSet = false
+
+// if (fs.existsSync(TOKEN_PATH)){
+//     fs.readFile(TOKEN_PATH, (err, token) => {
+//         if (err) {
+//             console.log(err);
+//             isTokenSet = false;
+//             return;
+//         }
+//         oAuth2Client.setCredentials(JSON.parse(token));
+//         isTokenSet = true
+//     });
+// }
 
 module.exports = {
     /**

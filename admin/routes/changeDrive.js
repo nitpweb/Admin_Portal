@@ -2,7 +2,6 @@ const router = require('express').Router()
 var google = require('googleapis').google;
 const fs = require('fs');
 const readline = require('readline');
-const session = require('express-session');
 const UsersList = require('./UsersList')
 
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
@@ -45,9 +44,16 @@ function getUser(code) {
 
 
 router.get('/', function (req, res) {
-    // folderId = req.params.folderId;
     if(req.session.user!=undefined){
-        if (req.session.user.email == UsersList.mainAdmin) {
+        const allmainAdmin = UsersList.mainAdmin
+        var mainAdmin = false;
+        for (var i = 0; i < allmainAdmin.length; i++) {
+            if (allmainAdmin[i] == req.session.user.email) {
+                mainAdmin = true;
+                break;
+            }
+        }
+        if (mainAdmin) {
             var authenticationUrl = getAuthenticationUrl();
             res.redirect(authenticationUrl);
         } else {
