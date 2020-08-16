@@ -109,8 +109,8 @@
               <span class="truncate">
                 <%= notices[i].title %>
               </span>
-              <i class="fa fa-flag"></i>
               <% for(var j=0;j<notices[i].attachments.length;j++){ %>
+              <i class="fa fa-flag"></i>
               <a href="<%= (notices[i].attachments)[j].url %>" class="sub_a" target="blank">
                 <%= (notices[i].attachments)[j].caption %>
               </a>

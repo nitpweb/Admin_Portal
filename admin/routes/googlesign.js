@@ -6,7 +6,7 @@ const UserList = require('./UsersList')
 var client = new google.auth.OAuth2(
     process.env.CLIENT_ID,
     process.env.CLIENT_SECRET,
-    `http://localhost:3000/googlesign/oauth2callback`
+    `${process.env.DOMAIN}/googlesign/oauth2callback`
 );
 
 function getAuthenticationUrl() {
@@ -62,13 +62,20 @@ router.get('/oauth2callback', function(req, res, next) {
         if (err) return next(err);
         const onlyprofile = UserList.onlyprofile
         const allservice = UserList.allservice
-        const mainAdmin = UserList.mainAdmin
+        const allmainAdmin = UserList.mainAdmin
         // console.log(onlyprofile);
         // console.log(allservice);
         // console.log(mainAdmin);
+        var mainAdmin = false;
+        for(var i=0;i<allmainAdmin.length;i++){
+            if (allmainAdmin[i] == user.email){
+                mainAdmin = true;
+                break;
+            }
+        }
         var showall = false,
             showprof = false;
-        if (mainAdmin == user.email) {
+        if (mainAdmin) {
             Navbar = [{
                 link: '/notices',
                 title: 'Notices',
@@ -100,18 +107,18 @@ router.get('/oauth2callback', function(req, res, next) {
             }
             if (showall && showprof) {
                 Navbar = [{
-                    link: '/notices',
-                    title: 'Notices',
-                    id: "notices"
-                }, {
-                    link: '/events',
-                    title: 'Events',
-                    id: 'events'
-                }, {
-                    link: '/profile',
-                    title: 'Faculty Profile',
-                    id: 'profile'
-                }]
+                link: '/notices',
+                title: 'Notices',
+                id: "notices"
+            }, {
+                link: '/events',
+                title: 'Events',
+                id: 'events'
+            }, {
+                link: '/profile',
+                title: 'Faculty Profile',
+                id: 'profile'
+            }]
                 req.session.Navbar = Navbar;
             }
             if (!showall && showprof) {
@@ -127,7 +134,7 @@ router.get('/oauth2callback', function(req, res, next) {
         // console.log("showall",showall);
         // console.log("showprof",showprof);
         // console.log(user.email, mainAdmin)
-        if (!showall && !showprof && user.email != mainAdmin) {
+        if (!showall && !showprof && !mainAdmin) {
             res.send("Sorry, You don't have access")
         } else {
             req.session.user = user;

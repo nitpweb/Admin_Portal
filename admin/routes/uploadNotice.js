@@ -48,7 +48,7 @@ router.post('/', (req, res)=>{
                 res.redirect('/notices')
             })
             .catch(err => {
-                res.send("db update error", err)
+                res.send("db update error")
             });
 
         

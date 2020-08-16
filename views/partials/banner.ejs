@@ -10,9 +10,9 @@
         <button class="waves-effect waves-light btn" onclick="changeDrive()">changeDrive</button>
         <script>
             function changeDrive() {
-                var person = prompt("Please make a folder on your respective google drive, make it public and enter its folder id here", "");
-                if (person != null) {
-                    window.location.replace(`/changeDrive`);
+                var folder_id = prompt("Please make a folder on your respective google drive, make it public and enter its folder id here", "");
+                if (folder_id != null) {
+                    window.location.replace(`/saving_folder_id/${folder_id}`);
                 }
             }
         </script>
