@@ -64,8 +64,7 @@
   <div id="modal1" class="modal">
     <div class="modal-content">
       <div>
-        <h1>New Notice</h1>
-        <!-- enctype="multipart/form-data" -->
+        <h2>New Notice</h2>
         <form action="/uploadNotices" method="POST" enctype="multipart/form-data" id="upload_form">
           Label<textarea name="main_title" id="" cols="30" rows="10"></textarea>
           Open Date<input type="date" name="open_date">
@@ -83,6 +82,72 @@
     </div>
   </div>
 
+  
+
+
+  <!-- MODAL FOR EDIT NOTICE -->
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <div>
+        <h3>Edit Notice
+          <i class="fa fa-trash-o modal-close modal-trigger" style="color: red;" onclick="deletePermanently(this)" data-target="modal3"></i></h3>
+        <form action="/notices/edit" method="POST" enctype="multipart/form-data" id="edit_form">
+          Label<textarea name="main_title" id="main_title" cols="30" rows="10"></textarea>
+          Open Date<input type="date" name="open_date" id="open_date">
+          Close Date <input type="date" name="close_date" id="close_date">
+          <input type="number" id="ittr_edit" name="ittrname" style="display: none;">
+          <input type="text" id="edit_file_id" name="file_id" style="display: none;">
+          <label>
+            <input type="checkbox" name="important" id="important_btn"/>
+            <span><i class="fa fa-star"></i> Important</span>
+          </label>
+          <input type="text" name="file_id" style="display: none;" class="file_id_edit">
+          <h4>Attachments</h4>
+        </form><br>
+        <!-- <button class="waves-effect waves-light btn add_button">Add Attachment +</button> -->
+        <button type="submit" form="edit_form" value="Submit" class="waves-effect waves-light btn"
+          style="margin-left: 20px;">Submit</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- MODAL FOR EDIT NOTICE -->
+  <div id="modal3" class="modal">
+    <div class="modal-content">
+      <div>
+        <h5>Want to delete the selected notice permanently?</h5>
+        <span style="display: none;" id="delete_file_id"></span>
+        <div class="modal-footer">
+        <a href="#" class="modal-close waves-effect waves-light btn">Cancel</a>
+        <button class="modal-close waves-effect waves-light btn" style="margin-left: 20px;" onclick="deletenotice()">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL FOR FILTER NOTICE -->
+  <div id="modal4" class="modal">
+    <div class="modal-content">
+      <div>
+        <h5>Filter on the basis of date of release</h5>
+        <label for="start date" style="font-size: medium;">Start date</label>
+        <input type="date" id="filter_start_date">
+        <label for="end date" style="font-size: medium;">End date</label>
+        <input type="date" id="filter_end_date">
+        <div class="modal-footer">
+          <a href="#" class="modal-close waves-effect waves-light btn">Cancel</a>
+          <button class="modal-close waves-effect waves-light btn" style="margin-left: 20px;"
+            onclick="filterNotice()">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
   <div class="main">
     <div class="row">
       <div class="col s12 m6 flex">
@@ -92,59 +157,59 @@
         <!-- Modal Trigger -->
         <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Add +</a>
 
-
       </div>
       <div class="col s12 m6 flex right">
         <button class="btn-flat"><i class="fa fa-history"></i></button>
-        <button class="btn-flat"><i class="fa fa-filter"></i> Filter</button>
+        <button class="modal-trigger btn-flat" data-target="modal4"><i class="fa fa-filter"></i> Filter</button>
       </div>
     </div>
-    <ul>
+    <ul id="allitemslist">
       <% for(var i=0;i<notices.length;i++){ %>
       <li>
         <div style="display: none;"><%= notices[i].id %></div>
         <div class="row">
           <div class="col s12 m8">
             <div class="card-panel notice-title">
-              <span class="truncate">
-                <%= notices[i].title %>
-              </span>
+              <span class="truncate title"><%= notices[i].title %></span>
               <% for(var j=0;j<notices[i].attachments.length;j++){ %>
               <i class="fa fa-flag"></i>
-              <a href="<%= (notices[i].attachments)[j].url %>" class="sub_a" target="blank">
-                <%= (notices[i].attachments)[j].caption %>
-              </a>
+              <a href="<%= (notices[i].attachments)[j].url %>" class="sub_a" target="blank"><%= (notices[i].attachments)[j].caption %></a>
               <% }%>
-              <span class="right"><%= notices[i].closeDate %></span>
+              <span class="right close_date_li"><%= notices[i].closeDate %></span>
             </div>
           </div>
           <div class="col s12 m4 flex tools">
-            <div class="icons card-panel visible_card">
+            <div class="icons card-panel visible_card" onclick="visible_change(this)">
               <div style="display: none;"><%= notices[i].id %></div>
+              <div style="display: none;"><%= notices[i].timestamp %></div>
+              <div style="display: none;"><%= notices[i].closeDate %></div>
               <% if(notices[i].isvisible == 1){ %>
               <i class="fa fa-eye" style="color:green;"></i>
               <span>Visible</span>
               <% }else{ %>
               <i class="fa fa-eye-slash" style="color: red;"></i>
-              <span>Invisible</span>
+              <span>Archive</span>
               <% } %>
             </div>
-            <div class="icons card-panel important_card">
+            <div class="icons card-panel important_card" onclick="important_fun(this)">
               <div style="display: none;"><%= notices[i].id %></div>
               <% if(notices[i].important == 1){ %>
               <i class="fa fa-star" style="color: red;"></i>
               <span>Important</span>
               <% }else{ %>
               <i class="fa fa-star" style="color:green;"></i>
-              <span>Unimportant</span>
+              <span>Normal</span>
               <% } %>
             </div>
-            <div class="icons card-panel">
-              <i class="fa fa-pencil"></i>
-              <span>edit</span>
+            <div class="icons card-panel modal-trigger" onclick="edit_clicked(this)" data-target="modal2">
+            <div style="display: none;"><%= notices[i].id %></div>
+            <i class="fa fa-pencil"></i>
+            <span>edit</span>
             </div>
           </div>
         </div>
+        <div class="openDate" style="display: none;"><%= notices[i].openDate %></div>
+        <div class="timeStamp" style="display: none;"><%= notices[i].timestamp %></div>
       </li>
       <% } %>
     </ul>
@@ -152,46 +217,219 @@
 </body>
 <script>
   var xhttp = new XMLHttpRequest();
-  var important_arr = document.getElementsByClassName('important_card');
-  for (var i = 0; i < important_arr.length; i++) {
-    important_arr[i].onclick = function () {
-      var important_text = this.getElementsByTagName('span')[0].textContent;
+  //Ajax request for toggleing btw Important and normal
+function important_fun(params) {
+      var important_text = params.getElementsByTagName('span')[0].textContent;
       var important_status = 1;
-      var main_id = this.getElementsByTagName('div')[0].textContent;
+      var main_id = params.getElementsByTagName('div')[0].textContent;
       if (important_text == "Important") {
         important_status = 0;
-        this.getElementsByTagName('span')[0].textContent = "Unimportant";
-        this.getElementsByTagName('i')[0].style.color = "green";
+        params.getElementsByTagName('span')[0].textContent = "Normal";
+        params.getElementsByTagName('i')[0].style.color = "green";
       } else {
-        this.getElementsByTagName('span')[0].textContent = "Important";
-        this.getElementsByTagName('i')[0].style.color = "red";
+        params.getElementsByTagName('span')[0].textContent = "Important";
+        params.getElementsByTagName('i')[0].style.color = "red";
       }
       xhttp.open("POST", "/important_toggle", true);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send(`important=${important_status}&fileid=${main_id}`);
     }
+
+  //Ajax request for toggleing visible or Archive
+
+  function datemaker(date_time_stamp){
+    var d = new Date(date_time_stamp)
+    return d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
   }
 
-  var visible_arr = document.getElementsByClassName('visible_card');
-  for (var i = 0; i < visible_arr.length; i++) {
-    visible_arr[i].onclick = function () {
-      var visble_text = this.getElementsByTagName('span')[0].textContent;
-      var main_id = this.getElementsByTagName('div')[0].textContent;
+function visible_change(params) {
+      var visble_text = params.getElementsByTagName('span')[0].textContent;
+      var main_id = params.getElementsByTagName('div')[0].textContent;
+      var timeStamp = params.getElementsByTagName('div')[1].textContent;
+      var close_date = params.getElementsByTagName('div')[2].textContent;
+      var visible_status_send = 1; 
+      var notices_arr = document.getElementById('allitemslist').getElementsByTagName('li');
       if (visble_text == "Visible") {
-        this.getElementsByTagName('span')[0].textContent = "Invisible";
-        this.getElementsByTagName('i')[0].style.color = "red";
-        this.getElementsByTagName('i')[0].classList.remove("fa-eye")
-        this.getElementsByTagName('i')[0].classList.add("fa-eye-slash")
+        visible_status_send = 0;
+        params.getElementsByTagName('span')[0].textContent = "Archive";
+        params.getElementsByTagName('i')[0].style.color = "red";
+        params.getElementsByTagName('i')[0].classList.remove("fa-eye")
+        params.getElementsByTagName('i')[0].classList.add("fa-eye-slash")
       } else {
-        this.getElementsByTagName('span')[0].textContent = "Visible";
-        this.getElementsByTagName('i')[0].style.color = "green";
-        this.getElementsByTagName('i')[0].classList.remove("fa-eye-slash")
-        this.getElementsByTagName('i')[0].classList.add("fa-eye")
+        params.getElementsByTagName('span')[0].textContent = "Visible";
+        params.getElementsByTagName('i')[0].style.color = "green";
+        params.getElementsByTagName('i')[0].classList.remove("fa-eye-slash")
+        params.getElementsByTagName('i')[0].classList.add("fa-eye")
       }
-      xhttp.open("POST", "/visible_toggle", true);
+      xhttp.open("POST", "/notices/visible_toggle", true);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xhttp.send(`fileid=${main_id}`);
+      xhttp.send(`fileid=${main_id}&visible_status=${visible_status_send}`);
+
+      xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        console.log(datemaker(JSON.parse(this.responseText).closeDate))
+        var format_res = datemaker(JSON.parse(this.responseText).closeDate);
+        for(var i=0;i< notices_arr.length;i++){
+          if(notices_arr[i].getElementsByTagName('div')[0].textContent == main_id){
+            notices_arr[i].getElementsByClassName('close_date_li')[0].innerHTML = format_res;
+            break;
+          }
+        }
+      }
+      };
+      xhttp.open("GET", `/notices/closeDate/${main_id}`, true);
+      xhttp.send();
     }
+
+  //ajax request for deleteing notice permanently
+  function deletenotice(){
+    var notices_arr = document.getElementById('allitemslist').getElementsByTagName('li');
+    var folder_id = document.getElementById('delete_file_id').innerHTML;
+    for (var i = 0; i < notices_arr.length; i++) {
+      if (notices_arr[i].getElementsByTagName('div')[0].textContent == folder_id) {
+        notices_arr[i].remove();
+        break;
+      }
+    }
+    xhttp.open("POST", "/notices/delete", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`file_id=${folder_id}`);
+  }
+
+  //ajax filter notices
+  function filterNotice(){
+    var notices_arr = document.getElementById('allitemslist').getElementsByTagName('li');
+    var wrapper_filter = document.getElementById('allitemslist');
+    var start_date = document.getElementById('filter_start_date').value;
+    var end_date = document.getElementById('filter_end_date').value;
+    var obj_arr = [start_date, end_date];
+    console.log(obj_arr);
+    while (notices_arr.length > 0) {
+      wrapper_filter.removeChild(notices_arr[0]);
+    }
+    xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var notices = JSON.parse(this.responseText);
+      for(var i=0;i<notices.length;i++){
+        var html_create = `<li>
+          <div style="display: none;">${notices[i].id}</div>
+          <div class="row">
+            <div class="col s12 m8">
+              <div class="card-panel notice-title">
+                <span class="truncate title">${notices[i].title}</span>
+                <div class="attachments_wrap" style="display:inline-block; width:80%;"></div>
+                <span class="right close_date_li" style="display:inline-block">${notices[i].closeDate}</span>
+              </div>
+            </div>
+            <div class="col s12 m4 flex tools">
+              <div class="icons card-panel visible_card" onclick="visible_change(this)">
+                <div style="display: none;">${notices[i].id}</div>
+                <div style="display: none;">${notices[i].timestamp}</div>
+                <div style="display: none;">${notices[i].closeDate}</div>
+              </div>
+              <div class="icons card-panel important_card" onclick="important_fun(this)">
+                <div style="display: none;">${notices[i].id}</div>
+              </div>
+              <div class="icons card-panel modal-trigger" onclick="edit_clicked(this)" data-target="modal2">
+                <div style="display: none;">${notices[i].id}</div>
+                <i class="fa fa-pencil"></i>
+                <span>edit</span>
+              </div>
+            </div>
+          </div>
+          <div class="openDate" style="display: none;">${notices[i].openDate}</div>
+          <div class="timeStamp" style="display: none;">${notices[i].timestamp}</div>
+        </li>`
+        $(wrapper_filter).append(html_create);
+        for(var j=0;j<notices[i].attachments.length;j++){ 
+          var html_attach = `<i class="fa fa-flag"></i><a href="${(notices[i].attachments)[j].url}" class="sub_a"target="blank">${(notices[i].attachments)[j].caption}</a>`
+          $(wrapper_filter.getElementsByTagName('li')[i].getElementsByClassName('attachments_wrap')[0]).append(html_attach);
+        }
+        var html_visible="";
+        if(notices[i].isvisible == 1){
+          html_visible='<i class="fa fa-eye" style="color:green;"></i><span>Visible</span>'
+        }else{
+          html_visible = '<i class="fa fa-eye-slash" style="color: red;"></i><span>Archive</span>'
+        }
+        $(wrapper_filter.getElementsByTagName('li')[i].getElementsByClassName('visible_card')[0]).append(html_visible);
+        var html_important = ''
+        if(notices[i].important == 1){
+          html_important='<i class="fa fa-star" style="color: red;"></i><span>Important</span>'
+        }else{
+          html_important='<i class="fa fa-star" style="color:green;"></i><span>Normal</span>'
+        }
+        $(wrapper_filter.getElementsByTagName('li')[i].getElementsByClassName('important_card')[0]).append(html_important);
+    }
+    }
+    };
+    xhttp.open("GET", `/notices/filter/${obj_arr}`, true);
+    xhttp.send();
+  }
+
+  //edit model data setter
+
+  function dateFormatter(date){
+    var day=[],s="";
+    for(var i=0;i<date.length;i++){
+      if(date[i]=='/'){
+        day.push(s);
+        s="";
+      }else{
+        s+=date[i];
+      }
+    }
+    day.push(s);
+    if(day[0].length==1)
+      day[0]="0"+day[0];
+    if(day[1].length==1)
+      day[1]="0"+day[1];
+    return day[2]+"-"+day[1]+"-"+day[0];
+  }
+
+  function edit_clicked(params){
+    var folder_id = params.getElementsByTagName('div')[0].textContent;
+    document.getElementById('edit_file_id').value = folder_id;
+    var main_text = document.getElementById('main_title');
+    var open_date = document.getElementById('open_date');
+    var close_date = document.getElementById('close_date');
+    var important = document.getElementById('important_btn');
+    var notices_arr = document.getElementById('allitemslist').getElementsByTagName('li');
+    var wrapper_edit = document.getElementById('edit_form');
+    wrapper_edit.getElementsByClassName('file_id_edit')[0].value = folder_id;
+    var element_to_remove = document.getElementsByClassName('divadded');
+    while (element_to_remove.length > 0) {
+      wrapper_edit.removeChild(element_to_remove[0]);
+    }
+    
+    for(var i=0;i< notices_arr.length;i++){
+      if(notices_arr[i].getElementsByTagName('div')[0].textContent==folder_id){
+        console.log(notices_arr[i].getElementsByTagName('span')[3].innerHTML)
+        if (notices_arr[i].getElementsByTagName('span')[3].innerHTML == "Important") {
+          important.checked = true;
+        } else {
+            important.checked = false;
+        }
+        console.log(dateFormatter(notices_arr[i].getElementsByTagName('span')[1].innerHTML))
+        main_text.value = notices_arr[i].getElementsByClassName('title')[0].innerHTML;
+        close_date.value = dateFormatter(notices_arr[i].getElementsByTagName('span')[1].innerHTML);
+        open_date.value = dateFormatter(notices_arr[i].getElementsByClassName('openDate')[0].textContent)
+        var attachments_arr = notices_arr[i].getElementsByTagName('a');
+        document.getElementById('ittr_edit').value = attachments_arr.length;
+        for(var j=0;j<attachments_arr.length;j++){
+          var nametitle = "subtitle"+(j+1);
+          var div_id = "div"+(j+1);
+          var name_link = "link"+(j+1);
+          var fieldHTML = '<div class="divadded">'+(j+1)+'. <input type="text" name=\"'+nametitle+'\"placeholder="Subtitle" value=\"'+attachments_arr[j].innerHTML+'\" style="width:95%;" /><a href=\"'+attachments_arr[j].href+'\"><i class="fa fa-external-link" style="color: blue;" onclick="removeButton(this)"></i></a><input type="text" value="'+ attachments_arr[j].href+'" name="'+name_link+'" style="display: none;" /></div>'
+          $(wrapper_edit).append(fieldHTML);
+        }
+        break;
+      }
+    }
+  }
+
+  function deletePermanently(params){
+    var file_id = document.getElementsByClassName('file_id_edit')[0].value;
+    document.getElementById('delete_file_id').innerHTML = file_id;
   }
 
   var listitem = document.getElementById('notices');
@@ -201,21 +439,43 @@
 <%- include('partials/footer') -%>
 
 <script>
+  var ittr = 1;
   $(document).ready(function () {
     $('.modal').modal();
-
-    var ittr=1;
     var addButton = $('.add_button'); //Add button selector
-    var wrapper = $('form'); //Input field wrapper
+    var wrapper = $('#upload_form'); //Input field wrapper
 
     //Once add button is clicked
     $(addButton).click(function(){
-        var nametitle = "subtitle"+ittr;
-        var namefile = "filename"+ittr;
-        var fieldHTML = '<div><input type="text" name='+' \"'+nametitle+'\"'+'placeholder="SubTitle" /><input type="file" name='+' \"'+namefile+'\"'+' /></div>'
-        $(wrapper).append(fieldHTML);
-        $('#ittr').val(ittr);
-        ittr++;
+      var nametitle = "subtitle"+ittr;
+      var namefile = "filename"+ittr;
+      var div_id = "div"+ittr;
+      var i_class = ""+ittr
+      var fieldHTML = '<div class='+'\"'+div_id+'\"'+'><input type="text" name='+' \"'+nametitle+'\"'+'placeholder="SubTitle" /><input type="file" name='+' \"'+namefile+'\"'+' /><i class="fa fa-trash-o '+i_class+'" style="color: red;" onclick="removeButton(this)"></i></div>'
+      $(wrapper).append(fieldHTML);
+      $('#ittr').val(ittr);
+      ittr++;
     })
+    
   })
+  function removeButton(params) {
+    console.log(params.classList[2]);
+    var ittrval = parseInt(params.classList[2]);
+    //console.log(ittrval)
+    var maindiv_present= document.getElementsByClassName(`div${ittrval}`)[0];
+    maindiv_present.remove();
+    for(var i=ittrval+1;i<ittr;i++){
+      var maindiv = document.getElementsByClassName(`div${i}`)[0];
+      var target = maindiv.getElementsByTagName('input');
+      target[0].name="subtitle"+(i-1);
+      target[1].name="filename"+(i-1);
+      maindiv.getElementsByTagName('i')[0].classList.remove(i+"");
+      maindiv.getElementsByTagName('i')[0].classList.add((i-1) + "");
+      maindiv.classList.add(`div${i-1}`);
+      maindiv.classList.remove(`div${i}`);
+    }
+    ittr--;
+    //document.getElementById('ittr').value=ittr;
+    $('#ittr').val(ittr-1);
+  }
 </script>

@@ -53,9 +53,6 @@ router.use('/uploadNotices', uploadNotices)
 const important_toggle = require("./routes/important_toggle")
 router.use('/important_toggle', important_toggle)
 
-const visible_toggle = require("./routes/visible_toggle")
-router.use('/visible_toggle', visible_toggle)
-
 const saving_folder_id = require("./routes/saving_folder_id")
 router.use('/saving_folder_id', saving_folder_id)
 

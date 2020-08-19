@@ -106,6 +106,25 @@ connection.find = (value, tableName) => {
  }
 
 
+  connection.updateWholeObj = (id, idvalue, notice, tableName) => {
+
+      return new Promise((resolve, reject) => {
+          if (!tableName) {
+              reject('Table Name is Not valid')
+          }
+          let query = `UPDATE ${tableName} SET ? WHERE ${id} = ${idvalue}`;
+          notice.attachments = JSON.stringify(notice.attachments)
+          connection.query(query,notice, function (err, result) {
+              if (err) {
+                  console.log(err);
+                  reject(err)
+              };
+              console.log(result.affectedRows + " record(s) updated");
+              resolve(result)
+          });
+      })
+
+  }
 
 
 /**

@@ -2,6 +2,7 @@ const google = require('googleapis').google;
 const fs = require('fs')
 
 const TOKEN_PATH = 'token.json';
+const FOLDER_PATH = 'folder_id.json';
 
 var oAuth2Client = new google.auth.OAuth2(
     process.env.DRIVE_ID,
@@ -9,19 +10,34 @@ var oAuth2Client = new google.auth.OAuth2(
     `${process.env.DOMAIN}/changeDrive/oauth2callback`
 );
 
-let isTokenSet = false
+var isTokenSet = false
+var isFolderIdSet = false
 
-// if (fs.existsSync(TOKEN_PATH)){
-//     fs.readFile(TOKEN_PATH, (err, token) => {
-//         if (err) {
-//             console.log(err);
-//             isTokenSet = false;
-//             return;
-//         }
-//         oAuth2Client.setCredentials(JSON.parse(token));
-//         isTokenSet = true
-//     });
-// }
+var folder_id = "";
+
+if (fs.existsSync(TOKEN_PATH)){
+    fs.readFile(TOKEN_PATH, (err, token) => {
+        if (err) {
+            console.log(err);
+            isTokenSet = false;
+            return;
+        }
+        oAuth2Client.setCredentials(JSON.parse(token));
+        isTokenSet = true
+    });
+}
+
+if (fs.existsSync(FOLDER_PATH)) {
+    fs.readFile(FOLDER_PATH, (err, folderidval) => {
+        if (err) {
+            console.log(err);
+            isFolderIdSet = false;
+            return;
+        }
+        folder_id = JSON.parse(folderidval).folder_id;
+        isFolderIdSet = true
+    });
+}
 
 module.exports = {
     /**
@@ -36,6 +52,10 @@ module.exports = {
         if(!isTokenSet) {
             oAuth2Client.setCredentials(JSON.parse(process.env.token));
         }
+
+        if(!isFolderIdSet) {
+            folder_id = process.env.FOLDER_ID;
+        }
         
         // console.log('token', process.env.token)
         const drive = google.drive({
@@ -45,7 +65,7 @@ module.exports = {
 
         var fileMetadata = {
             'name': (new Date().getTime()+filename),
-            parents: [process.env.FOLDER_ID]
+            parents: [folder_id]
         };
 
         var media = {

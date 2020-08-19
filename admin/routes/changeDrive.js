@@ -19,7 +19,7 @@ function getAuthenticationUrl() {
     // Use 'profile' scope to authorize fetching the user's profile
     return client.generateAuthUrl({
         access_type: 'offline',
-        scope: SCOPES,
+        scope: SCOPES
     });
 }
 
@@ -34,10 +34,10 @@ function getUser(code) {
     //    }
        // Store the token to disk for later program executions
        process.env.token = JSON.stringify(token);
-    //    fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-    //        if (err) return console.log(err);
-    //        console.log('Token stored to', TOKEN_PATH);
-    //    });
+       fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+           if (err) return console.log(err);
+           console.log('Token stored to', TOKEN_PATH);
+       });
    });
 }
 
