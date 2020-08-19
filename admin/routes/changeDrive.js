@@ -2,7 +2,6 @@ const router = require('express').Router()
 var google = require('googleapis').google;
 const fs = require('fs');
 const readline = require('readline');
-const session = require('express-session');
 const UsersList = require('./UsersList')
 
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
@@ -13,14 +12,14 @@ var folderId = ""
 var client = new google.auth.OAuth2(
     process.env.DRIVE_ID,
     process.env.DRIVE_SECRET,
-    "http://localhost:3000/changeDrive/oauth2callback"
+    `${process.env.DOMAIN}/changeDrive/oauth2callback`
 );
 
 function getAuthenticationUrl() {
     // Use 'profile' scope to authorize fetching the user's profile
     return client.generateAuthUrl({
         access_type: 'offline',
-        scope: SCOPES,
+        scope: SCOPES
     });
 }
 
@@ -28,14 +27,13 @@ function getAuthenticationUrl() {
 function getUser(code) {
    client.getToken(code, (err, token) => {
        if (err) return console.log(err);
-       var OAuth2 = google.auth.OAuth2;
-       var oAuth2Client = new OAuth2();
-       oAuth2Client.setCredentials(token);
+       client.setCredentials(token)
        console.log(token);
     //    if(fs.existsSync(TOKEN_PATH)){
     //         fs.unlinkSync(TOKEN_PATH);
     //    }
        // Store the token to disk for later program executions
+       process.env.token = JSON.stringify(token);
        fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
            if (err) return console.log(err);
            console.log('Token stored to', TOKEN_PATH);
@@ -46,9 +44,16 @@ function getUser(code) {
 
 
 router.get('/', function (req, res) {
-    // folderId = req.params.folderId;
     if(req.session.user!=undefined){
-        if (req.session.user.email == UsersList.mainAdmin) {
+        const allmainAdmin = UsersList.mainAdmin
+        var mainAdmin = false;
+        for (var i = 0; i < allmainAdmin.length; i++) {
+            if (allmainAdmin[i] == req.session.user.email) {
+                mainAdmin = true;
+                break;
+            }
+        }
+        if (mainAdmin) {
             var authenticationUrl = getAuthenticationUrl();
             res.redirect(authenticationUrl);
         } else {

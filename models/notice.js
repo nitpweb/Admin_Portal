@@ -26,9 +26,10 @@ class Notice {
      * @param {Attachment[]} attach 
      * @param {number} userId
      */
-    constructor(title, attach, userId, openDate, closeDate, important) {
+
+    constructor(id, title, attach, userId, openDate, closeDate, important) {
         let now = new Date().getTime();
-        this.id = now
+        this.id = id
         this.title = title
         this.attachments = attach
         this.timestamp = now
@@ -108,6 +109,45 @@ class Notice {
 
     save() {
 
+    }
+
+    static updateData(id, key, value){
+        return db.update("id", id, value, key, "notices");
+    }
+
+    static updateWholeObj(id, notice) {
+        return db.updateWholeObj("id", id, notice, "notices");
+    }
+
+    static toggleVisibility(id, visible_status) {
+        let query = `SELECT closeDate, timestamp FROM notices WHERE id = ${id}`
+        return db.query(query, function(err, notices){
+            if(err){
+                console.log(err);
+                return;
+            }
+            if(visible_status == 1){
+                db.update("id", id, new Date().getTime() + (86400000*5), "closeDate", "notices")
+            }else{
+                db.update("id", id, notices[0].timestamp, "closeDate", "notices")
+            }
+        })
+    }
+
+    static toggleImportance(id, value) {
+        console.log(this.tableName)
+        return db.update("id", id, value, "important", this.tableName);
+    }
+
+    static deleteRow(id) {
+        let query = `DELETE FROM notices WHERE id = ${id}`
+        return db.query(query, function (err, result) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log("Number of records deleted: " + result.affectedRows);
+        })
     }
 }
 

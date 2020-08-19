@@ -18,7 +18,7 @@ router.post('/', (req, res)=>{
         let close_date = fields.close_date;
         let ittr = fields.ittrname;
         let important = fields.important;
-        console.log(open_date);
+        console.log(ittr);
         if(important==undefined)
             important = 0;
         else
@@ -28,8 +28,10 @@ router.post('/', (req, res)=>{
 
         try {
             for (let i = 1; i <= ittr; i++) {
+                if (files["filename" + i] == undefined || fields["subtitle" + i]==""){
+                    continue;
+                }
                 let file = files["filename" + i];
-    
                 let url = await storage.uploadFile(file.path, file.type, file.name, file.size);
                 let attatchment = new Attachment(fields["subtitle"+i], url);
                 // console.log(attatchment)
@@ -40,15 +42,15 @@ router.post('/', (req, res)=>{
         }
         
 
-        var notice_obj = new Notice(title, attatchments, req.session.user.id+"", new Date(open_date).getTime(), new Date(close_date).getTime(), important)
+        var notice_obj = new Notice(new Date().getTime() ,title, attatchments, req.session.user.id + "", new Date(open_date).getTime(), new Date(close_date).getTime(), important)
         
         // creating to database
         Notice.create(notice_obj)
             .then(result => {
-                res.redirect('/newNotices')
+                res.redirect('/notices')
             })
             .catch(err => {
-                res.send("db update error", err)
+                res.send("db update error")
             });
 
         

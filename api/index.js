@@ -54,9 +54,13 @@ router.get('/user/:id',async (req, res, next) => {
     
 })
 
-const noticeRouter = require('./routes/notice')
+const noticeRouter = require('./routes/notice');
 
 router.use('/notice', noticeRouter)
+
+router.get('/env', (req, res) => {
+    res.json(process.env)
+})
 
 router.use((req, res, next) => {
     const error = new Error('Not found');

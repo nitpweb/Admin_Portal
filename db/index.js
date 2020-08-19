@@ -87,31 +87,44 @@ connection.find = (value, tableName) => {
  */
 
  connection.update = (id, idvalue, datatoset, field, tableName) => {
-        if (!tableName) {
-            console.log('Table Name is Not valid')
-        }
-        let query = `UPDATE ${tableName} SET ${field} = ${datatoset} WHERE ${id} = ${idvalue}`;
-        connection.query(query, function (err, result) {
-            if (err) {
-                console.log(err);
-                return;
-            };
-            console.log(result.affectedRows + " record(s) updated");
-        });
+        
+        return new Promise((resolve, reject) => {
+            if (!tableName) {
+                reject('Table Name is Not valid')
+            }
+            let query = `UPDATE ${tableName} SET ${field} = ${datatoset} WHERE ${id} = ${idvalue}`;
+            connection.query(query, function (err, result) {
+                if (err) {
+                    console.log(err);
+                    reject(err)
+                };
+                console.log(result.affectedRows + " record(s) updated");
+                resolve(result)
+            });
+        })
+        
  }
 
 
- connection.togglesearch = (id) => {
-     let query = `SELECT closeDate, timestamp FROM notices WHERE id = ${id}`
-     connection.query(query, function(err, notices){
-        if(err){
-            console.log(err);
-            return;
-        }
-        connection.update("id", id, notices[0].timestamp, "closeDate", "notices")
-        connection.update("id", id, notices[0].closeDate, "timestamp", "notices")
-     })
- }
+  connection.updateWholeObj = (id, idvalue, notice, tableName) => {
+
+      return new Promise((resolve, reject) => {
+          if (!tableName) {
+              reject('Table Name is Not valid')
+          }
+          let query = `UPDATE ${tableName} SET ? WHERE ${id} = ${idvalue}`;
+          notice.attachments = JSON.stringify(notice.attachments)
+          connection.query(query,notice, function (err, result) {
+              if (err) {
+                  console.log(err);
+                  reject(err)
+              };
+              console.log(result.affectedRows + " record(s) updated");
+              resolve(result)
+          });
+      })
+
+  }
 
 
 /**
