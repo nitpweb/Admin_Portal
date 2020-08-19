@@ -34,6 +34,157 @@
         <%- include('partials/banner'); -%>
 
     </section>
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Edit Profile</h4>
+            <form action="" method="POST" enctype="multipart/form-data" form="change_profile">
+                <label>Research Interests</label><textarea name="research_interests" cols="30" rows="10"></textarea>
+                <label>Designation</label><input type="text" name="designation">
+                <label>Phone</label><input type="tel" name="phone">
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>Choose Image</span>
+                        <input type="file" name="profile_img">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" placeholder="No file chosen">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn" type="submit" form="change_profile">Update</button>
+            <button class="modal-close waves-effect waves-green btn">Cancel</button>
+        </div>
+    </div>
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <h4>Add Subjects</h4>
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_subjects">
+                <div class="row"><input type="text" placeholder="Subject Name" name="subject_name" value="" /></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn" type="submit" form="add_subjects">Update</button>
+            <button class="modal-close waves-effect waves-green btn">Cancel</button>
+        </div>
+    </div>
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <h4>Add New Membership & Society</h4>
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_memberships">
+                <div class="row valign-wrapper"><input type="text" placeholder="Society Name" name="society_name" value="" />&nbsp;&nbsp;<input type="text" placeholder="Membership Id" name="membership_id" value="" /></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn" type="submit" form="add_memberships">Update</button>
+            <button class="modal-close waves-effect waves-green btn">Cancel</button>
+        </div>
+    </div>
+    <div id="modal4" class="modal">
+        <div class="modal-content">
+            <h4>Add Educational Qualification</h4>
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_education">
+                <div class="row valign-wrapper"><input type="text" style="width:20%" placeholder="Certification" name="certi_name" value="" />&nbsp;&nbsp;<input type="text" style="width:60%" placeholder="Institute Name" name="institute_name" value="" />&nbsp;&nbsp;<input type="text" style="width:20%" placeholder="Year" name="year" value="" /></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn" type="submit" form="add_education">Update</button>
+            <button class="modal-close waves-effect waves-green btn">Cancel</button>
+        </div>
+    </div>
+    <div id="modal5" class="modal">
+        <div class="modal-content">
+            <h4>Add New Responsibility</h4>
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_curr_responsibility">
+                <div class="row"><input type="text" placeholder="Responsibility" name="curr_responsibility" value="" /></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn" type="submit" form="add_curr_responsibility">Update</button>
+            <button class="modal-close waves-effect waves-green btn">Cancel</button>
+        </div>
+    </div>
+    <div id="modal6" class="modal">
+        <div class="modal-content">
+            <h4>Add Past Responsibility</h4>
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_past_responsibility">
+                <div class="row"><input type="text" placeholder="Responsibility" name="past_responsibility" value="" /></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn" type="submit" form="add_past_responsibility">Update</button>
+            <button class="modal-close waves-effect waves-green btn">Cancel</button>
+        </div>
+    </div>
+    <div id="modal7" class="modal">
+        <div class="modal-content">
+            <h4>Add New Experience</h4>
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_experience">
+                <div class="row"><input type="text" placeholder="Work Experience" name="past_responsibility" value="" /></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn" type="submit" form="add_experience">Update</button>
+            <button class="modal-close waves-effect waves-green btn">Cancel</button>
+        </div>
+    </div>
+    <div id="modal8" class="modal">
+        <div class="modal-content">
+            <h4>Add Bib File</h4>
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_bib">
+                <div class="file-field input-field">
+                    <div class="btn">
+                        <span>Choose File</span>
+                        <input type="file" name="bib_file">
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text" placeholder="No file chosen">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn" type="submit" form="add_bib">Update</button>
+            <button class="modal-close waves-effect waves-green btn">Cancel</button>
+        </div>
+    </div>
+    <div id="modal9" class="modal">
+        <div class="modal-content">
+            <h4>Add New Professional Service</h4>
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_service">
+                <div class="row"><input type="text" placeholder="Professional Service" name="prof_service" value="" /></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn" type="submit" form="add_service">Update</button>
+            <button class="modal-close waves-effect waves-green btn">Cancel</button>
+        </div>
+    </div>
+    <div id="modal10" class="modal">
+        <div class="modal-content">
+            <h4>Add New Project</h4>
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_project">
+                <div class="row"><input type="text" placeholder="Project" name="project" value="" /></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn" type="submit" form="add_project">Update</button>
+            <button class="modal-close waves-effect waves-green btn">Cancel</button>
+        </div>
+    </div>
+    <div id="modal11" class="modal">
+        <div class="modal-content">
+            <h4>Add Ph.D Candidate</h4>
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_phd_candidate">
+                <div class="row valign-wrapper"><input type="text" style="width:30%" placeholder="Student Name" name="student_name" value="" />&nbsp;&nbsp;<input type="text" style="width:30%" placeholder="Thesis Topic" name="thesis_name" value="" />&nbsp;&nbsp;<input type="text" style="width:20%" placeholder="Start Year" name="start_year" value="" />&nbsp;&nbsp;<input type="text" style="width:20%" placeholder="Completion Year" name="completion_year" value="" /></div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn" type="submit" form="add_phd_candidate">Update</button>
+            <button class="modal-close waves-effect waves-green btn">Cancel</button>
+        </div>
+    </div>
     <div class="main">
         <div class="col s12 m8 offset-m2 l6 offset-l3">
             <div class="card-panel grey lighten-5 z-depth-1">
@@ -41,42 +192,29 @@
                     <div class="col s2">
                         <img src="images/img_avatar.png" alt="" class="circle responsive-img">
                     </div>
-                    <div class="col s9">
+                    <div class="col s10">
                         <span style="font-weight: bold;"><%= user.name %></span><br>
                         <span>Assistant Professor</span><br>
                         <span><i class="fa fa-envelope">&nbsp;</i><%= user.email %></span>
-                    </div>
-                    <div class="col s1">
-                        <i class="fa fa-pencil"></i><br>
-                        <a class="waves-effect waves-teal btn-flat" style="font-size:medium;margin:-7px 0px 105px -25px">Edit</a>
                     </div>
                 </div>
             </div>
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
-                    <div class="input-field col s6">
-                        <input placeholder="Research interest fields" name="research_interests" type="text" class="validate">
-                        <label for="research_interests">Research Interest</label>
+                    <div class="col s11"><span style="font-weight:bold;">Research Interests</span></div>
+                    <div class="col s1 add">
+                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal1" style="font-size:medium;">Edit<i class="fa fa-pencil fa-sm "></i></a>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="input-field col s6">
-                        <input name="email" type="email" class="validate">
-                        <label for="email">Email</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input name="telephone" type="tel" class="validate">
-                        <label for="telephone">Phone</label>
-                    </div>
+                    <div class="col s6"><span style="font-weight:bold;">Phone</span></div>
                 </div>
             </div>
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Subjects Teaching in Department</span></div>
                     <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat" style="font-size:medium;">Add<i class="fa fa-plus fa-sm "></i></a>
+                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal2" style="font-size:medium;">Add<i class="fa fa-plus fa-sm "></i></a>
                     </div>
                 </div>
             </div>
@@ -84,7 +222,7 @@
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Memberships & Society</span></div>
                     <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal3" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
                     </div>
                 </div>
             </div>
@@ -92,7 +230,7 @@
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Educational Qualification</span></div>
                     <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal4" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
                     </div>
                 </div>
             </div>
@@ -100,7 +238,7 @@
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Current Administrative Responsibility</span></div>
                     <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal5" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
                     </div>
                 </div>
             </div>
@@ -108,7 +246,7 @@
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Past Administrative Responsibility</span></div>
                     <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal6" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
                     </div>
                 </div>
             </div>
@@ -116,7 +254,7 @@
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Work Experiences</span></div>
                     <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal7" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
                     </div>
                 </div>
             </div>
@@ -124,7 +262,31 @@
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Add Bib File</span></div>
                     <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal8" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-panel grey lighten-5 z-depth-1">
+                <div class="row">
+                    <div class="col s11"><span style="font-weight:bold;">Professional Services</span></div>
+                    <div class="col s1 add">
+                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal9" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-panel grey lighten-5 z-depth-1">
+                <div class="row">
+                    <div class="col s11"><span style="font-weight:bold;">Projects</span></div>
+                    <div class="col s1 add">
+                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal10" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-panel grey lighten-5 z-depth-1">
+                <div class="row">
+                    <div class="col s11"><span style="font-weight:bold;">Ph.D Candidates</span></div>
+                    <div class="col s1 add">
+                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal11" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
                     </div>
                 </div>
             </div>
@@ -135,3 +297,8 @@
     listitem.classList.add('active')
 </script>
 <%- include('partials/footer') -%>
+<script>
+    $(document).ready(function() {
+        $(".modal").modal();
+    });
+</script>
