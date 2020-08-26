@@ -37,7 +37,7 @@
     <div id="modal1" class="modal">
         <div class="modal-content">
             <h4>Edit Profile</h4>
-            <form action="" method="POST" enctype="multipart/form-data" form="change_profile">
+            <form action="" method="POST" enctype="multipart/form-data" id="change_profile">
                 <label>Research Interests</label><textarea name="research_interests" cols="30" rows="10"></textarea>
                 <label>Designation</label><input type="text" name="designation">
                 <label>Phone</label><input type="tel" name="phone">
@@ -60,7 +60,7 @@
     <div id="modal2" class="modal">
         <div class="modal-content">
             <h4>Add Subjects</h4>
-            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_subjects">
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" id="add_subjects">
                 <div class="row"><input type="text" placeholder="Subject Name" name="subject_name" value="" /></div>
             </form>
         </div>
@@ -72,7 +72,7 @@
     <div id="modal3" class="modal">
         <div class="modal-content">
             <h4>Add New Membership & Society</h4>
-            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_memberships">
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" id="add_memberships">
                 <div class="row valign-wrapper"><input type="text" placeholder="Society Name" name="society_name" value="" />&nbsp;&nbsp;<input type="text" placeholder="Membership Id" name="membership_id" value="" /></div>
             </form>
         </div>
@@ -84,7 +84,7 @@
     <div id="modal4" class="modal">
         <div class="modal-content">
             <h4>Add Educational Qualification</h4>
-            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_education">
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" id="add_education">
                 <div class="row valign-wrapper"><input type="text" style="width:20%" placeholder="Certification" name="certi_name" value="" />&nbsp;&nbsp;<input type="text" style="width:60%" placeholder="Institute Name" name="institute_name" value="" />&nbsp;&nbsp;<input type="text" style="width:20%" placeholder="Year" name="year" value="" /></div>
             </form>
         </div>
@@ -96,7 +96,7 @@
     <div id="modal5" class="modal">
         <div class="modal-content">
             <h4>Add New Responsibility</h4>
-            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_curr_responsibility">
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" id="add_curr_responsibility">
                 <div class="row"><input type="text" placeholder="Responsibility" name="curr_responsibility" value="" /></div>
             </form>
         </div>
@@ -108,7 +108,7 @@
     <div id="modal6" class="modal">
         <div class="modal-content">
             <h4>Add Past Responsibility</h4>
-            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_past_responsibility">
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" id="add_past_responsibility">
                 <div class="row"><input type="text" placeholder="Responsibility" name="past_responsibility" value="" /></div>
             </form>
         </div>
@@ -120,7 +120,7 @@
     <div id="modal7" class="modal">
         <div class="modal-content">
             <h4>Add New Experience</h4>
-            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_experience">
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" id="add_experience">
                 <div class="row"><input type="text" placeholder="Work Experience" name="past_responsibility" value="" /></div>
             </form>
         </div>
@@ -132,7 +132,7 @@
     <div id="modal8" class="modal">
         <div class="modal-content">
             <h4>Add Bib File</h4>
-            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_bib">
+            <form action="/uploadBib" method="POST" enctype="multipart/form-data" id="add_bib">
                 <div class="file-field input-field">
                     <div class="btn">
                         <span>Choose File</span>
@@ -152,7 +152,7 @@
     <div id="modal9" class="modal">
         <div class="modal-content">
             <h4>Add New Professional Service</h4>
-            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_service">
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" id="add_service">
                 <div class="row"><input type="text" placeholder="Professional Service" name="prof_service" value="" /></div>
             </form>
         </div>
@@ -164,7 +164,7 @@
     <div id="modal10" class="modal">
         <div class="modal-content">
             <h4>Add New Project</h4>
-            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_project">
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" id="add_project">
                 <div class="row"><input type="text" placeholder="Project" name="project" value="" /></div>
             </form>
         </div>
@@ -176,7 +176,7 @@
     <div id="modal11" class="modal">
         <div class="modal-content">
             <h4>Add Ph.D Candidate</h4>
-            <form action="" method="POST" enctype="application/x-www-form-urlencoded" form="add_phd_candidate">
+            <form action="" method="POST" enctype="application/x-www-form-urlencoded" id="add_phd_candidate">
                 <div class="row valign-wrapper"><input type="text" style="width:30%" placeholder="Student Name" name="student_name" value="" />&nbsp;&nbsp;<input type="text" style="width:30%" placeholder="Thesis Topic" name="thesis_name" value="" />&nbsp;&nbsp;<input type="text" style="width:20%" placeholder="Start Year" name="start_year" value="" />&nbsp;&nbsp;<input type="text" style="width:20%" placeholder="Completion Year" name="completion_year" value="" /></div>
             </form>
         </div>
