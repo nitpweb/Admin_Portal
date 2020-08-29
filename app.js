@@ -3,6 +3,7 @@ const db = require('./db')
 const bodyParser = require('body-parser');
 
 const app = express()
+require('./models/event')
 
 
 app.set('view engine', 'ejs')

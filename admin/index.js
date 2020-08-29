@@ -29,8 +29,6 @@ router.use('/profile', profileRouter)
 const googlelogin = require("./routes/googlesign")
 router.use('/googlesign', googlelogin)
 
-
-
 router.get('/login', (req, res) => {
     res.render('login')
 })
@@ -50,11 +48,11 @@ router.use('/newNotices', newNotices)
 const uploadNotices = require("./routes/uploadNotice")
 router.use('/uploadNotices', uploadNotices)
 
-const important_toggle = require("./routes/important_toggle")
-router.use('/important_toggle', important_toggle)
-
 const saving_folder_id = require("./routes/saving_folder_id")
 router.use('/saving_folder_id', saving_folder_id)
+
+const uploadEvents = require("./routes/events/uploadEvents")
+router.use('/uploadEvents', uploadEvents)
 
 const uploadBib = require("./routes/uploadBib")
 router.use('/uploadBib', uploadBib)
