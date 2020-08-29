@@ -1,6 +1,6 @@
 const db = require('../db')
-const { json } = require('body-parser')
-
+const Image = require('./image')
+// Image
 /**
  * 
  * @param {class} Class 

@@ -105,7 +105,13 @@ router.get('/oauth2callback', function(req, res, next) {
                 link: '/profile',
                 title: 'Faculty Profile',
                 id: 'profile'
-            }]
+            }, {
+                link: '/faculty-management',
+                title: 'Faculty Management',
+                id: 'fac-management'
+            }
+            ]
+
             req.session.Navbar = Navbar;
             req.session.isAdmin = "true";
             // console.log(mainAdmin);

@@ -1,6 +1,5 @@
 const db = require('../db');
 
-
 class User {
     /**
      * 
@@ -9,15 +8,15 @@ class User {
      * @param {string} email 
      * @param {string} imgUrl 
      */
-    constructor(id, name, email, imgUrl) {
-        this.id = id;
+    constructor(name, email, imgUrl) {
+        
         this.name = name;
         this.email = email || ''
         this.imgUrl = imgUrl || ''
         
     }
     /**
-     * @private 
+     * 
      */
     static get tableName() {
         return 'users'
@@ -33,8 +32,6 @@ class User {
                 name varchar(50),
                 email varchar(100),
                 role int(1),
-                imgUrl varchar(512),
-                image blob,
                 department varchar(100),
                 designation varchar(100),
                 ext_no int(4),
@@ -93,6 +90,9 @@ class User {
         const query = `
             INSERT INTO ${User.tableName} SET ?;
         `
+        if(user.id) {
+            delete user.id
+        }
         return new Promise((res,rej) => {
             db.query(query, user, (err, results, fields) => {
                 if(err) {

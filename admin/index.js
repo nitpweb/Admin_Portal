@@ -58,4 +58,8 @@ router.use('/saving_folder_id', saving_folder_id)
 
 const uploadBib = require("./routes/uploadBib")
 router.use('/uploadBib', uploadBib)
+
+const facManagementRouter = require('./routes/faculty-management')
+router.use('/faculty-management', facManagementRouter)
+
 module.exports = router
