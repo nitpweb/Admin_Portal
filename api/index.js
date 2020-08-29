@@ -55,8 +55,10 @@ router.get('/user/:id',async (req, res, next) => {
 })
 
 const noticeRouter = require('./routes/notice');
-
 router.use('/notice', noticeRouter)
+
+const eventRouter = require('./routes/event');
+router.use('/event', eventRouter)
 
 router.get('/env', (req, res) => {
     res.json(process.env)

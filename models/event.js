@@ -151,6 +151,44 @@ class Event {
             console.log("Number of records deleted: " + result.affectedRows);
         })
     }
+
+
+    static getActiveEvents() {
+        return new Promise((resolve, reject) => {
+            const now = new Date().getTime()
+            const query = `
+                select id,title,timestamp,attachments from ${this.tableName} 
+                where closeDate>${now};
+            `
+            db.query(query, (err, results, fields) => {
+                if (err) reject(err)
+                console.log(fields)
+                results.forEach(event => {
+                    event.attachments = JSON.parse(event.attachments)
+                })
+                resolve(results)
+            })
+        })
+    }
+
+    static getArchivedEvents() {
+        return new Promise((resolve, reject) => {
+            const now = new Date().getTime()
+            const query = `
+                select id,title,timestamp,attachments from ${this.tableName} 
+                where closeDate<${now};
+            `
+            db.query(query, (err, results, fields) => {
+                if (err) reject(err)
+                console.log(fields)
+                results.forEach(event => {
+                    event.attachments = JSON.parse(event.attachments)
+                })
+                resolve(results)
+            })
+        })
+    }
+
 }
 
 Event.createTable()
