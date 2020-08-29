@@ -67,6 +67,13 @@ a.active {
 
 .main {
     background: rgb(240, 240, 232);
+    padding: 2% 2%;
+}
+
+@media (min-width: 768px) {
+    .main {
+        padding: 2% 5%;
+    }
 }
 
 @media(min-width:768px) {

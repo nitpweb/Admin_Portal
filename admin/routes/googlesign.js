@@ -2,6 +2,8 @@ const router = require('express').Router()
 var google = require('googleapis').google;
 const session = require('express-session');
 const UserList = require('./UsersList')
+const db = require('../../db');
+const User = require('../../models/user');
 
 var client = new google.auth.OAuth2(
     process.env.CLIENT_ID,
@@ -42,6 +44,21 @@ function getUser(authorizationCode, callback) {
                     name: profile.data.name,
                     imageUrl: profile.data.picture
                 };
+
+                // will be used for database based user role
+                // db.find({email: profile.data.email}, User.tableName)
+                //     .then(results => {
+                //         const user = results[0];
+                //         user.imageUrl = '/profile/image?id='+user.id
+                //         console.log(user)
+                //         callback(null, user)
+                //     })
+                //     .catch(err => {
+                //         console.log(err)
+                //         callback("Not Authorized", null)
+                //     })
+
+
                 callback(null, user);
             });
     });
@@ -89,10 +106,12 @@ router.get('/oauth2callback', function(req, res, next) {
                 title: 'Faculty Profile',
                 id: 'profile'
             }, {
-                link: '/registerProf',
-                title: 'Register Prof',
-                id: 'registerProf'
-            }]
+                link: '/faculty-management',
+                title: 'Faculty Management',
+                id: 'fac-management'
+            }
+            ]
+
             req.session.Navbar = Navbar;
             req.session.isAdmin = "true";
             // console.log(mainAdmin);

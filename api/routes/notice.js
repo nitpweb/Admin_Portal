@@ -1,7 +1,9 @@
 const router = require('express').Router()
 const {Notice, Attachment} = require('../../models/notice')
 const db = require('../../db')
+const { route } = require('../../admin')
 
+// Get all Notices
 router.get('/', (req, res) => {
     db.find({}, Notice.tableName)
         .then(notices => {
@@ -11,6 +13,26 @@ router.get('/', (req, res) => {
             res.json(notices)
         })
         .catch(err => res.json(err))
+})
+
+router.get('/active', (req, res) => {
+    Notice.getActiveNotices()
+    .then(notices => {
+        res.json(notices)
+    })
+    .catch(err => {
+        res.json(err)
+    })
+})
+
+router.get('/archive', (req, res) => {
+    Notice.getArchivedNotices()
+    .then(notices => {
+        res.json(notices)
+    })
+    .catch(err => {
+        res.json(err)
+    })
 })
 
 router.get('/:id', (req, res) => {

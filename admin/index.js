@@ -57,4 +57,7 @@ router.use('/uploadEvents', uploadEvents)
 const uploadBib = require("./routes/uploadBib")
 router.use('/uploadBib', uploadBib)
 
+const facManagementRouter = require('./routes/faculty-management')
+router.use('/faculty-management', facManagementRouter)
+
 module.exports = router

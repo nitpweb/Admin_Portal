@@ -1,0 +1,158 @@
+<%- include('partials/header'); -%>
+<style>
+    h2 {
+        margin: 0;
+    }
+    .form{
+        display: none;
+    }
+    .main{
+        background-color: transparent;
+    }
+    .list {
+        overflow: auto;
+    }
+    table {
+        border-top: 2px solid gray;
+    }
+</style>
+
+<body class="has-fixed-sidenav">
+
+    <%- include('partials/sidebar'); -%>
+
+    <section>
+        <%- include('partials/banner'); -%>
+
+    </section>
+    <div class="main">
+        <div class="row">
+            <div class="col s12 m6 flex">
+                <h2 class="flow-text">Manage Faculties</h2>
+                <button class="waves-effect waves-light btn" onclick="toggleForm" id="add-fac-btn">Add Faculty</button>
+
+            </div>
+        </div>
+        <div class="row form">
+            <form action="/faculty-management" method="POST">
+                <div class="row">
+                    <div class="col s12 m6">
+                        <div class="input-field">
+                            <i class="fa fa-user prefix"></i>
+                            <input id="name" type="text"` name="name">
+                            <label for="name">Name</label>
+                        </div>
+                        <div class="input-field">
+                            <i class="fa fa-envelope prefix"></i>
+                            <input id="email" type="email" name="email">
+                            <label for="email">Email</label>
+                        </div>
+    
+                        <div class="input-field">
+                            <select name="designation">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="Assistant Professor">Assistant Professor</option>
+                                <option value="Assossiate Professor">Assossiate Professor</option>
+                                <option value="Professor">Professor</option>
+                            </select>
+                            <label>Designation</label>
+                        </div>
+    
+                    </div>
+                    <div class="col s12 m6">
+                        <div class="input-field">
+                            <select name="department">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+                                <option value="Electrical Engineering">Electrical Engineering</option>
+                                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                            </select>
+                            <label>Department</label>
+                        </div>
+    
+                        <div class="input-field">
+                            <i class="fa fa-phone prefix"></i>
+                            <input id="phone" type="tel" name="ext_no">
+                            <label for="phone">Ext-no</label>
+                        </div>
+
+                        <div class="input-field">
+                            <select name="role">
+                                <option value="" disabled selected>Choose your option</option>
+                                <option value="3">Faculty</option>
+                                <option value="2">HOD</option>
+                            </select>
+                            <label>Role</label>
+                        </div>
+    
+                    </div>
+                </div>
+                <div class="center">
+                    <input class="btn" type="submit" value="Add +">
+                </div>
+                
+                
+            </form>
+        </div>
+
+        <div class="row list">
+            <table class="striped highlight">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Designation</th>
+                        <th>Department</th>
+                        <th>Ext-no</th>
+                        <th>Modify</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    <tr>
+                        <td>Manish Kumar</td>
+                        <td>manishkumarsh120@gmail.com</td>
+                        <td>Assistant Professor</td>
+                        <td>Computer Science and Engineering</td>
+                        <td>7654</td>
+                        <td><a href="#">edit</a></td>
+                    </tr>
+                    <tr>
+                        <td>Manish Kumar</td>
+                        <td>manishkumarsh120@gmail.com</td>
+                        <td>Assistant Professor</td>
+                        <td>Computer Science and Engineering</td>
+                        <td>7654</td>
+                        <td><a href="#">edit</a></td>
+                    </tr>
+                    <tr>
+                        <td>Manish Kumar</td>
+                        <td>manish.cs18@nitp.ac.in</td>
+                        <td>Assistant Professor</td>
+                        <td>Computer Science and Engineering</td>
+                        <td>7654</td>
+                        <td><a href="#">edit</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</body>
+<script>
+    var listitem = document.getElementById('fac-management');
+    listitem.classList.add('active')
+    document.querySelector("#add-fac-btn").addEventListener('click', toggleForm)
+    function toggleForm() {
+        // alert('toggle')
+        $('.form').slideToggle()
+    }
+</script>
+<%- include('partials/footer') -%>
+<script>
+    $(document).ready(function () {
+        $('select').formSelect();
+        
+    })
+</script>

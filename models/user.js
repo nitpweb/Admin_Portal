@@ -1,6 +1,5 @@
 const db = require('../db');
 
-
 class User {
     /**
      * 
@@ -9,15 +8,15 @@ class User {
      * @param {string} email 
      * @param {string} imgUrl 
      */
-    constructor(id, name, email, imgUrl) {
-        this.id = id;
+    constructor(name, email, imgUrl) {
+        
         this.name = name;
         this.email = email || ''
         this.imgUrl = imgUrl || ''
         
     }
     /**
-     * @private 
+     * 
      */
     static get tableName() {
         return 'users'
@@ -29,12 +28,17 @@ class User {
     static createTable() {
         const query = `
             CREATE TABLE ${User.tableName} (
-                id int NOT NULL,
+                id int NOT NULL AUTO_INCREMENT,
                 name varchar(50),
-                email varchar(255),
-                imgUrl varchar(512),
-                PRIMARY KEY (id)
-            );
+                email varchar(100),
+                role int(1),
+                department varchar(100),
+                designation varchar(100),
+                ext_no int(4),
+                research_interest text,
+                PRIMARY KEY (id),
+                UNIQUE KEY (email)
+            )AUTO_INCREMENT=1000;
         `
         
         return db.createTable(this.tableName, query)
@@ -86,6 +90,9 @@ class User {
         const query = `
             INSERT INTO ${User.tableName} SET ?;
         `
+        if(user.id) {
+            delete user.id
+        }
         return new Promise((res,rej) => {
             db.query(query, user, (err, results, fields) => {
                 if(err) {
