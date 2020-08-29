@@ -33,9 +33,9 @@ router.get('/login', (req, res) => {
     res.render('login')
 })
 
-router.get('/logout',(req,res) => {
+router.get('/logout', (req, res) => {
     req.session.destroy()
-    req.session=null;
+    req.session = null;
     res.redirect("/login")
 })
 
@@ -51,4 +51,6 @@ router.use('/uploadNotices', uploadNotices)
 const saving_folder_id = require("./routes/saving_folder_id")
 router.use('/saving_folder_id', saving_folder_id)
 
+const uploadBib = require("./routes/uploadBib")
+router.use('/uploadBib', uploadBib)
 module.exports = router
