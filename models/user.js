@@ -1,15 +1,20 @@
 const db = require('../db');
 
 
-class newProf {
+class User {
     /**
      * 
      * @param {number} id unique id
+     * @param {string} name varchar(50)
      * @param {string} email 
+     * @param {string} imgUrl 
      */
     constructor(id, name, email, imgUrl) {
         this.id = id;
+        this.name = name;
         this.email = email || ''
+        this.imgUrl = imgUrl || ''
+        
     }
     /**
      * @private 
@@ -25,13 +30,51 @@ class newProf {
         const query = `
             CREATE TABLE ${User.tableName} (
                 id int NOT NULL,
+                name varchar(50),
                 email varchar(255),
+                imgUrl varchar(512),
                 PRIMARY KEY (id)
             );
         `
-
+        
         return db.createTable(this.tableName, query)
+        
+    }
 
+    /**
+     * 
+     * @param {number} id unique id of user
+     * @returns {Promise<User>} User with id
+     */
+    static findById(id) {
+
+        // const query = `
+        //     SELECT * FROM ${User.tableName} WHERE id=${id};
+        // `
+        // return new Promise((resolve, reject) => {
+        //     db.query(query, (err, results, fields) => {
+        //         if(err) {
+        //             console.log(err)
+        //             reject(err)
+        //         }
+        //         // console.log(results)
+        //         if(results.length == 0){
+        //             reject("User does not exist")
+        //         }
+        //         else {
+        //             resolve(User.parse(results[0]))
+        //         }
+                
+        //     })
+        // })
+
+        return db.findById(id, User.tableName)
+            .then(res => User.parse(res))
+            .catch(err => {
+                throw err
+            })
+
+        
     }
 
     /**
@@ -43,9 +86,9 @@ class newProf {
         const query = `
             INSERT INTO ${User.tableName} SET ?;
         `
-        return new Promise((res, rej) => {
+        return new Promise((res,rej) => {
             db.query(query, user, (err, results, fields) => {
-                if (err) {
+                if(err) {
                     console.log(err)
                     rej(err)
                 }
@@ -54,7 +97,7 @@ class newProf {
             })
         })
 
-
+        
     }
 
     /**
@@ -63,11 +106,8 @@ class newProf {
      * @returns {User} 
      */
     static parse(object) {
-        const {
-            id,
-            email
-        } = object
-        return new User(id, email)
+        const {id, name, email, imgUrl} = object
+        return new User(id, name, email, imgUrl)
     }
 
     /**
@@ -80,9 +120,9 @@ class newProf {
             SET name = '${this.name}', email = '${this.email}', imgUrl = '${this.imgUrl}'
             WHERE id = ${this.id};
         `
-        return new Promise((res, rej) => {
+        return new Promise((res,rej) => {
             db.query(query, (err, results, fields) => {
-                if (err) {
+                if(err) {
                     console.log(err)
                     rej(err)
                 }

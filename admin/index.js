@@ -51,6 +51,10 @@ router.use('/uploadNotices', uploadNotices)
 const saving_folder_id = require("./routes/saving_folder_id")
 router.use('/saving_folder_id', saving_folder_id)
 
+const uploadEvents = require("./routes/events/uploadEvents")
+router.use('/uploadEvents', uploadEvents)
+
 const uploadBib = require("./routes/uploadBib")
 router.use('/uploadBib', uploadBib)
+
 module.exports = router

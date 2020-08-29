@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('./db')
 
 const app = express()
+require('./models/event')
 
 
 app.set('view engine', 'ejs')
