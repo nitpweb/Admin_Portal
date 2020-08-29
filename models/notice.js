@@ -1,4 +1,5 @@
 const db = require('../db')
+const { json } = require('body-parser')
 
 /**
  * 
@@ -147,6 +148,42 @@ class Notice {
                 return;
             }
             console.log("Number of records deleted: " + result.affectedRows);
+        })
+    }
+
+    static getActiveNotices() {
+        return new Promise((resolve, reject) => {
+            const now = new Date().getTime()
+            const query = `
+                select id,title,timestamp,attachments from ${this.tableName} 
+                where openDate<${now} AND closeDate>${now};
+            `
+            db.query(query, (err, results, fields) => {
+                if(err) reject(err)
+                console.log(fields)
+                results.forEach(notice => {
+                    notice.attachments = JSON.parse(notice.attachments)
+                })
+                resolve(results)
+            })
+        })
+    }
+
+    static getArchivedNotices() {
+        return new Promise((resolve, reject) => {
+            const now = new Date().getTime()
+            const query = `
+                select id,title,timestamp,attachments from ${this.tableName} 
+                where closeDate<${now};
+            `
+            db.query(query, (err, results, fields) => {
+                if(err) reject(err)
+                console.log(fields)
+                results.forEach(notice => {
+                    notice.attachments = JSON.parse(notice.attachments)
+                })
+                resolve(results)
+            })
         })
     }
 }
