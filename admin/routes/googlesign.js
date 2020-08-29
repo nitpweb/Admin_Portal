@@ -88,6 +88,10 @@ router.get('/oauth2callback', function(req, res, next) {
                 link: '/profile',
                 title: 'Faculty Profile',
                 id: 'profile'
+            }, {
+                link: '/registerProf',
+                title: 'Register Prof',
+                id: 'registerProf'
             }]
             req.session.Navbar = Navbar;
             req.session.isAdmin = "true";
