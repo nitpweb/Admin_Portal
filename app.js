@@ -17,5 +17,14 @@ app.use('/api', apiRouter)
 const adminRouter = require('./admin')
 app.use('/', adminRouter)
 
-
+//**************************** */
+// TEMPORARY ; NO NEED LATER
+app.get('/image', (req, res) => {
+    res.send(`<img src="/profile/image?id=1000"/>`)
+    // res.render('events', {
+    //     title_top: 'image',
+    //     url: '/profile/image?id=1000'
+    // })
+})
+//********************************** */
 module.exports = app

@@ -23,18 +23,18 @@ router.post("/", (req, res) => {
             res.send("Parsing error")
         }
         let file = files.bib_file
-        let url = await storage.uploadFile(file.path, file.type, file.name, file.size)
+        // let url = await storage.uploadFile(file.path, file.type, file.name, file.size)
         // file.path = url
         // console.log(file)
-        // fs.readFile(file.path, { encoding: "utf8" }, (err, data) => {
-        //     if (!err) {
-        //         var bib = bibParser.toJSON(data)
-        //         removeSpecial(bib)
-        //         console.log(bib)
-        //     } else {
-        //         console.log(err);
-        //     }
-        // })
+        fs.readFile(file.path, { encoding: "utf8" }, (err, data) => {
+            if (!err) {
+                var bib = bibParser.toJSON(data)
+                removeSpecial(bib)
+                res.json(bib)
+            } else {
+                console.log(err);
+            }
+        })
         // res.redirect("/profile")
     })
 })
