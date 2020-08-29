@@ -22,6 +22,16 @@ class User {
         return 'users'
     }
 
+    static get ADMIN() {
+        return 1
+    }
+    static get HOD() {
+        return 2
+    }
+    static get FACULTY() {
+        return 3
+    }
+
     /**
      * @returns {Promise<Object>}
      */
@@ -105,6 +115,21 @@ class User {
         })
 
         
+    }
+
+    /**
+     * @returns {Promise<Array<User>>}
+     */
+    static getAllUsers() {
+        // return new Promise((resolve, reject) => {
+        //     const query = `
+        //         select * from ${this.tableName} 
+        //     `
+
+
+        // })
+        return db.find({}, this.tableName)
+
     }
 
     /**

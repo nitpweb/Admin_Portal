@@ -15,6 +15,9 @@
     table {
         border-top: 2px solid gray;
     }
+    .btn {
+        border-radius: 7px;
+    }
 </style>
 
 <body class="has-fixed-sidenav">
@@ -110,14 +113,17 @@
 
 
                 <tbody>
-                    <tr>
-                        <td>Manish Kumar</td>
-                        <td>manishkumarsh120@gmail.com</td>
-                        <td>Assistant Professor</td>
-                        <td>Computer Science and Engineering</td>
-                        <td>7654</td>
-                        <td><a href="#">edit</a></td>
-                    </tr>
+                    <% for(let faculty of faculties) { %>
+                        <tr>
+                            <td><%= faculty.name %></td>
+                            <td><%= faculty.email %></td>
+                            <td><%= faculty.designation %></td>
+                            <td><%= faculty.department %></td>
+                            <td><%= faculty.ext_no %></td>
+                            <td><a href="#">edit</a></td>
+                        </tr>
+                    <% } %>
+                    
                     <tr>
                         <td>Manish Kumar</td>
                         <td>manishkumarsh120@gmail.com</td>

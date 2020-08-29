@@ -45,7 +45,7 @@ router.get('/', (req, res) => {
                     profileimgsrc: 'images/profiledefault.jfif',
                     title_top: 'Notices',
                     user: {
-                        imgUrl: user.imageUrl,
+                        imgUrl: user.imgUrl,
                         name: user.name,
                         email: user.email
                     },
@@ -58,7 +58,7 @@ router.get('/', (req, res) => {
                 profileimgsrc: 'images/profiledefault.jfif',
                 title_top: 'Notices',
                 user: {
-                    imgUrl: user.imageUrl,
+                    imgUrl: user.imgUrl,
                     name: user.name,
                     email: user.email
                 },

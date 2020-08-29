@@ -38,28 +38,28 @@ function getUser(authorizationCode, callback) {
             function(err, profile) {
                 if (err) return callback(err);
                 //  console.log(profile)
-                var user = {
-                    id: profile.data.id,
-                    email: profile.data.email,
-                    name: profile.data.name,
-                    imageUrl: profile.data.picture
-                };
+                // var user = {
+                //     id: profile.data.id,
+                //     email: profile.data.email,
+                //     name: profile.data.name,
+                //     imageUrl: profile.data.picture
+                // };
 
                 // will be used for database based user role
-                // db.find({email: profile.data.email}, User.tableName)
-                //     .then(results => {
-                //         const user = results[0];
-                //         user.imageUrl = '/profile/image?id='+user.id
-                //         console.log(user)
-                //         callback(null, user)
-                //     })
-                //     .catch(err => {
-                //         console.log(err)
-                //         callback("Not Authorized", null)
-                //     })
+                db.find({email: profile.data.email}, User.tableName)
+                    .then(results => {
+                        const user = results[0];
+                        user.imgUrl = '/profile/image?id='+user.id
+                        console.log(user)
+                        callback(null, user)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                        callback("Not Authorized", null)
+                    })
 
 
-                callback(null, user);
+                // callback(null, user);
             });
     });
 
@@ -75,24 +75,14 @@ router.get('/', function(req, res) {
 
 /* Use OAuth 2.0 authorization code to fetch user's profile */
 router.get('/oauth2callback', function(req, res, next) {
+    const ADMIN = 1
+    const HOD = 2
+    const FACULTY = 3
     getUser(req.query.code, function(err, user) {
         if (err) return next(err);
-        const onlyprofile = UserList.onlyprofile
-        const allservice = UserList.allservice
-        const allmainAdmin = UserList.mainAdmin
-        // console.log(onlyprofile);
-        // console.log(allservice);
-        // console.log(mainAdmin);
-        var mainAdmin = false;
-        for(var i=0;i<allmainAdmin.length;i++){
-            if (allmainAdmin[i] == user.email){
-                mainAdmin = true;
-                break;
-            }
-        }
-        var showall = false,
-            showprof = false;
-        if (mainAdmin) {
+        
+        req.session.isAdmin = "false";
+        if (user.role == ADMIN) {
             Navbar = [{
                 link: '/notices',
                 title: 'Notices',
@@ -115,20 +105,9 @@ router.get('/oauth2callback', function(req, res, next) {
             req.session.Navbar = Navbar;
             req.session.isAdmin = "true";
             // console.log(mainAdmin);
-        } else {
-            for (var i = 0; i < onlyprofile.length; i++) {
-                if (user.email == onlyprofile[i]) {
-                    showprof = true;
-                    break;
-                }
-            }
-            for (var i = 0; i < allservice.length; i++) {
-                if (user.email == allservice[i]) {
-                    showall = true;
-                    break;
-                }
-            }
-            if (showall && showprof) {
+        } else if(user.role == HOD) {
+            
+            
                 Navbar = [{
                 link: '/notices',
                 title: 'Notices',
@@ -142,27 +121,24 @@ router.get('/oauth2callback', function(req, res, next) {
                 title: 'Faculty Profile',
                 id: 'profile'
             }]
-                req.session.Navbar = Navbar;
-            }
-            if (!showall && showprof) {
-                Navbar = [{
-                    link: '/profile',
-                    title: 'Faculty Profile',
-                    id: 'profile'
-                }]
-                req.session.Navbar = Navbar;
-            }
-            req.session.isAdmin = "false";
+            req.session.Navbar = Navbar;
+            
+
         }
-        // console.log("showall",showall);
-        // console.log("showprof",showprof);
-        // console.log(user.email, mainAdmin)
-        if (!showall && !showprof && !mainAdmin) {
+        else if(user.role == FACULTY) {
+            Navbar = [{
+                link: '/profile',
+                title: 'Faculty Profile',
+                id: 'profile'
+            }]
+            req.session.Navbar = Navbar;
+        }
+        else {
             res.send("Sorry, You don't have access")
-        } else {
-            req.session.user = user;
-            res.redirect('/');
-        }
+        } 
+        req.session.user = user;
+        res.redirect('/');
+        
     });
 });
 

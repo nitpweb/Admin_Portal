@@ -3,16 +3,16 @@ var formidable = require('formidable');
 var fs = require('fs');
 const db = require('../../db');
 const User = require('../../models/user');
+const Image = require('../../models/image');
 
 
 router.get('/', (req, res) => {
     var user = req.session.user;
     if (user != undefined) {
         res.render('facultyprof', {
-            profileimgsrc: 'images/profiledefault.jfif',
             title_top: 'faculty Profile',
             user: {
-                imgUrl: user.imageUrl,
+                imgUrl: user.imgUrl,
                 name: user.name,
                 email: user.email
             },
@@ -46,12 +46,22 @@ router.get('/image', (req, res) => {
     const id = req.query.id
     // console.log(id)
     db.query(
-        `select image from ${User.tableName} where id='${id}';`,
+        `select image from ${Image.tableName} where user_id='${id}';`,
         (err, results, fields) => {
-            if(err) res.status(500).json(err)
+            if(err) {
+                console.log(err)
+                return res.status(500).json(err)
+            }
             // console.log(results[0].image)
-            const image = results[0].image
-            res.send(image);
+            if(results && results.length == 1) {
+                const image = results[0].image
+                res.send(image);
+            }
+            else {
+                console.log(process.env.PWD)
+                res.send(fs.readFileSync(process.env.PWD + '/public/images/img_avatar.png'))
+            }
+            
         }
     )
 })
