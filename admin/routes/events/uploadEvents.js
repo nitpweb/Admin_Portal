@@ -28,7 +28,8 @@ router.post('/', (req, res) => {
                     continue;
                 }
                 let file = files["filename" + i];
-                let url = await storage.uploadFile(file.path, file.type, file.name, file.size);
+                let data = await storage.uploadFile(file.path, file.type, new Date().getTime()+file.name, file.size);
+                let url = data.webViewLink
                 let attatchment = new Attachment(fields["subtitle" + i], url);
                 // console.log(attatchment)
                 attatchments.push(attatchment)
