@@ -1,6 +1,6 @@
 const google = require('googleapis').google;
-const fs = require('fs')
-
+const fs = require('fs');
+const { drive_v3 } = require('googleapis');
 const TOKEN_PATH = 'token.json';
 const FOLDER_PATH = 'folder_id.json';
 
@@ -39,6 +39,13 @@ if (fs.existsSync(FOLDER_PATH)) {
     });
 }
 
+class FileSchema {
+    constructor(id, webViewLink) {
+        this.id = id
+        this.webViewLink = webViewLink
+    }
+}
+
 module.exports = {
     /**
      * Upload file to the G Drive and returns promise with link of the file
@@ -46,7 +53,7 @@ module.exports = {
      * @param {string} mimetype file extension for e.g. .txt, .pdf, .jpeg
      * @param {string} filename Name of the file
      * @param {number} filesize size of the file in bytes
-     * @returns {Promise<string>} Url of the uploaded file
+     * @returns {Promise<FileSchema>} Url of the uploaded file
      */
     uploadFile: function (FilePath, mimetype, filename, filesize) {
         if(!isTokenSet) {
@@ -64,7 +71,7 @@ module.exports = {
         });
 
         var fileMetadata = {
-            'name': (new Date().getTime()+filename),
+            'name': (filename),
             parents: [folder_id]
         };
 
@@ -91,8 +98,9 @@ module.exports = {
                     reject(err)
                 } else {
                     // console.log('File Id: ', res.data);
-                    let link = res.data.webViewLink;
-                    resolve(link)
+                    // let link = res.data.webViewLink;
+                    // console.log(res.data)
+                    resolve(res.data)
                     // console.log(link);
                 }
             });

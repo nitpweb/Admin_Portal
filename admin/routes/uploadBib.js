@@ -4,7 +4,7 @@ const fs = require('fs')
 const storage = require('../../db/storage')
 const session = require('express-session')
 const bibParser = require("../middleware/bibParser")
-const { dataflow_v1b3 } = require('googleapis')
+const request = require('request')
 
 
 function removeSpecial(params) {
@@ -17,24 +17,34 @@ function removeSpecial(params) {
 }
 router.post("/", (req, res) => {
     var form = new formidable.IncomingForm()
+    let user = req.session.user
     form.parse(req, async function(err, fields, files) {
         if (err) {
             console.log(err);
             res.send("Parsing error")
         }
         let file = files.bib_file
-        // let url = await storage.uploadFile(file.path, file.type, file.name, file.size)
-        // file.path = url
-        // console.log(file)
-        fs.readFile(file.path, { encoding: "utf8" }, (err, data) => {
-            if (!err) {
-                var bib = bibParser.toJSON(data)
+        const data = await storage.uploadFile(file.path, file.type, user.id + ".bib", file.size)
+        let url = `https://drive.google.com/uc?id=${data.id}&export=download`
+        console.log(url)
+        request.get(url, (err, response, body) => {
+            if(!err && response.statusCode == 200) {
+                var bib = bibParser.toJSON(body)
                 removeSpecial(bib)
                 res.json(bib)
-            } else {
-                console.log(err);
             }
         })
+        // file.path = url
+        // console.log(file)
+        // fs.readFile(file.path, { encoding: "utf8" }, (err, data) => {
+        //     if (!err) {
+        //         var bib = bibParser.toJSON(data)
+        //         removeSpecial(bib)
+        //         res.json(bib)
+        //     } else {
+        //         console.log(err);
+        //     }
+        // })
         // res.redirect("/profile")
     })
 })
