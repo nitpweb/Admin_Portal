@@ -36,6 +36,7 @@ router.post('/', (req, res) => {
     let form = new formidable.IncomingForm()
     form.parse(req, (err, fields, files) => {
         if (err) {
+            console.log(err);
             res.json(err)
         }
         db.query(`update ${User.tableName} set research_interest='${fields.research_interests}' where id=${id};`, (err, results, fields) => {
@@ -46,21 +47,27 @@ router.post('/', (req, res) => {
             res.json({ fields, results })
         })
 
-        db.query(`select user_id from ${Image.tableName} where user_id='${id}';`),(err,fields,results)=>{
-            if(results && results.length==1){
-                db.query(`update ${Image.tableName} set image=${fields.profile_img} ?`, (err, results, fields) => {
+        db.query(`select user_id from ${Image.tableName} where user_id=${id};`), (err, fields, results) => {
+            if (err) {
+                console.log(err)
+                res.json(err);
+            }
+            if (results && results.length == 1) {
+                db.query(`update ${Image.tableName} set image=${fs.readFileSync(files.profile_img.path)} where user_id='${id}';`, (err, results, fields) => {
                     if (err) {
                         console.log(err);
                         res.json(err)
                     }
+                    console.log("Sucessfully updated");
                     res.json({ fields, results })
                 })
-            }else{
-                db.query(`insert into ${Image.tableName} set ?`, { user_id: req.session.user.id, email: req.session.user.email, image: files.profile_img }, (err, results, fields) => {
+            } else {
+                db.query(`insert into ${Image.tableName} set ?`, { user_id: req.session.user.id, email: req.session.user.email, image: fs.readFileSync(files.profile_img.path) }, (err, results, fields) => {
                     if (err) {
                         console.log(err);
                         res.json(err)
                     }
+                    console.log("Sucessfully inserted");
                     res.json({ fields, results })
                 })
             }
@@ -81,7 +88,7 @@ router.get('/image', (req, res) => {
             // console.log(results[0].image)
             if (results && results.length == 1) {
                 const image = results[0].image
-                console.log(results)
+                // console.log(results)
                 res.send(image);
             } else {
                 // console.log(process.env.PWD)

@@ -14,7 +14,7 @@ class Image {
         this.name = name;
         this.email = email || ''
         this.imgUrl = imgUrl || ''
-        
+
     }
     /**
      * @private 
@@ -33,13 +33,12 @@ class Image {
                 email varchar(50),
                 image blob,
                 PRIMARY KEY(user_id),
-                UNIQUE KEY(email),
-                FOREIGN KEY(user_id) REFERENCES ${User.tableName}(id) ON DELETE CASCADE
+                UNIQUE KEY(email)
             );
         `
-        
+
         return db.createTable(this.tableName, query)
-        
+
     }
 
 
