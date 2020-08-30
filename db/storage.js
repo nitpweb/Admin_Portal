@@ -15,7 +15,7 @@ var isFolderIdSet = false
 
 var folder_id = "";
 
-if (fs.existsSync(TOKEN_PATH)){
+if (fs.existsSync(TOKEN_PATH)) {
     fs.readFile(TOKEN_PATH, (err, token) => {
         if (err) {
             console.log(err);
@@ -48,15 +48,15 @@ module.exports = {
      * @param {number} filesize size of the file in bytes
      * @returns {Promise<string>} Url of the uploaded file
      */
-    uploadFile: function (FilePath, mimetype, filename, filesize) {
-        if(!isTokenSet) {
+    uploadFile: function(FilePath, mimetype, filename, filesize) {
+        if (!isTokenSet) {
             oAuth2Client.setCredentials(JSON.parse(process.env.token));
         }
 
-        if(!isFolderIdSet) {
+        if (!isFolderIdSet) {
             folder_id = process.env.FOLDER_ID;
         }
-        
+
         // console.log('token', process.env.token)
         const drive = google.drive({
             version: 'v3',
@@ -64,7 +64,7 @@ module.exports = {
         });
 
         var fileMetadata = {
-            'name': (new Date().getTime()+filename),
+            'name': (new Date().getTime() + filename),
             parents: [folder_id]
         };
 
@@ -75,28 +75,28 @@ module.exports = {
 
         return new Promise((resolve, reject) => {
             drive.files.create({
-                resource: fileMetadata,
-                media: media,
-                fields: 'id ,webViewLink'
-            }, {
-                onUploadProgress: function (e) {
-                    console.log(Math.floor((e.bytesRead/filesize)*100)+"%");
-                }
-            },
-             function (err, res) {
-                if (err) {
-                    // Handle error
-                    console.log(err);
-                    isTokenSet = false
-                    reject(err)
-                } else {
-                    // console.log('File Id: ', res.data);
-                    let link = res.data.webViewLink;
-                    resolve(link)
-                    // console.log(link);
-                }
-            });
+                    resource: fileMetadata,
+                    media: media,
+                    fields: 'id ,webViewLink'
+                }, {
+                    onUploadProgress: function(e) {
+                        console.log(Math.floor((e.bytesRead / filesize) * 100) + "%");
+                    }
+                },
+                function(err, res) {
+                    if (err) {
+                        // Handle error
+                        console.log(err);
+                        isTokenSet = false
+                        reject(err)
+                    } else {
+                        // console.log('File Id: ', res.data);
+                        let link = res.data.webViewLink;
+                        resolve(link)
+                        // console.log(link);
+                    }
+                });
         })
-        
+
     }
 }

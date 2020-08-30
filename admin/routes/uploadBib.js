@@ -6,13 +6,19 @@ const session = require('express-session')
 const bibParser = require("../middleware/bibParser")
 const { dataflow_v1b3 } = require('googleapis')
 
-
+/*remove special character from bib data*/
 function removeSpecial(params) {
     params.forEach(entry => {
         var newTags = entry.entryTags
         for (let key in newTags) {
             newTags[key] = newTags[key].replace(/{/g, "").replace(/}/g, "").replace(/\\/g, "").replace(/[\u{0080}-\u{FFFF}]/gu, "\"")
         }
+    })
+}
+/* sort entries by year*/
+function sortByYear(params) {
+    params.sort(function(a, b) {
+        return b.entryTags.YEAR - a.entryTags.YEAR
     })
 }
 router.post("/", (req, res) => {
@@ -23,19 +29,29 @@ router.post("/", (req, res) => {
             res.send("Parsing error")
         }
         let file = files.bib_file
-        // let url = await storage.uploadFile(file.path, file.type, file.name, file.size)
-        // file.path = url
+        let url = await storage.uploadFile(file.path, file.type, file.name, file.size)
+        console.log(url)
         // console.log(file)
-        fs.readFile(file.path, { encoding: "utf8" }, (err, data) => {
-            if (!err) {
-                var bib = bibParser.toJSON(data)
-                removeSpecial(bib)
-                res.json(bib)
-            } else {
-                console.log(err);
-            }
-        })
-        // res.redirect("/profile")
+        // fs.readFile(file.path, { encoding: "utf8" }, (err, data) => {
+        //     if (!err) {
+        //         var bib = bibParser.toJSON(data)
+        //         removeSpecial(bib)
+        //         var books = [],
+        //             journals = [],
+        //             conferences = []
+        //         bib.forEach(entry => {
+        //             if (entry.entryType === "INPROCEEDINGS") conferences.push(entry)
+        //             else if (entry.entryType === "ARTICLE") journals.push(entry)
+        //             else if (entry.entryType === "BOOKS") books.push(entry)
+        //         })
+        //         sortByYear(books)
+        //         sortByYear(journals)
+        //         sortByYear(conferences)
+        //         res.json(journals)
+        //     } else {
+        //         console.log(err);
+        //     }
+        // })
     })
 })
 module.exports = router

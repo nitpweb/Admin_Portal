@@ -1,19 +1,19 @@
 <%- include('partials/header'); -%>
 
 <body class="has-fixed-sidenav">
-    
+
     <%- include('partials/sidebar'); -%>
 
     <section>
         <%- include('partials/banner'); -%>
-        
+
     </section>
     <div class="main">
       <img src="<%= url %>" alt="">
     </div>
 </body>
 <script>
-  var listitem = document.getElementById('events');
-  listitem.classList.add('active')
+    var listitem = document.getElementById('events');
+    listitem.classList.add('active')
 </script>
 <%- include('partials/footer') -%>
