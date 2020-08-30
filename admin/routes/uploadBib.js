@@ -5,8 +5,9 @@ const storage = require('../../db/storage')
 const session = require('express-session')
 const bibParser = require("../middleware/bibParser")
 const request = require('request')
-
-
+const Publications = require('../../models/publications')
+const db = require('../../db')
+const User = require('../../models/user')
 /*remove special character from bib data*/
 function removeSpecial(params) {
     params.forEach(entry => {
@@ -33,28 +34,39 @@ router.post("/", (req, res) => {
         let file = files.bib_file
         const user = req.session.user
 
-        // Check if bib file exist for current user in Publications table
+        db.query(`select publication_id from ${Publications.tableName} where user_id=${user.id}`, async function(err, results, fields) {
+            if (results && results.length == 1) {
+                const fileId = results[0].publication_id;
+                storage.updateFile(fileId, file.path)
+                let url = `https://drive.google.com/uc?id=${fileId}&export=download`
+                request.get(url, (err, response, body) => {
+                    if (!err && response.statusCode == 200) {
+                        var bib = bibParser.toJSON(body)
+                        removeSpecial(bib)
+                        res.json(bib)
+                    }
+                })
+            } else {
+                const data = await storage.uploadFile(file.path, file.type, user.id + ".bib", file.size)
+                // console.log(data);
 
-        // if yes:
-        // update the file on gdrive
+                db.query(`insert into ${Publications.tableName} set ?`, { user_id: user.id, email: user.email, publication_id: data.id }, (err, results, fields => {
+                    if (err) {
+                        console.log(err);
+                        res.json(err)
+                    }
+                    res.json({ fields, results })
+                }))
+                request.get(url, (err, response, body) => {
+                    if (!err && response.statusCode == 200) {
+                        var bib = bibParser.toJSON(body)
+                        removeSpecial(bib)
+                        res.json(bib)
+                    }
+                })
+            }
+        })
 
-        // else:
-        // create file on gdrive and get fileId
-        // insert or update the table for current user with filedId
-
-
-
-        // const data = await storage.uploadFile(file.path, file.type, user.id + ".bib", file.size)
-        // storage.updateFile('1g2xPY3X5swckZrRV1vIjkylKm9nKNPUI', file.path)
-        // let url = `https://drive.google.com/uc?id=${data.id}&export=download`
-        // console.log(url)
-        // request.get(url, (err, response, body) => {
-        //     if(!err && response.statusCode == 200) {
-        //         var bib = bibParser.toJSON(body)
-        //         removeSpecial(bib)
-        //         res.json(bib)
-        //     }
-        // })
         // file.path = url
         // console.log(file)
         // fs.readFile(file.path, { encoding: "utf8" }, (err, data) => {

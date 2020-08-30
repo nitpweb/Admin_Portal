@@ -47,34 +47,33 @@ router.post('/', (req, res) => {
             res.json({ fields, results })
         })
 
-        db.query(`select user_id from ${Image.tableName} where user_id=${id};`), (err, fields, results) => {
-            if (err) {
-                console.log(err)
-                res.json(err);
-            }
-            if (results && results.length == 1) {
-                db.query(`update ${Image.tableName} set image=${fs.readFileSync(files.profile_img.path)} where user_id='${id}';`, (err, results, fields) => {
-                    if (err) {
-                        console.log(err);
-                        res.json(err)
-                    }
-                    console.log("Sucessfully updated");
-                    res.json({ fields, results })
-                })
-            } else {
-                db.query(`insert into ${Image.tableName} set ?`, { user_id: req.session.user.id, email: req.session.user.email, image: fs.readFileSync(files.profile_img.path) }, (err, results, fields) => {
-                    if (err) {
-                        console.log(err);
-                        res.json(err)
-                    }
-                    console.log("Sucessfully inserted");
-                    res.json({ fields, results })
-                })
-            }
-        }
+        db.find({ user_id: id }, Image.tableName)
+            .then(results => {
+                if (results && results.length == 1) {
+                    db.query(`update ${Image.tableName} set image=${fs.readFileSync(files.profile_img.path)} where user_id='${id}';`, (err, results, fields) => {
+                        if (err) {
+                            console.log(err);
+                            res.json(err)
+                        }
+                        console.log("Sucessfully updated");
+                        res.json({ fields, results })
+                    })
+                } else {
+                    db.query(`insert into ${Image.tableName} set ?`, { user_id: req.session.user.id, email: req.session.user.email, image: fs.readFileSync(files.profile_img.path) }, (err, results, fields) => {
+                        if (err) {
+                            console.log(err);
+                            res.json(err)
+                        }
+                        console.log("Sucessfully inserted");
+                        res.json({ fields, results })
+                    })
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
     })
 })
-
 router.get('/image', (req, res) => {
     const id = req.query.id
     // console.log(id)
