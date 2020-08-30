@@ -1,6 +1,7 @@
 const User = require('../../../models/user');
 const db = require('../../../db')
 const router = require('express').Router()
+const formidable = require('formidable')
 
 router.use(function(req, res, next) {
     // only access to admin
@@ -49,12 +50,16 @@ function check(...args) {
     return true;
 }
 router.post('/', (req, res) => {
+    var form = new formidable.IncomingForm();
+    form.parse(req, (err, fields, files) => {
+        if(err) {
+            res.send('server error')
+        }
+        const {name, email, designation, department, ext_no, role} = fields
 
-    const { name, email, designation, department, ext_no, role } = req.body
-
-    if (check(name, email, designation, department, role) && role != 1) {
-        // create user
-        User.create({
+        if(check(name, email, designation, department, role) && role != 1) {
+            // create user
+            User.create({
                 name,
                 email,
                 designation,
@@ -68,9 +73,13 @@ router.post('/', (req, res) => {
             .catch(err => {
                 res.json(err)
             })
-    } else {
-        res.send("all field are neccessary")
-    }
+        }
+        else {
+            res.send("all field are neccessary")
+        }
+    })
+    
+    
 })
 
 router.patch('/', (req, res) => {

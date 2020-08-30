@@ -1,6 +1,5 @@
 const express = require('express')
 const db = require('./db')
-const bodyParser = require('body-parser');
 
 const app = express()
 require('./models/event')
@@ -8,8 +7,6 @@ require('./models/event')
 
 app.set('view engine', 'ejs')
 app.use(express.static("public"));
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
 
 // Handling api routes
 const apiRouter = require('./api')
