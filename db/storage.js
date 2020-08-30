@@ -106,5 +106,55 @@ module.exports = {
             });
         })
         
+    },
+    deleteFile: (fileId) => {
+        if(!isTokenSet) {
+            oAuth2Client.setCredentials(JSON.parse(process.env.token));
+        }
+
+        
+        // console.log('token', process.env.token)
+        const drive = google.drive({
+            version: 'v3',
+            auth: oAuth2Client
+        });
+
+        drive.files.delete({
+            fileId: fileId,
+            auth: oAuth2Client
+        })
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    },
+
+    /**
+     * @param {string} fileId fileid of target file to be updated
+     * @param {string} filePath
+     * @returns {Promise} 
+     */
+    updateFile: (fileId, filePath) => {
+        if(!isTokenSet) {
+            oAuth2Client.setCredentials(JSON.parse(process.env.token));
+        }
+
+        // console.log('token', process.env.token)
+        const drive = google.drive({
+            version: 'v3',
+            auth: oAuth2Client
+        });
+
+        return drive.files.update({
+            fileId: fileId,
+            media: {
+                body: fs.readFileSync(filePath)
+            }
+        })
+        .then(res => {
+            return res.data
+        })
     }
 }
