@@ -37,10 +37,8 @@
     <div id="modal1" class="modal">
         <div class="modal-content">
             <h4>Edit Profile</h4>
-            <form action="" method="POST" enctype="multipart/form-data" id="change_profile">
+            <form action="/profile" method="POST" enctype="multipart/form-data" id="change_profile">
                 <label>Research Interests</label><textarea name="research_interests" cols="30" rows="10"></textarea>
-                <label>Designation</label><input type="text" name="designation">
-                <label>Phone</label><input type="tel" name="phone">
                 <div class="file-field input-field">
                     <div class="btn">
                         <span>Choose Image</span>
@@ -190,24 +188,19 @@
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row valign-wrapper">
                     <div class="col s2">
-                        <img src="images/img_avatar.png" alt="" class="circle responsive-img">
+                        <img src="<%= user.imgUrl %>" alt="" class="circle responsive-img">
                     </div>
-                    <div class="col s10">
+                    <div class="col s9">
                         <span style="font-weight: bold;"><%= user.name %></span><br>
-                        <span>Assistant Professor</span><br>
-                        <span><i class="fa fa-envelope">&nbsp;</i><%= user.email %></span>
+                        <span><%= user.designation %></span><br>
+                        <span><i class="fa fa-envelope">&nbsp;</i><%= user.email %></span><br>
+                        <span style="font-weight: bold;">Department : </span><span><%= user.department %></span><br>
+                        <span style="font-weight: bold;">Extn_no : </span><span><%= user.ext_no %></span><br>
+                        <span style="font-weight: bold;">Research Interests : </span><span><%= user.research_interest %></span>
                     </div>
-                </div>
-            </div>
-            <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Research Interests</span></div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal1" style="font-size:medium;">Edit<i class="fa fa-pencil fa-sm "></i></a>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col s6"><span style="font-weight:bold;">Phone</span></div>
                 </div>
             </div>
             <div class="card-panel grey lighten-5 z-depth-1">
