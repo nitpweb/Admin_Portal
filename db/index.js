@@ -70,7 +70,7 @@ connection.find = (value, tableName) => {
             }
             // console.log(results)
             if(results.length == 0){
-                reject("No such Data found")
+                resolve(null)
             }
             else {
                 resolve(results)

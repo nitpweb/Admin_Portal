@@ -32,6 +32,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const id = req.session.user.id
+    const user = req.session.user
     // console.log(id);
     let form = new formidable.IncomingForm()
     form.parse(req, (err, fields, files) => {
@@ -39,45 +40,85 @@ router.post('/', (req, res) => {
             console.log(err);
             res.json(err)
         }
+        console.log(Image.tableName)
+        
+
         db.query(`update ${User.tableName} set research_interest='${fields.research_interests}' where id=${id};`, (err, results, fields) => {
             if (err) {
                 console.log(err)
-                res.json(err)
+                // res.json(err)
             }
-            res.json({ fields, results })
         })
+        
+        if(files.profile_img.path) {
+            const image = fs.readFileSync(files.profile_img.path)
 
-        db.query(`select user_id from ${Image.tableName} where user_id=${id};`), (err, fields, results) => {
-            if (err) {
+            db.find({user_id: user.id}, Image.tableName)
+            .then(results => {
+                // console.log(results)
+                let query, data ={
+                    image: image
+                };
+                if(results) {
+                    query = `update ${Image.tableName} set ? where user_id=${user.id}`
+                }
+                else {
+                    query = `insert into ${Image.tableName} set ?`
+                    data.user_id = user.id
+                    data.email = user.email
+                }
+                db.query(query, data, (err, results, fields) => {
+                    if(err) {
+                        console.log('err', err)
+                        return
+                    }
+                    res.redirect('/profile')
+                })
+            })
+            .catch(err => {
                 console.log(err)
-                res.json(err);
-            }
-            if (results && results.length == 1) {
-                db.query(`update ${Image.tableName} set image=${fs.readFileSync(files.profile_img.path)} where user_id='${id}';`, (err, results, fields) => {
-                    if (err) {
-                        console.log(err);
-                        res.json(err)
-                    }
-                    console.log("Sucessfully updated");
-                    res.json({ fields, results })
-                })
-            } else {
-                db.query(`insert into ${Image.tableName} set ?`, { user_id: req.session.user.id, email: req.session.user.email, image: fs.readFileSync(files.profile_img.path) }, (err, results, fields) => {
-                    if (err) {
-                        console.log(err);
-                        res.json(err)
-                    }
-                    console.log("Sucessfully inserted");
-                    res.json({ fields, results })
-                })
-            }
+            })
         }
+
+        
+
+
+
+
+        
+
+        // db.query(`select user_id from ${Image.tableName} where user_id=${id};`), (err, fields, results) => {
+        //     if (err) {
+        //         console.log(err)
+        //         res.json(err);
+        //     }
+        //     console.log('query succed', results)
+        //     if (results && results.length == 1) {
+        //         db.query(`update ${Image.tableName} set ? where user_id='${id}';`, {image:fs.readFileSync(files.profile_img.path)}, (err, results, fields) => {
+        //             if (err) {
+        //                 console.log(err);
+        //                 res.json(err)
+        //             }
+        //             console.log("Sucessfully updated");
+        //             res.json({ fields, results })
+        //         })
+        //     } else {
+        //         db.query(`insert into ${Image.tableName} set ?`, { user_id: req.session.user.id, email: req.session.user.email, image: fs.readFileSync(files.profile_img.path) }, (err, results, fields) => {
+        //             if (err) {
+        //                 console.log(err);
+        //                 res.json(err)
+        //             }
+        //             console.log("Sucessfully inserted");
+        //             res.json({ fields, results })
+        //         })
+        //     }
+        // }
     })
 })
 
 router.get('/image', (req, res) => {
     const id = req.query.id
-    // console.log(id)
+    console.log(id)
     db.query(
         `select image from ${Image.tableName} where user_id='${id}';`,
         (err, results, fields) => {
@@ -85,8 +126,7 @@ router.get('/image', (req, res) => {
                 console.log(err)
                 return res.status(500).json(err)
             }
-            // console.log(results[0].image)
-            if (results && results.length == 1) {
+            if (results && results.length == 1 && results[0].image != null) {
                 const image = results[0].image
                 // console.log(results)
                 res.send(image);
