@@ -19,7 +19,7 @@ fetch(`${BASE_URL}/api/notice`)
 
 <br/>
 
-### 2. `api/notice/active`
+### 2. `/api/notice/active`
 This route can be used to get all the visible notices in the institute  
 For example :  
 ```js
@@ -32,10 +32,26 @@ fetch(`${BASE_URL}/api/notice/active`)
     console.log(err)
 })
 ```
+Response
+```json
+[
+    {
+        "id": 1598709975846,
+        "title": "first notice",
+        "timestamp": 1598712753805,
+        "attachments": [
+            {
+                "caption": "well well",
+                "url": "https://drive.google.com/file/d/13aL6hsRWdWM-bhk3ufkJp2N9MrzkFObW/view?usp=drivesdk"
+            }
+        ]
+    }
+]
+```
 
 <br/>
 
-### 3. `api/notice/archive`
+### 3. `/api/notice/archive`
 This route can be used to get all the archived (not active) notices in the institute  
 For example :  
 ```js

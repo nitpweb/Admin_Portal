@@ -230,7 +230,7 @@ function important_fun(params) {
         params.getElementsByTagName('span')[0].textContent = "Important";
         params.getElementsByTagName('i')[0].style.color = "red";
       }
-      xhttp.open("POST", "/important_toggle", true);
+      xhttp.open("POST", "/notices/important_toggle", true);
       xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xhttp.send(`important=${important_status}&fileid=${main_id}`);
     }

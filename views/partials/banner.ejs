@@ -5,18 +5,8 @@
             <div class="name_eng">NATIONAL INSTITUTE OF TECHNOLOGY, PATNA</div>
             <div class="name_hindi">राष्ट्रीय प्रौद्योगिकी संस्थान, पटना</div>
         </div>
-        <a href="/logout" class="show-on-large right">Logout</a>
-        <% if(Drive=="true"){ %>
-        <button class="waves-effect waves-light btn" onclick="changeDrive()">changeDrive</button>
-        <script>
-            function changeDrive() {
-                var folder_id = prompt("Please make a folder on your respective google drive, make it public and enter its folder id here", "");
-                if (folder_id != null) {
-                    window.location.replace(`/saving_folder_id/${folder_id}`);
-                }
-            }
-        </script>
-        <% } %>
+        <!-- <a href="/logout" class="show-on-large right">Logout</a> -->
+        
     </div>
 </div>
 <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="fa fa-bars" style="font-size: 2.5rem;color: green;margin-left: 8px;"></i></a>

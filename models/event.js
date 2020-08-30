@@ -1,6 +1,5 @@
 const db = require('../db')
-const Image = require('./image')
-// Image
+
 /**
  * 
  * @param {class} Class 
@@ -19,7 +18,7 @@ class Attachment {
     }
 }
 
-class Notice {
+class Event {
     /**
      * 
      * @param {number} id 
@@ -28,7 +27,7 @@ class Notice {
      * @param {number} userId
      */
 
-    constructor(id, title, attach, userId, openDate, closeDate, important) {
+    constructor(id, title, attach, userId, openDate, closeDate, venue, doclink) {
         let now = new Date().getTime();
         this.id = id
         this.title = title
@@ -37,11 +36,12 @@ class Notice {
         this.userId = userId
         this.openDate = openDate
         this.closeDate = closeDate
-        this.important = important
+        this.venue = venue
+        this.doclink = doclink
     }
 
     static get tableName() {
-        return 'notices'
+        return 'events'
     }
 
     /**
@@ -49,34 +49,35 @@ class Notice {
      */
     static createTable() {
         const query = `
-            CREATE TABLE ${Notice.tableName} (
+            CREATE TABLE ${Event.tableName} (
                 id bigint NOT NULL,
                 title varchar(1000),
                 timestamp bigint,
                 openDate bigint,
                 closeDate bigint,
-                important int,
+                venue varchar(1000),
+                doclink varchar(500),
                 attachments varchar(1000),
                 userId varchar(35) NOT NULL,
                 PRIMARY KEY (id)
             );
         `
         return db.createTable(this.tableName, query)
-        
+
     }
 
     /**
      * 
-     * @param {Notice} notice 
+     * @param {Events} event 
      */
-    static create(notice) {
+    static create(event) {
         const query = `
             INSERT INTO ${this.tableName} SET ?;
         `
-        return new Promise((res,rej) => {
-            notice.attachments = JSON.stringify(notice.attachments)
-            db.query(query, notice, (err, results, fields) => {
-                if(err) {
+        return new Promise((res, rej) => {
+            event.attachments = JSON.stringify(event.attachments)
+            db.query(query, event, (err, results, fields) => {
+                if (err) {
                     console.log(err)
                     rej(err)
                 }
@@ -86,25 +87,25 @@ class Notice {
         })
     }
 
-    static findByUserID(userid){
+    static findByUserID(userid) {
         return db.findByUserID(userid)
     }
 
     /**
      * 
      * @param {number} id 
-     * @returns {Promise<Notice>}
+     * @returns {Promise<Events>}
      */
     static findById(id) {
         return db.findById(id, this.tableName)
             .then(res => {
                 res.attachments = JSON.parse(res.attachments)
-                return typecast(Notice, res)
+                return typecast(Event, res)
             })
-            
+
     }
 
-    static updateAttachments(id, caption, link){
+    static updateAttachments(id, caption, link) {
         db.getAttachments(id, caption, link);
     }
 
@@ -112,25 +113,25 @@ class Notice {
 
     }
 
-    static updateData(id, key, value){
-        return db.update("id", id, value, key, "notices");
+    static updateData(id, key, value) {
+        return db.update("id", id, value, key, this.tableName);
     }
 
-    static updateWholeObj(id, notice) {
-        return db.updateWholeObj("id", id, notice, "notices");
+    static updateWholeObj(id, event) {
+        return db.updateWholeObj("id", id, event, this.tableName);
     }
 
     static toggleVisibility(id, visible_status) {
-        let query = `SELECT closeDate, timestamp FROM notices WHERE id = ${id}`
-        return db.query(query, function(err, notices){
-            if(err){
+        let query = `SELECT closeDate, timestamp FROM ${this.tableName} WHERE id = ${id}`
+        return db.query(query, function (err, events) {
+            if (err) {
                 console.log(err);
                 return;
             }
-            if(visible_status == 1){
-                db.update("id", id, new Date().getTime() + (86400000*5), "closeDate", "notices")
-            }else{
-                db.update("id", id, notices[0].timestamp, "closeDate", "notices")
+            if (visible_status == 1) {
+                db.update("id", id, new Date().getTime() + (86400000 * 5), "closeDate", "events")
+            } else {
+                db.update("id", id, events[0].timestamp, "closeDate", "events")
             }
         })
     }
@@ -141,7 +142,7 @@ class Notice {
     }
 
     static deleteRow(id) {
-        let query = `DELETE FROM notices WHERE id = ${id}`
+        let query = `DELETE FROM ${this.tableName} WHERE id = ${id}`
         return db.query(query, function (err, result) {
             if (err) {
                 console.log(err);
@@ -151,25 +152,26 @@ class Notice {
         })
     }
 
-    static getActiveNotices() {
+
+    static getActiveEvents() {
         return new Promise((resolve, reject) => {
             const now = new Date().getTime()
             const query = `
                 select id,title,timestamp,attachments from ${this.tableName} 
-                where openDate<${now} AND closeDate>${now};
+                where closeDate>${now};
             `
             db.query(query, (err, results, fields) => {
-                if(err) reject(err)
+                if (err) reject(err)
                 console.log(fields)
-                results.forEach(notice => {
-                    notice.attachments = JSON.parse(notice.attachments)
+                results.forEach(event => {
+                    event.attachments = JSON.parse(event.attachments)
                 })
                 resolve(results)
             })
         })
     }
 
-    static getArchivedNotices() {
+    static getArchivedEvents() {
         return new Promise((resolve, reject) => {
             const now = new Date().getTime()
             const query = `
@@ -177,17 +179,18 @@ class Notice {
                 where closeDate<${now};
             `
             db.query(query, (err, results, fields) => {
-                if(err) reject(err)
+                if (err) reject(err)
                 console.log(fields)
-                results.forEach(notice => {
-                    notice.attachments = JSON.parse(notice.attachments)
+                results.forEach(event => {
+                    event.attachments = JSON.parse(event.attachments)
                 })
                 resolve(results)
             })
         })
     }
+
 }
 
-Notice.createTable()
+Event.createTable()
 
-module.exports = {Attachment, Notice}
+module.exports = {Attachment, Event}

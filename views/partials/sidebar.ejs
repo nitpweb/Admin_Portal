@@ -14,7 +14,21 @@
           <% for(var i=0;i<Navbar.length;i++){ %>
             <li><a class="waves-effect" href="<%= Navbar[i].link %>" id="<%= Navbar[i].id %>"><%= Navbar[i].title %></a></li>
           <% } %>
-          
+          <% if(Drive=="true"){ %>
+          <li><a class="waves-effect" onclick="changeDrive()">changeDrive</a></li>
+          <script>
+            function changeDrive() {
+              var folder_id = prompt(
+                "Please make a folder on your respective google drive, make it public and enter its folder id here",
+                "");
+              if (folder_id != null) {
+                window.location.replace(`/saving_folder_id/${folder_id}`);
+              }
+            }
+          </script>
+          <% } %>
+          <li><a class="waves-effect" href="/logout">Logout</a>
+          </li>
     </div>
     <footer>
         &copy; <span><%= new Date().getFullYear() %></script></span>
