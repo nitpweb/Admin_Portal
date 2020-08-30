@@ -31,7 +31,7 @@ class Image {
             CREATE TABLE ${this.tableName} (
                 user_id int,
                 email varchar(50),
-                image blob,
+                image MEDIUMBLOB,
                 PRIMARY KEY(user_id),
                 UNIQUE KEY(email)
             );
