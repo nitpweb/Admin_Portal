@@ -3,7 +3,7 @@ const Users = require('./user')
 
 class Subjects {
     /** 
-     * @param {number} name
+     * @param {number} userId
      * @param {string} email
      * @param {string} imgUrl
      */

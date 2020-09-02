@@ -63,4 +63,11 @@ router.use('/faculty-management', facManagementRouter)
 const addSubject = require("./routes/faculty-data/addsubject")
 router.use('/addsubject', addSubject)
 
+const addphdcandidates = require("./routes/faculty-data/addphd_candidates")
+router.use('/addphdcandidates', addphdcandidates)
+
+const addnewproject = require("./routes/faculty-data/addnew_project")
+router.use('/addnewproject', addnewproject)
+
+
 module.exports = router
