@@ -60,8 +60,21 @@ router.use('/uploadBib', uploadBib)
 const facManagementRouter = require('./routes/faculty-management')
 router.use('/faculty-management', facManagementRouter)
 
-const addSubject = require("./routes/faculty-data/addsubject")
-router.use('/addsubject', addSubject)
+const addSubject = require("./routes/faculty-data/add_subjects")
+router.use('/add-subject', addSubject)
+
+const addphdcandidates = require("./routes/faculty-data/add_phdcandidates")
+router.use('/add-phdcandidates', addphdcandidates)
+
+const addnewproject = require("./routes/faculty-data/add_newproject")
+router.use('/add-newproject', addnewproject)
+
+const addnewprofessionalservice = require("./routes/faculty-data/add_professionalservice")
+router.use('/add-professional-service',addnewprofessionalservice)
+
+const addworkexperience = require("./routes/faculty-data/add_workexperience")
+router.use('/add-work-experience' , addworkexperience)
+
 
 const memberships = require("./routes/faculty-data/add_memberships")
 router.use('/memberships', memberships)

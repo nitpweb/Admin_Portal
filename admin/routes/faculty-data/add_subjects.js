@@ -9,7 +9,7 @@ router.post("/", (req, res) => {
     form.parse(req, (err, fields, files) => {
         if (err) {
             console.log(err);
-            res.send("Parsing error")
+            res.send("Parsing error");
         }
         console.log(fields.subject_name);
         if (fields.subject_name) {
@@ -21,7 +21,7 @@ router.post("/", (req, res) => {
                 res.redirect('/profile')
             })
         }
-    })
-})
+    });
+});
 
 module.exports = router
