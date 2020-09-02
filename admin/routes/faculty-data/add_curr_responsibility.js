@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const db = require('../../../db')
-const Subjects = require('../../../models/subjects')
+const currResponsibility = require('../../../models/current-responsibility')
 const formidable = require('formidable')
 
 router.post("/", (req, res) => {
@@ -11,9 +11,8 @@ router.post("/", (req, res) => {
             console.log(err);
             res.send("Parsing error")
         }
-        console.log(fields.subject_name);
-        if (fields.subject_name) {
-            db.query(`insert into ${Subjects.tableName} set ?`, { userId: user.id, email: user.email, subject: fields.subject_name }, (err, results, fields) => {
+        if (fields.curr_responsibility) {
+            db.query(`insert into ${currResponsibility.tableName} set ?`, { userId: user.id, email: user.email, curr_responsibility: fields.curr_responsibility }, (err, results, fields) => {
                 if (err) {
                     console.log(err);
                     res.send(err)

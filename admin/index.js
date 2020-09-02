@@ -63,4 +63,17 @@ router.use('/faculty-management', facManagementRouter)
 const addSubject = require("./routes/faculty-data/addsubject")
 router.use('/addsubject', addSubject)
 
+const memberships = require("./routes/faculty-data/add_memberships")
+router.use('/memberships', memberships)
+
+const education = require("./routes/faculty-data/add_education")
+router.use('/education', education)
+
+const currResponsibility = require("./routes/faculty-data/add_curr_responsibility")
+router.use('/currResponsibility', currResponsibility)
+
+const pastResponsibility = require("./routes/faculty-data/add_past_responsibility")
+router.use('/pastResponsibility', pastResponsibility)
+
+
 module.exports = router
