@@ -46,10 +46,10 @@ function getUser(authorizationCode, callback) {
                 // };
 
                 // will be used for database based user role
-                db.find({email: profile.data.email}, User.tableName)
+                db.find({ email: profile.data.email }, User.tableName)
                     .then(results => {
                         const user = results[0];
-                        user.imgUrl = '/profile/image?id='+user.id
+                        user.imgUrl = '/profile/image?id=' + user.id
                         console.log(user)
                         callback(null, user)
                     })
@@ -80,7 +80,7 @@ router.get('/oauth2callback', function(req, res, next) {
     const FACULTY = 3
     getUser(req.query.code, function(err, user) {
         if (err) return next(err);
-        
+
         req.session.isAdmin = "false";
         if (user.role == ADMIN) {
             Navbar = [{
@@ -99,16 +99,15 @@ router.get('/oauth2callback', function(req, res, next) {
                 link: '/faculty-management',
                 title: 'Faculty Management',
                 id: 'fac-management'
-            }
-            ]
+            }]
 
             req.session.Navbar = Navbar;
             req.session.isAdmin = "true";
             // console.log(mainAdmin);
-        } else if(user.role == HOD) {
-            
-            
-                Navbar = [{
+        } else if (user.role == HOD) {
+
+
+            Navbar = [{
                 link: '/notices',
                 title: 'Notices',
                 id: "notices"
@@ -122,23 +121,21 @@ router.get('/oauth2callback', function(req, res, next) {
                 id: 'profile'
             }]
             req.session.Navbar = Navbar;
-            
 
-        }
-        else if(user.role == FACULTY) {
+
+        } else if (user.role == FACULTY) {
             Navbar = [{
                 link: '/profile',
                 title: 'Faculty Profile',
                 id: 'profile'
             }]
             req.session.Navbar = Navbar;
-        }
-        else {
+        } else {
             res.send("Sorry, You don't have access")
-        } 
+        }
         req.session.user = user;
         res.redirect('/');
-        
+
     });
 });
 

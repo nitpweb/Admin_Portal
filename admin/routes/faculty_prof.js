@@ -5,8 +5,8 @@ const db = require('../../db');
 const User = require('../../models/user');
 const Image = require('../../models/image');
 const { update } = require('../../db');
-// const bodyParser = require('body-parser')
-// router.use(bodyParser.urlencoded({ extended: true }))
+const bodyParser = require('body-parser')
+router.use(bodyParser.urlencoded({ extended: true }))
 
 router.get('/', (req, res) => {
     var user = req.session.user;
@@ -33,51 +33,48 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
     const id = req.session.user.id
     const user = req.session.user
-    // console.log(id);
     let form = new formidable.IncomingForm()
     form.parse(req, (err, fields, files) => {
         if (err) {
             console.log(err);
-            res.json(err)
+            res.json("parsing error")
         }
-        console.log(Image.tableName)
-        
-
-        db.query(`update ${User.tableName} set research_interest='${fields.research_interests}' where id=${id};`, (err, results, fields) => {
-            if (err) {
-                console.log(err)
-                // res.json(err)
-            }
-        })
-        
-        if(files.profile_img.path) {
+        if (fields.research_interests) {
+            user.research_interest = fields.research_interests
+            db.query(`update ${User.tableName} set research_interest='${fields.research_interests}' where id=${id};`, (err, results, fields) => {
+                if (err) {
+                    console.log(err)
+                    // res.json(err)
+                }
+            })
+        }
+        if (files.profile_img.path) {
             const image = fs.readFileSync(files.profile_img.path)
 
-            db.find({user_id: user.id}, Image.tableName)
-            .then(results => {
-                // console.log(results)
-                let query, data ={
-                    image: image
-                };
-                if(results) {
-                    query = `update ${Image.tableName} set ? where user_id=${user.id}`
-                }
-                else {
-                    query = `insert into ${Image.tableName} set ?`
-                    data.user_id = user.id
-                    data.email = user.email
-                }
-                db.query(query, data, (err, results, fields) => {
-                    if(err) {
-                        console.log('err', err)
-                        return
+            db.find({ user_id: user.id }, Image.tableName)
+                .then(results => {
+                    // console.log(results)
+                    let query, data = {
+                        image: image
+                    };
+                    if (results) {
+                        query = `update ${Image.tableName} set ? where user_id=${user.id}`
+                    } else {
+                        query = `insert into ${Image.tableName} set ?`
+                        data.user_id = user.id
+                        data.email = user.email
                     }
-                    res.redirect('/profile')
+                    db.query(query, data, (err, results, fields) => {
+                        if (err) {
+                            console.log('err', err)
+                            return
+                        }
+                        res.redirect('/profile')
+                    })
                 })
-            })
-            .catch(err => {
-                console.log(err)
-            })
+                .catch(err => {
+                    console.log(err)
+                })
         }
 
     })

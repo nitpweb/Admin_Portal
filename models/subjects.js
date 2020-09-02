@@ -5,18 +5,18 @@ class Subjects {
     /** 
      * @param {number} name
      * @param {string} email
-     * @param {string} subjectName
+     * @param {string} imgUrl
      */
-    constructor(userId, email, subjectName) {
+    constructor(userId, email, imgUrl) {
         this.userId = userId
         this.email = email || ''
-        this.subjectName = subjectName
+        this.imgUrl = imgUrl || ''
     }
     /**
      * @private
      */
     static get tableName() {
-        return 'subjects_teaching_in_department'
+        return 'subjects_teaching'
     }
 
     /**
@@ -25,32 +25,16 @@ class Subjects {
     static createTable() {
         const query = `
             CREATE TABLE ${Subjects.tableName} (
-                s_no NOT NULL AUTO_INCREMENT,
+                s_no int NOT NULL AUTO_INCREMENT,
                 email varchar(100),
                 userId int NOT NULL,
                 subject text NOT NULL,
                 PRIMARY KEY(s_no)
-                UNIQUE KEY (email)
-                FOREIGN KEY(userId) REFERENCES ${User.tableName}(id)
             )AUTO_INCREMENT=1;
         `
         return db.createTable(this.tableName, query)
     }
 
-    static create(subject) {
-        const query = `
-             INSERT INTO ${Subjects.tableName} SET ?;
-        `
-        return new Promise((res, rej) => {
-            db.query(query, subject, (err, results, fields) => {
-                if (err) {
-                    console.log(err)
-                    rej(err)
-                }
-            })
-            res(results)
-        })
-    }
 }
 
 Subjects.createTable()

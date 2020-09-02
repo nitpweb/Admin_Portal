@@ -60,4 +60,7 @@ router.use('/uploadBib', uploadBib)
 const facManagementRouter = require('./routes/faculty-management')
 router.use('/faculty-management', facManagementRouter)
 
+const addSubject = require("./routes/faculty-data/addsubject")
+router.use('/addsubject', addSubject)
+
 module.exports = router
