@@ -20,7 +20,6 @@ router.get('/', async (req, res) => {
         var services = await Services.getProfessionalService(user.email)
         var works = await Work.getWorkExperience(user.email)
         var phd = await Phd.getPhdCandidates(user.email)
-        console.log(phd);
         if (user != undefined) {
             res.render('facultyprof', {
                 title_top: 'faculty Profile',
