@@ -1,15 +1,15 @@
 const db = require('../db')
 
 class Project {
-    constructor(){
-        
+    constructor() {
+
     }
 
-    static get tableName(){
+    static get tableName() {
         return 'Project';
     }
 
-    static createTable(){
+    static createTable() {
         const query = `
         CREATE TABLE ${Project.tableName} (
             s_no int NOT NULL AUTO_INCREMENT,
@@ -20,6 +20,17 @@ class Project {
         )AUTO_INCREMENT=1;
         `
         return db.createTable(this.tableName, query);
+    }
+    static getProjects(email) {
+        return new Promise((res, rej) => {
+            db.find({ emailId: email }, this.tableName)
+                .then(results => {
+                    res(results)
+                })
+                .catch(err => {
+                    rej(err)
+                })
+        })
     }
 }
 

@@ -5,55 +5,48 @@ const db = require('../../db');
 const User = require('../../models/user');
 const Subject = require('../../models/subjects');
 const Membership = require('../../models/memberships');
-const Qualification = require('../../models/education');
 const Administration = require('../../models/current-responsibility');
 const Lastreponsibility = require('../../models/past-responsibility');
 const Image = require('../../models/image');
-const { update } = require('../../db');
-const bodyParser = require('body-parser')
-router.use(bodyParser.urlencoded({ extended: true }))
+const Education = require('../../models/education')
+const Projects = require('../../models/newproject')
+const Phd = require('../../models/phdcandidates')
+const Services = require('../../models/professionalservice')
+const Work = require('../../models/workexperience')
 
-let subjects = [];
-let memberships = [];
-let qualification = [];
-let administration = [];
-let lastreponsibility = [];
- 
-router.get('/',async(req, res) => {
-    try{
+router.get('/', async (req, res) => {
+    try {
         var user = req.session.user;
-    if (user != undefined) {
-        subjects = await Subject.getSubjects(user.email);
-        memberships = await Membership.getMemberships(user.email);
-        qualification = await Qualification.getQualification(user.email);
-        administration = await Administration.getAdministration(user.email);
-        lastreponsibility = await Lastreponsibility.getReponsibility(user.email);
-
-        res.render('facultyprof', {
-            title_top: 'faculty Profile',
-            user: {
-                imgUrl: user.imgUrl,
-                name: user.name,
-                email: user.email,
-                department: user.department,
-                designation: user.designation,
-                ext_no: user.ext_no,
-                research_interest: user.research_interest
-            },
-            Navbar: req.session.Navbar,
-            Drive: req.session.isAdmin,
-
-
-        })
-        console.log(subjects);
-        console.log(memberships);
-        console.log(qualification);
-    } else {
-        res.redirect("/login")
-    }
-    }
-    catch(err){
-        console.log(err);
+        var subjects = await Subject.getSubjects(user.email);
+        var memberships = await Membership.getMemberships(user.email);
+        var qualification = await Education.getQualification(user.email);
+        var administration = await Administration.getAdministration(user.email);
+        var lastreponsibility = await Lastreponsibility.getReponsibility(user.email);
+        var projects = await Projects.getProjects(user.email);
+        var services = await Services.getProfessionalService(user.email);
+        var works = await Work.getWorkExperience(user.email);
+        var phd = await Phd.getPhdCandidates(user.email);
+        console.log(phd);
+        if (user != undefined) {
+            res.render('facultyprof', {
+                title_top: 'faculty Profile',
+                user: {
+                    imgUrl: user.imgUrl,
+                    name: user.name,
+                    email: user.email,
+                    department: user.department,
+                    designation: user.designation,
+                    ext_no: user.ext_no,
+                    research_interest: user.research_interest
+                },
+                Navbar: req.session.Navbar,
+                Drive: req.session.isAdmin
+            })
+        } else {
+            res.redirect("/login")
+        }
+    } catch (err) {
+        res.send(err)
     }
 });
 

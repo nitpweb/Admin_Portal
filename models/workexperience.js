@@ -1,15 +1,15 @@
 const db = require('../db')
 
 class Workexpreience {
-    constructor(){
+    constructor() {
         /** Not required i.e. why empty */
     }
 
-    static get tableName(){
+    static get tableName() {
         return 'Work_Experience';
     }
 
-    static createTable(){
+    static createTable() {
         const query = `
         CREATE TABLE ${Workexpreience.tableName} (
             s_no int NOT NULL AUTO_INCREMENT,
@@ -20,6 +20,17 @@ class Workexpreience {
         )AUTO_INCREMENT=1;
         `
         return db.createTable(this.tableName, query);
+    }
+    static getWorkExperience(email) {
+        return new Promise((res, rej) => {
+            db.find({ emailId: email }, this.tableName)
+                .then(results => {
+                    res(results)
+                })
+                .catch(err => {
+                    rej(err)
+                })
+        })
     }
 }
 
