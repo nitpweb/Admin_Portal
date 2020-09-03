@@ -2,7 +2,7 @@ const router = require('express').Router()
 var formidable = require('formidable');
 var fs = require('fs');
 const db = require('../../db');
-const request = require('request')
+const request = require('request-promise')
 const User = require('../../models/user');
 const Subject = require('../../models/subjects');
 const Membership = require('../../models/memberships');
@@ -47,25 +47,20 @@ router.get('/', async (req, res) => {
         var phd = await Phd.getPhdCandidates(user.email);
         var fileId = await Publications.getFileId(user.email)
         let url = `https://drive.google.com/uc?id=${fileId}&export=download`
+        var data = await request.get(url)
+        var publications = bibParser.toJSON(data)
+        removeSpecial(publications)
         var books = [],
             journals = [],
             conferences = []
-        request.get(url, (err, response, body) => {
-            if (!err && response.statusCode == 200) {
-                bib = bibParser.toJSON(body)
-                removeSpecial(bib)
-                bib.forEach(entry => {
-                    if (entry.entryType === "INPROCEEDINGS") conferences.push(entry)
-                    else if (entry.entryType === "ARTICLE") journals.push(entry)
-                    else if (entry.entryType === "BOOKS") books.push(entry)
-                })
-                sortByYear(books)
-                sortByYear(journals)
-                sortByYear(conferences)
-            } else {
-                res.json(err)
-            }
+        publications.forEach(entry => {
+            if (entry.entryType === "INPROCEEDINGS") conferences.push(entry)
+            else if (entry.entryType === "ARTICLE") journals.push(entry)
+            else if (entry.entryType === "BOOKS") books.push(entry)
         })
+        sortByYear(books)
+        sortByYear(journals)
+        sortByYear(conferences)
         if (user != undefined) {
             res.render('facultyprof', {
                 title_top: 'faculty Profile',
@@ -88,7 +83,10 @@ router.get('/', async (req, res) => {
                 projects: projects,
                 services: services,
                 works: works,
-                phd: phd
+                phd: phd,
+                books: books,
+                journals: journals,
+                conferences: conferences
             })
         } else {
             res.redirect("/login")

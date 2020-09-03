@@ -36,28 +36,8 @@ router.post("/", (req, res) => {
                     res.json({ fields, results })
                 }))
             }
+            res.redirect('/profile')
         })
-        // fs.readFile(file.path, { encoding: "utf8" }, (err, data) => {
-        //     if (!err) {
-        //         var bib = bibParser.toJSON(data)
-        //         removeSpecial(bib)
-        //         var books = [],
-        //             journals = [],
-        //             conferences = []
-        //         bib.forEach(entry => {
-        //             if (entry.entryType === "INPROCEEDINGS") conferences.push(entry)
-        //             else if (entry.entryType === "ARTICLE") journals.push(entry)
-        //             else if (entry.entryType === "BOOKS") books.push(entry)
-        //         })
-        //         sortByYear(books)
-        //         sortByYear(journals)
-        //         sortByYear(conferences)
-        //         res.json(journals)
-        //     } else {
-        //         console.log(err);
-        //     }
-        // })
-        // res.redirect("/profile")
     })
 })
 module.exports = router
