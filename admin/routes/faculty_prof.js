@@ -2,6 +2,7 @@ const router = require('express').Router()
 var formidable = require('formidable');
 var fs = require('fs');
 const db = require('../../db');
+const request = require('request')
 const User = require('../../models/user');
 const Subject = require('../../models/subjects');
 const Membership = require('../../models/memberships');
@@ -13,6 +14,24 @@ const Projects = require('../../models/newproject')
 const Phd = require('../../models/phdcandidates')
 const Services = require('../../models/professionalservice')
 const Work = require('../../models/workexperience')
+const Publications = require('../../models/publications')
+const bibParser = require('../middleware/bibParser')
+
+/*remove special character from bib data*/
+function removeSpecial(params) {
+    params.forEach(entry => {
+        var newTags = entry.entryTags
+        for (let key in newTags) {
+            newTags[key] = newTags[key].replace(/{/g, "").replace(/}/g, "").replace(/\\/g, "").replace(/[\u{0080}-\u{FFFF}]/gu, "\"")
+        }
+    })
+}
+/* sort entries by year*/
+function sortByYear(params) {
+    params.sort(function(a, b) {
+        return b.entryTags.YEAR - a.entryTags.YEAR
+    })
+}
 
 router.get('/', async (req, res) => {
     try {
@@ -26,6 +45,27 @@ router.get('/', async (req, res) => {
         var services = await Services.getProfessionalService(user.email);
         var works = await Work.getWorkExperience(user.email);
         var phd = await Phd.getPhdCandidates(user.email);
+        var fileId = await Publications.getFileId(user.email)
+        let url = `https://drive.google.com/uc?id=${fileId}&export=download`
+        var books = [],
+            journals = [],
+            conferences = []
+        request.get(url, (err, response, body) => {
+            if (!err && response.statusCode == 200) {
+                bib = bibParser.toJSON(body)
+                removeSpecial(bib)
+                bib.forEach(entry => {
+                    if (entry.entryType === "INPROCEEDINGS") conferences.push(entry)
+                    else if (entry.entryType === "ARTICLE") journals.push(entry)
+                    else if (entry.entryType === "BOOKS") books.push(entry)
+                })
+                sortByYear(books)
+                sortByYear(journals)
+                sortByYear(conferences)
+            } else {
+                res.json(err)
+            }
+        })
         if (user != undefined) {
             res.render('facultyprof', {
                 title_top: 'faculty Profile',

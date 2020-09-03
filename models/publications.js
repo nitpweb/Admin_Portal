@@ -37,6 +37,19 @@ class Publications {
         `
         return db.createTable(this.tableName, query)
     }
+
+    static getFileId(email) {
+        return new Promise((res, rej) => {
+            db.find({ email: email }, this.tableName)
+                .then(results => {
+                    const fileId = results[0].publication_id
+                    res(fileId)
+                })
+                .catch(err => {
+                    res.json(err)
+                })
+        })
+    }
 }
 Publications.createTable()
 

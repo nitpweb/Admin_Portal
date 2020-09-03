@@ -33,19 +33,6 @@ class Subjects {
         `
         return db.createTable(this.tableName, query)
     }
-    static getSubjects(email){
-        return new Promise((res,rej) =>{
-            db.find({email: email}, this.tableName)
-            .then(results => {
-                res(results)
-            })
-            .catch(err =>{
-                rej(err)
-            });
-        });
-    }
-
-
     static getSubjects(email) {
         return new Promise((res, rej) => {
             db.find({ email: email }, this.tableName)
@@ -54,8 +41,8 @@ class Subjects {
                 })
                 .catch(err => {
                     rej(err)
-                })
-        })
+                });
+        });
     }
 }
 Subjects.createTable()
