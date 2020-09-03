@@ -34,6 +34,17 @@ class Curr_Responsibility {
         `
         return db.createTable(this.tableName, query)
     }
+    static getAdministration(email){
+        return new Promise((res,rej) =>{
+            db.find({email: email}, this.tableName)
+            .then(results => {
+                res(results)
+            })
+            .catch(err =>{
+                rej(err)
+            });
+        });
+    }
 
 }
 

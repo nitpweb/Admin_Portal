@@ -3,14 +3,32 @@ var formidable = require('formidable');
 var fs = require('fs');
 const db = require('../../db');
 const User = require('../../models/user');
+const Subject = require('../../models/subjects');
+const Membership = require('../../models/memberships');
+const Qualification = require('../../models/education');
+const Administration = require('../../models/current-responsibility');
+const Lastreponsibility = require('../../models/past-responsibility');
 const Image = require('../../models/image');
 const { update } = require('../../db');
 const bodyParser = require('body-parser')
 router.use(bodyParser.urlencoded({ extended: true }))
 
-router.get('/', (req, res) => {
-    var user = req.session.user;
+let subjects = [];
+let memberships = [];
+let qualification = [];
+let administration = [];
+let lastreponsibility = [];
+ 
+router.get('/',async(req, res) => {
+    try{
+        var user = req.session.user;
     if (user != undefined) {
+        subjects = await Subject.getSubjects(user.email);
+        memberships = await Membership.getMemberships(user.email);
+        qualification = await Qualification.getQualification(user.email);
+        administration = await Administration.getAdministration(user.email);
+        lastreponsibility = await Lastreponsibility.getReponsibility(user.email);
+
         res.render('facultyprof', {
             title_top: 'faculty Profile',
             user: {
@@ -23,12 +41,21 @@ router.get('/', (req, res) => {
                 research_interest: user.research_interest
             },
             Navbar: req.session.Navbar,
-            Drive: req.session.isAdmin
+            Drive: req.session.isAdmin,
+
+
         })
+        console.log(subjects);
+        console.log(memberships);
+        console.log(qualification);
     } else {
         res.redirect("/login")
     }
-})
+    }
+    catch(err){
+        console.log(err);
+    }
+});
 
 router.post('/', (req, res) => {
     const id = req.session.user.id
