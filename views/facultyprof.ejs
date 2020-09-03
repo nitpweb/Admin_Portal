@@ -206,6 +206,15 @@
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Subjects Teaching in Department</span>
+                        <% if(subjects != null) {%>
+                            <ul>
+                                <%subjects.forEach((item) => {%>
+                                <li><span class="col s9"><span> - </span><%=item.subject%></span><span class="col s3"><a class="waves-teal waves-effect"href="#"><i class="fa fa-trash fa-sm"></i></a></span></li>  
+                                <%});%>
+                            </ul>
+                        <%} else {%>
+                            <p style="font-size:medium;">None</p>
+                        <%} %>
                     </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal2" style="font-size:medium;">Add<i class="fa fa-plus fa-sm "></i></a>
@@ -214,7 +223,22 @@
             </div>
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Memberships & Society</span></div>
+                    <div class="col s11"><span style="font-weight:bold;">Memberships & Society</span>
+                        <% if(memberships != null) {%>
+                            <ul>
+                                <li>
+                                    <span class="col s6" style="font-weight:bold;">Society Name</span><span class="col s4" style="font-weight:bold;">Membership ID</span><span class="col s2">  </span></li>
+                                </li>
+                            </ul>
+                            <ul>
+                                <%memberships.forEach((item) => {%>
+                                <li><span class="col s6"><%=item.membership_society%></span><span class="col s4"><%=item.membership_id%></span><span class="col s2"><a class="waves-teal waves-effect"href="#"><i class="fa fa-trash fa-sm"></i></a></span></li>  
+                                <%});%>
+                            </ul>
+                        <%} else {%>
+                            <p style="font-size:medium;">None</p>
+                        <%} %>
+                    </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal3" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
                     </div>
@@ -222,7 +246,24 @@
             </div>
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Educational Qualification</span></div>
+                    <div class="col s11"><span style="font-weight:bold;">Educational Qualification</span>
+                    
+                    <% if(qualification != null) {%>
+                        <ul>
+                            <li>
+                                <span class="col s3" style="font-weight:bold;">Certification</span><span class="col s5" style="font-weight:bold;">Institute Name</span><span class="col s2" style="font-weight:bold;">Passing Year</span><span class="col s2">   </span></li>
+                            </li>
+                        </ul>
+                        <ul>
+                            <%qualification.forEach((item) => {%>
+                            <li><span class="col s3"><%=item.certification%></span><span class="col s5"><%=item.institution%></span><span class="col s2"><%=item.passing_year%></span><span class="col s2"><a class="waves-teal waves-effect" href="#"><i class="fa fa-trash fa-sm"></i></a></span></li>  
+                            <%});%>
+                        </ul>
+                    <%} else {%>
+                        <p style="font-size:medium;">None</p>
+                    <%} %>
+                    
+                    </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal4" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
                     </div>
@@ -230,7 +271,18 @@
             </div>
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Current Administrative Responsibility</span></div>
+                    <div class="col s11"><span style="font-weight:bold;">Current Administrative Responsibility</span>
+                        <% if(administration != null) {%>
+
+                            <ul>
+                                <%administration.forEach((item) => {%>
+                                <li><span class="col s9"><%=item.curr_responsibility%></span><span class="col s3"><a class="waves-teal waves-effect" href="#"><i class="fa fa-trash fa-sm"></i></a></span></li>  
+                                <%});%>
+                            </ul>
+                        <%} else {%>
+                            <p style="font-size:medium;">None</p>
+                        <%} %>
+                    </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal5" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
                     </div>
@@ -238,7 +290,17 @@
             </div>
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Past Administrative Responsibility</span></div>
+                    <div class="col s11"><span style="font-weight:bold;">Past Administrative Responsibility</span>
+                        <% if(lastreponsibility != null) {%>
+                            <ul>
+                                <%lastreponsibility.forEach((item) => {%>
+                                <li><span class="col s9"><%=item.past_responsibility%></span><span class="col s3"><a class="waves-teal waves-effect" href="#"><i class="fa fa-trash fa-sm"></i></a></span></li>  
+                                <%});%>
+                            </ul>
+                        <%} else {%>
+                            <p style="font-size:medium;">None</p>
+                        <%} %>
+                    </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal6" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
                     </div>
