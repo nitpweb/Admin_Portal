@@ -18,7 +18,6 @@ class Subjects {
     static get tableName() {
         return 'subjects_teaching'
     }
-
     /**
      * @returns {Promise<Object>}
      */
@@ -34,6 +33,18 @@ class Subjects {
         `
         return db.createTable(this.tableName, query)
     }
+    static getSubjects(email){
+        return new Promise((res,rej) =>{
+            db.find({email: email}, this.tableName)
+            .then(results => {
+                res(results)
+            })
+            .catch(err =>{
+                rej(err)
+            });
+        });
+    }
+
 
     static getSubjects(email) {
         return new Promise((res, rej) => {

@@ -35,6 +35,18 @@ class Memberships {
         return db.createTable(this.tableName, query)
     }
 
+    static getMemberships(email){
+        return new Promise((res,rej) =>{
+            db.find({email: email}, this.tableName)
+            .then(results => {
+                res(results)
+            })
+            .catch(err =>{
+                rej(err)
+            });
+        });
+    }
+
 }
 
 Memberships.createTable()

@@ -3,10 +3,12 @@ var formidable = require('formidable');
 var fs = require('fs');
 const db = require('../../db');
 const User = require('../../models/user');
+const Subject = require('../../models/subjects');
+const Membership = require('../../models/memberships');
+const Administration = require('../../models/current-responsibility');
+const Lastreponsibility = require('../../models/past-responsibility');
 const Image = require('../../models/image');
-const Subjects = require('../../models/subjects')
 const Education = require('../../models/education')
-const Memberships = require('../../models/memberships');
 const Projects = require('../../models/newproject')
 const Phd = require('../../models/phdcandidates')
 const Services = require('../../models/professionalservice')
@@ -15,11 +17,15 @@ const Work = require('../../models/workexperience')
 router.get('/', async (req, res) => {
     try {
         var user = req.session.user;
-        var subjects = await Subjects.getSubjects(user.email)
-        var projects = await Projects.getProjects(user.email)
-        var services = await Services.getProfessionalService(user.email)
-        var works = await Work.getWorkExperience(user.email)
-        var phd = await Phd.getPhdCandidates(user.email)
+        var subjects = await Subject.getSubjects(user.email);
+        var memberships = await Membership.getMemberships(user.email);
+        var qualification = await Education.getQualification(user.email);
+        var administration = await Administration.getAdministration(user.email);
+        var lastreponsibility = await Lastreponsibility.getReponsibility(user.email);
+        var projects = await Projects.getProjects(user.email);
+        var services = await Services.getProfessionalService(user.email);
+        var works = await Work.getWorkExperience(user.email);
+        var phd = await Phd.getPhdCandidates(user.email);
         if (user != undefined) {
             res.render('facultyprof', {
                 title_top: 'faculty Profile',
@@ -33,7 +39,16 @@ router.get('/', async (req, res) => {
                     research_interest: user.research_interest
                 },
                 Navbar: req.session.Navbar,
-                Drive: req.session.isAdmin
+                Drive: req.session.isAdmin,
+                subjects: subjects,
+                memberships: memberships,
+                qualification: qualification,
+                administration: administration,
+                lastreponsibility: lastreponsibility,
+                projects: projects,
+                services: services,
+                works: works,
+                phd: phd
             })
         } else {
             res.redirect("/login")
@@ -41,7 +56,7 @@ router.get('/', async (req, res) => {
     } catch (err) {
         res.send(err)
     }
-})
+});
 
 router.post('/', (req, res) => {
     const id = req.session.user.id

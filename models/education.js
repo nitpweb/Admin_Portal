@@ -36,7 +36,17 @@ class Education {
         `
         return db.createTable(this.tableName, query)
     }
-
+    static getQualification(email){
+        return new Promise((res,rej) =>{
+            db.find({email: email}, this.tableName)
+            .then(results => {
+                res(results)
+            })
+            .catch(err =>{
+                rej(err)
+            });
+        });
+    }
 }
 
 Education.createTable()
