@@ -308,7 +308,15 @@
             </div>
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Work Experiences</span></div>
+                    <div class="col s11"><span style="font-weight:bold;">Work Experiences</span>
+                        <ul style="margin-left: 10px;">
+                            <% var ittr=1%>
+                            <% for(let work of works){ %>
+                            <li><span><%= ittr %>.</span> &nbsp;&nbsp;<span><%= work.work_experiences %></span></li>
+                            <% ittr++ %>
+                            <%}%>
+                        </ul>
+                    </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal7" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
                     </div>
@@ -324,7 +332,15 @@
             </div>
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Professional Services</span></div>
+                    <div class="col s11"><span style="font-weight:bold;">Professional Services</span>
+                        <ul style="margin-left: 10px;">
+                            <% var ittr=1%>
+                            <% for(let service of services){ %>
+                            <li><span><%= ittr %>.</span> &nbsp;&nbsp;<span><%= service.services %></span></li>
+                            <% ittr++ %>
+                            <%}%>
+                        </ul>
+                    </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal9" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
                     </div>
@@ -332,7 +348,15 @@
             </div>
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Projects</span></div>
+                    <div class="col s11"><span style="font-weight:bold;">Projects</span>
+                        <ul style="margin-left: 10px;">
+                            <% var ittr=1%>
+                            <% for(let project of projects){ %>
+                            <li><span><%= ittr %>.</span> &nbsp;&nbsp;<span><%= project.project %></span></li>
+                            <% ittr++ %>
+                            <%}%>
+                        </ul>
+                    </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal10" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
                     </div>
@@ -341,10 +365,29 @@
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Ph.D Candidates</span>
-                    
-                    
-                    
-                    
+                        <div class="row list" style="margin-left: 10px;">
+                            <table class="striped higlight">
+                                <thead>
+                                    <tr>
+                                        <td><b>Name</b></td>
+                                        <td><b>Thesis Name</b></td>
+                                        <td><b>Start Year</b></td>
+                                        <td><b>Completion Year</b></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for(let candidate of phd){%>
+                            <% console.log(candidate.phd_student_name) %>
+                            <tr>
+                                <td><%= candidate.phd_student_name %></td>
+                                <td><%= candidate.thesis_topic %></td>
+                                <td><%= candidate.start_year %></td>
+                                <td><%= candidate.completion_year %></td>
+                            </tr>
+                            <%}%>
+                                 </tbody>
+                             </table>
+                       </div>                     
                     </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal11" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
@@ -358,8 +401,8 @@
     listitem.classList.add('active')
 </script>
 <%- include('partials/footer') -%>
-<script>
-    $(document).ready(function() {
-        $(".modal").modal();
-    });
-</script>
+                            <script>
+                                $(document).ready(function() {
+                                    $(".modal").modal();
+                                });
+                            </script>
