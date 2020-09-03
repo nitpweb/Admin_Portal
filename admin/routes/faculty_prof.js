@@ -4,29 +4,43 @@ var fs = require('fs');
 const db = require('../../db');
 const User = require('../../models/user');
 const Image = require('../../models/image');
-const { update } = require('../../db');
-const bodyParser = require('body-parser')
-router.use(bodyParser.urlencoded({ extended: true }))
+const Subjects = require('../../models/subjects')
+const Education = require('../../models/education')
+const Memberships = require('../../models/memberships');
+const Projects = require('../../models/newproject')
+const Phd = require('../../models/phdcandidates')
+const Services = require('../../models/professionalservice')
+const Work = require('../../models/workexperience')
 
-router.get('/', (req, res) => {
-    var user = req.session.user;
-    if (user != undefined) {
-        res.render('facultyprof', {
-            title_top: 'faculty Profile',
-            user: {
-                imgUrl: user.imgUrl,
-                name: user.name,
-                email: user.email,
-                department: user.department,
-                designation: user.designation,
-                ext_no: user.ext_no,
-                research_interest: user.research_interest
-            },
-            Navbar: req.session.Navbar,
-            Drive: req.session.isAdmin
-        })
-    } else {
-        res.redirect("/login")
+router.get('/', async (req, res) => {
+    try {
+        var user = req.session.user;
+        var subjects = await Subjects.getSubjects(user.email)
+        var projects = await Projects.getProjects(user.email)
+        var services = await Services.getProfessionalService(user.email)
+        var works = await Work.getWorkExperience(user.email)
+        var phd = await Phd.getPhdCandidates(user.email)
+        console.log(phd);
+        if (user != undefined) {
+            res.render('facultyprof', {
+                title_top: 'faculty Profile',
+                user: {
+                    imgUrl: user.imgUrl,
+                    name: user.name,
+                    email: user.email,
+                    department: user.department,
+                    designation: user.designation,
+                    ext_no: user.ext_no,
+                    research_interest: user.research_interest
+                },
+                Navbar: req.session.Navbar,
+                Drive: req.session.isAdmin
+            })
+        } else {
+            res.redirect("/login")
+        }
+    } catch (err) {
+        res.send(err)
     }
 })
 
