@@ -64,36 +64,32 @@ router.get('/', async (req, res) => {
             sortByYear(journals)
             sortByYear(conferences)
         }
-        if (user != undefined) {
-            res.render('facultyprof', {
-                title_top: 'faculty Profile',
-                user: {
-                    imgUrl: user.imgUrl,
-                    name: user.name,
-                    email: user.email,
-                    department: user.department,
-                    designation: user.designation,
-                    ext_no: user.ext_no,
-                    research_interest: user.research_interest
-                },
-                Navbar: req.session.Navbar,
-                Drive: req.session.isAdmin,
-                subjects: subjects,
-                memberships: memberships,
-                qualification: qualification,
-                administration: administration,
-                lastreponsibility: lastreponsibility,
-                projects: projects,
-                services: services,
-                works: works,
-                phd: phd,
-                books: books,
-                journals: journals,
-                conferences: conferences
-            })
-        } else {
-            res.redirect("/login")
-        }
+        res.render('facultyprof', {
+            title_top: 'faculty Profile',
+            user: {
+                imgUrl: user.imgUrl,
+                name: user.name,
+                email: user.email,
+                department: user.department,
+                designation: user.designation,
+                ext_no: user.ext_no,
+                research_interest: user.research_interest
+            },
+            Navbar: req.session.Navbar,
+            Drive: req.session.isAdmin,
+            subjects: subjects,
+            memberships: memberships,
+            qualification: qualification,
+            administration: administration,
+            lastreponsibility: lastreponsibility,
+            projects: projects,
+            services: services,
+            works: works,
+            phd: phd,
+            books: books,
+            journals: journals,
+            conferences: conferences
+        })
     } catch (err) {
         // res.send(err)
         console.log(err);

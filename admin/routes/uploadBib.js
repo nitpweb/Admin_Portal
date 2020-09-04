@@ -34,7 +34,6 @@ router.post("/", (req, res) => {
                         console.log(err);
                         res.json(err)
                     }
-                    res.json({ fields, results })
                     res.redirect('/profile')
                 }))
             }

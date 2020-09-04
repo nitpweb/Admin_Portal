@@ -65,7 +65,7 @@
         <div class="modal-content">
             <h4>Edit Profile</h4>
             <form action="/profile" method="POST" enctype="multipart/form-data" id="change_profile">
-                <label>Research Interests</label><textarea name="research_interests" cols="30" rows="10"></textarea>
+                <label>Research Interests</label><textarea name="research_interests" cols="30" rows="10" value="<%= user.research_interest%>"></textarea>
                 <div class="file-field input-field">
                     <div class="btn">
                         <span>Choose Image</span>
@@ -338,10 +338,10 @@
                     <div class="col s11"><span style="font-weight:bold;">Work Experiences</span>
                         <ul style="margin-left: 10px;">
                             <% var ittr=1%>
-                            <% for(let work of works){ %>
+                            <% works.forEach(work=>{ %>
                             <li><span><%= ittr %>.</span> &nbsp;&nbsp;<span><%= work.work_experiences %></span></li>
                             <% ittr++ %>
-                            <%}%>
+                            <%})%>
                         </ul>
                     </div>
                     <div class="col s1 add">
@@ -353,62 +353,62 @@
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Add Bib File</span>
                         <% if(books.length!=0){%>
-                            <div class="bib books">
-                                <div class="header"><span style="font-weight:bold;">Books</span></div>
-                                <ol>
-                                    <% books.forEach(entry=>{%>
-                                    <li>
-                                        <div class="entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
-                                            <span class="title"><b>"<%= entry.entryTags.TITLE %>"</b></span>,
-                                            <span class="publisher"><b><%= entry.entryTags.PUBLISHER %></b></span>,
-                                            <% if(entry.entryTags.ADDRESS){%>
-                                            <span class="address"><%=entry.entryTags.ADDRESS %>-</span><%}%>
-                                            <span class="year"><%= entry.entryTags.YEAR %></span></div>
-                                    </li>
-                                    <%})%>
-                                </ol>
-                            </div>
-                            <%}%>
-                            <% if(journals.length!=0){%>
-                            <div class="bib journals">
-                                <div class="header"><span style="font-weight:bold;">Journals</span></div>
-                                <ol>
-                                    <% journals.forEach(entry=>{%>
-                                    <li>
-                                        <div class=" entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
-                                            <span class="title"><em><%= entry.entryTags.TITLE %></em></span>,
-                                            <span class="journal"><em>"<%= entry.entryTags.JOURNAL %>"</em></span>,
-                                            <% if(entry.entryTags.MONTH){%>
-                                            <span class="month"><%=entry.entryTags.MONTH %>-</span><%}%>
+                        <div class="bib books">
+                            <div class="header"><span style="font-weight:bold;">Books</span></div>
+                            <ol>
+                                <% books.forEach(entry=>{%>
+                                <li>
+                                    <div class="entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
+                                        <span class="title"><b>"<%= entry.entryTags.TITLE %>"</b></span>,
+                                        <span class="publisher"><b><%= entry.entryTags.PUBLISHER %></b></span>,
+                                        <% if(entry.entryTags.ADDRESS){%>
+                                        <span class="address"><%=entry.entryTags.ADDRESS %>-</span><%}%>
+                                        <span class="year"><%= entry.entryTags.YEAR %></span></div>
+                                </li>
+                                <%})%>
+                            </ol>
+                        </div>
+                        <%}%>
+                        <% if(journals.length!=0){%>
+                        <div class="bib journals">
+                            <div class="header"><span style="font-weight:bold;">Journals</span></div>
+                            <ol>
+                                <% journals.forEach(entry=>{%>
+                                <li>
+                                    <div class=" entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
+                                        <span class="title"><em><%= entry.entryTags.TITLE %></em></span>,
+                                        <span class="journal"><em>"<%= entry.entryTags.JOURNAL %>"</em></span>,
+                                        <% if(entry.entryTags.MONTH){%>
+                                        <span class="month"><%=entry.entryTags.MONTH %>-</span><%}%>
                                             <span class="year"><%= entry.entryTags.YEAR %></span>,
-                                            <span class="pages">p.<%= entry.entryTags.PAGES %></span><br>
-                                            <% if(entry.entryTags.URL){%>
-                                            <span class="url"><a href="<%=entry.entryTags.URL %>">Read more</a></span><%}%></div>
+                                        <span class="pages">p.<%= entry.entryTags.PAGES %></span><br>
+                                        <% if(entry.entryTags.URL){%>
+                                        <span class="url"><a href="<%=entry.entryTags.URL %>">Read more</a></span><%}%></div>
                                     </li>
                                     <%})%>
-                                </ol>
-                            </div>
-                            <%}%>
-                            <% if(conferences.length!=0){%>
-                            <div class="bib conferences">
-                                <div class="header"><span style="font-weight:bold;">Conferences</span></div>
-                                <ol>
-                                    <% conferences.forEach(entry=>{%>
-                                    <li>
-                                        <div class="entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
-                                            <span class="title"><em><%= entry.entryTags.TITLE %></em></span>,
-                                            <span class="booktitle"><em>"<%= entry.entryTags.BOOKTITLE%>"</em></span>,
-                                            <span class="pages">p.<%= entry.entryTags.PAGES %></span>,
-                                            <% if(entry.entryTags.LOCATION){%>
-                                            <span class="location"><%=entry.entryTags.LOCATION %>,</span><%}%>
-                                            <% if(entry.entryTags.MONTH){%>
-                                            <span class="month"><%=entry.entryTags.MONTH %>-</span><%}%>
-                                            <span class="year"><%= entry.entryTags.YEAR %></span></div>
-                                    </li>
-                                    <%})%>
-                                </ol>
-                            </div>
-                            <%}%>
+                            </ol>
+                        </div>
+                        <%}%>
+                        <% if(conferences.length!=0){%>
+                        <div class="bib conferences">
+                            <div class="header"><span style="font-weight:bold;">Conferences</span></div>
+                            <ol>
+                                <% conferences.forEach(entry=>{%>
+                                <li>
+                                    <div class="entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
+                                        <span class="title"><em><%= entry.entryTags.TITLE %></em></span>,
+                                        <span class="booktitle"><em>"<%= entry.entryTags.BOOKTITLE%>"</em></span>,
+                                        <span class="pages">p.<%= entry.entryTags.PAGES %></span>,
+                                        <% if(entry.entryTags.LOCATION){%>
+                                        <span class="location"><%=entry.entryTags.LOCATION %>,</span><%}%>
+                                        <% if(entry.entryTags.MONTH){%>
+                                        <span class="month"><%=entry.entryTags.MONTH %>-</span><%}%>
+                                        <span class="year"><%= entry.entryTags.YEAR %></span></div>
+                                </li>
+                                <%})%>
+                            </ol>
+                        </div>
+                        <%}%>
                     </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal8" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
@@ -418,13 +418,17 @@
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Professional Services</span>
+                        <% if(services !=null){ %>
                         <ul style="margin-left: 10px;">
-                            <% var ittr=1%>
-                            <% for(let service of services){ %>
-                            <li><span><%= ittr %>.</span> &nbsp;&nbsp;<span><%= service.services %></span></li>
+                            <% var ittr=1 %>
+                            <% services.forEach(service=>{ %>
+                            <li><span><%= ittr %>.</span>&nbsp;&nbsp;<span><%= service.services %></span></li>
                             <% ittr++ %>
-                            <%}%>
+                            <%})%>
                         </ul>
+                        <% }else{%>
+                        <p style="font-size: medium;">None</p>
+                        <%}%>
                     </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal9" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
@@ -434,13 +438,17 @@
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Projects</span>
+                        <% if(projects !=null){ %>
                         <ul style="margin-left: 10px;">
-                            <% var ittr=1%>
-                            <% for(let project of projects){ %>
-                            <li><span><%= ittr %>.</span> &nbsp;&nbsp;<span><%= project.project %></span></li>
+                            <% var ittr=1 %>
+                            <% projects.forEach(project=>{ %>
+                            <li><span><%= ittr %>.</span>&nbsp;&nbsp;<span><%= project.project %></span></li>
                             <% ittr++ %>
-                            <%}%>
+                            <%})%>
                         </ul>
+                        <% }else{%>
+                        <p style="font-size: medium;">None</p>
+                        <%}%>
                     </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal10" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
@@ -450,6 +458,7 @@
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Ph.D Candidates</span>
+                        <%if(phd!=null){%>
                         <div class="row list" style="margin-left: 10px;">
                             <table class="striped higlight">
                                 <thead>
@@ -461,18 +470,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% for(let candidate of phd){%>
-                            <% console.log(candidate.phd_student_name) %>
-                            <tr>
-                                <td><%= candidate.phd_student_name %></td>
-                                <td><%= candidate.thesis_topic %></td>
-                                <td><%= candidate.start_year %></td>
-                                <td><%= candidate.completion_year %></td>
-                            </tr>
-                            <%}%>
-                                 </tbody>
-                             </table>
-                       </div>                     
+                                    <%phd.forEach(candidate=>{%>
+                                    <tr>
+                                        <td><%= candidate.phd_student_name %></td>
+                                        <td><%= candidate.thesis_topic %></td>
+                                        <td><%= candidate.start_year %></td>
+                                        <td><%= candidate.completion_year %></td>
+                                    </tr>
+                                    <%})%>
+                                </tbody>
+                            </table>
+                        </div>
+                        <%}else{%>
+                        <p style="font-weight:medium;">None</p>
+                        <%}%>                     
                     </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal11" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
@@ -480,14 +491,15 @@
                 </div>
             </div>
         </div>
+    </div>
 </body>
 <script>
     var listitem = document.getElementById('profile');
-    listitem.classList.add('active')
+    listitem.classList.add('active');
 </script>
 <%- include('partials/footer') -%>
-                            <script>
-                                $(document).ready(function() {
-                                    $(".modal").modal();
-                                });
-                            </script>
+                        <script>
+                            $(document).ready(function() {
+                                $(".modal").modal();
+                            });
+                        </script>
