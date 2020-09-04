@@ -12,12 +12,12 @@ class Workexpreience {
     static createTable() {
         const query = `
         CREATE TABLE ${Workexpreience.tableName} (
-            s_no int NOT NULL AUTO_INCREMENT,
+            id int NOT NULL AUTO_INCREMENT,
             userId int NOT NULL,
             emailId varchar(250) NOT NULL,
             work_experiences text NOT NULL,
-            PRIMARY KEY(s_no)
-        )AUTO_INCREMENT=1;
+            PRIMARY KEY(id)
+        )AUTO_INCREMENT=60000;
         `
         return db.createTable(this.tableName, query);
     }

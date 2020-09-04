@@ -114,7 +114,7 @@ router.post('/', (req, res) => {
                 }
             })
         }
-        if (files.profile_img.path) {
+        if (files.profile_img.size != 0) {
             const image = fs.readFileSync(files.profile_img.path)
 
             db.find({ user_id: user.id }, Image.tableName)
@@ -141,6 +141,8 @@ router.post('/', (req, res) => {
                 .catch(err => {
                     console.log(err)
                 })
+        } else {
+            res.redirect('/profile')
         }
 
     })

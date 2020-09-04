@@ -25,24 +25,24 @@ class Past_Responsibility {
     static createTable() {
         const query = `
             CREATE TABLE ${Past_Responsibility.tableName} (
-                s_no int NOT NULL AUTO_INCREMENT,
+                id int NOT NULL AUTO_INCREMENT,
                 email varchar(100),
                 userId int NOT NULL,
                 past_responsibility text NOT NULL,
-                PRIMARY KEY(s_no)
-            )AUTO_INCREMENT=1;
+                PRIMARY KEY(id)
+            )AUTO_INCREMENT=4500;
         `
         return db.createTable(this.tableName, query)
     }
-    static getReponsibility(email){
-        return new Promise((res,rej) =>{
-            db.find({email: email}, this.tableName)
-            .then(results => {
-                res(results)
-            })
-            .catch(err =>{
-                rej(err)
-            });
+    static getReponsibility(email) {
+        return new Promise((res, rej) => {
+            db.find({ email: email }, this.tableName)
+                .then(results => {
+                    res(results)
+                })
+                .catch(err => {
+                    rej(err)
+                });
         });
     }
 }

@@ -12,12 +12,12 @@ class Professional_Service {
     static createTable() {
         const query = `
         CREATE TABLE ${Professional_Service.tableName} (
-            s_no int NOT NULL AUTO_INCREMENT,
+            id int NOT NULL AUTO_INCREMENT,
             userId int NOT NULL,
             emailId varchar(250) NOT NULL,
             services text NOT NULL,
-            PRIMARY KEY(s_no)
-        )AUTO_INCREMENT=1;
+            PRIMARY KEY(id)
+        )AUTO_INCREMENT=140000;
         `
         return db.createTable(this.tableName, query);
     }

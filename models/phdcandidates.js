@@ -12,15 +12,15 @@ class PhdCandidates {
     static createTable() {
         const query = `
         CREATE TABLE ${PhdCandidates.tableName} (
-            s_no int NOT NULL AUTO_INCREMENT,
+            id int NOT NULL AUTO_INCREMENT,
             userId int NOT NULL,
             emailId varchar(250) NOT NULL,
             phd_student_name text NOT NULL,
             thesis_topic text NOT NULL,
             start_year varchar(10) NOT NULL,
             completion_year varchar(10) NOT NULL,
-            PRIMARY KEY(s_no)
-        )AUTO_INCREMENT=1;
+            PRIMARY KEY(id)
+        )AUTO_INCREMENT=120000;
         `
         return db.createTable(this.tableName, query);
     }

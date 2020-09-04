@@ -25,25 +25,26 @@ class Memberships {
     static createTable() {
         const query = `
             CREATE TABLE ${Memberships.tableName} (
+                id int NOT NULL AUTO_INCREMENT,
                 email varchar(100),
                 user_id int NOT NULL,
                 membership_id varchar(20) NOT NULL,
                 membership_society text NOT NULL,
-                PRIMARY KEY(membership_id)
-            );
+                PRIMARY KEY(id)
+            )AUTO_INCREMENT=90000;
         `
         return db.createTable(this.tableName, query)
     }
 
-    static getMemberships(email){
-        return new Promise((res,rej) =>{
-            db.find({email: email}, this.tableName)
-            .then(results => {
-                res(results)
-            })
-            .catch(err =>{
-                rej(err)
-            });
+    static getMemberships(email) {
+        return new Promise((res, rej) => {
+            db.find({ email: email }, this.tableName)
+                .then(results => {
+                    res(results)
+                })
+                .catch(err => {
+                    rej(err)
+                });
         });
     }
 

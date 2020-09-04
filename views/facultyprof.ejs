@@ -30,9 +30,9 @@
     }
 
     @media(min-width: 768px) {
-        .card img {
-            height: 3vw;
-            width: 3vw;
+        .main img {
+            height: 25vh;
+            width: 25vh;
         }
 
         .add {
@@ -59,7 +59,7 @@
         <div class="modal-content">
             <h4>Edit Profile</h4>
             <form action="/profile" method="POST" enctype="multipart/form-data" id="change_profile">
-                <label>Research Interests</label><textarea name="research_interests" cols="30" rows="10" value="<%= user.research_interest%>"></textarea>
+                <label>Research Interests</label><textarea name="research_interests" cols="30" rows="10"><%= user.research_interest %></textarea>
                 <div class="file-field input-field">
                     <div class="btn">
                         <span>Choose Image</span>
@@ -209,7 +209,7 @@
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row valign-wrapper">
                     <div class="col s2">
-                        <img src="<%= user.imgUrl %>" alt="" class="circle responsive-img">
+                        <img class="circle" src="<%= user.imgUrl %>" alt="">
                     </div>
                     <div class="col s9">
                         <span style="font-weight: bold;"><%= user.name %></span><br>

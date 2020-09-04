@@ -25,26 +25,26 @@ class Education {
     static createTable() {
         const query = `
             CREATE TABLE ${Education.tableName} (
-                s_no int NOT NULL AUTO_INCREMENT,
+                id int NOT NULL AUTO_INCREMENT,
                 email varchar(100),
                 user_id int NOT NULL,
                 certification varchar(10) NOT NULL,
                 institution text NOT NULL,
                 passing_year varchar(10) DEFAULT NULL,
-                PRIMARY KEY(s_no)
-            )AUTO_INCREMENT=1;
+                PRIMARY KEY(id)
+            )AUTO_INCREMENT=7781;
         `
         return db.createTable(this.tableName, query)
     }
-    static getQualification(email){
-        return new Promise((res,rej) =>{
-            db.find({email: email}, this.tableName)
-            .then(results => {
-                res(results)
-            })
-            .catch(err =>{
-                rej(err)
-            });
+    static getQualification(email) {
+        return new Promise((res, rej) => {
+            db.find({ email: email }, this.tableName)
+                .then(results => {
+                    res(results)
+                })
+                .catch(err => {
+                    rej(err)
+                });
         });
     }
 }

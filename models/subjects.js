@@ -24,12 +24,12 @@ class Subjects {
     static createTable() {
         const query = `
             CREATE TABLE ${Subjects.tableName} (
-                s_no int NOT NULL AUTO_INCREMENT,
+                id int NOT NULL AUTO_INCREMENT,
                 email varchar(100),
                 userId int NOT NULL,
                 subject text NOT NULL,
-                PRIMARY KEY(s_no)
-            )AUTO_INCREMENT=1;
+                PRIMARY KEY(id)
+            )AUTO_INCREMENT=20000;
         `
         return db.createTable(this.tableName, query)
     }
