@@ -42,11 +42,15 @@ class Publications {
         return new Promise((res, rej) => {
             db.find({ email: email }, this.tableName)
                 .then(results => {
-                    const fileId = results[0].publication_id
-                    res(fileId)
+                    if (results) {
+                        const fileId = results[0].publication_id
+                        res(fileId)
+                    } else {
+                        res(null)
+                    }
                 })
                 .catch(err => {
-                    res.json(err)
+                    rej(err)
                 })
         })
     }

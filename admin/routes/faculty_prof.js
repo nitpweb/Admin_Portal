@@ -46,21 +46,24 @@ router.get('/', async (req, res) => {
         var works = await Work.getWorkExperience(user.email);
         var phd = await Phd.getPhdCandidates(user.email);
         var fileId = await Publications.getFileId(user.email)
-        let url = `https://drive.google.com/uc?id=${fileId}&export=download`
-        var data = await request.get(url)
-        var publications = bibParser.toJSON(data)
-        removeSpecial(publications)
-        var books = [],
+        let url = ''
+        var data, publications, books = [],
             journals = [],
             conferences = []
-        publications.forEach(entry => {
-            if (entry.entryType === "INPROCEEDINGS") conferences.push(entry)
-            else if (entry.entryType === "ARTICLE") journals.push(entry)
-            else if (entry.entryType === "BOOKS") books.push(entry)
-        })
-        sortByYear(books)
-        sortByYear(journals)
-        sortByYear(conferences)
+        if (fileId) {
+            url = `https://drive.google.com/uc?id=${fileId}&export=download`
+            data = await request.get(url)
+            publications = bibParser.toJSON(data)
+            removeSpecial(publications)
+            publications.forEach(entry => {
+                if (entry.entryType === "INPROCEEDINGS") conferences.push(entry)
+                else if (entry.entryType === "ARTICLE") journals.push(entry)
+                else if (entry.entryType === "BOOKS") books.push(entry)
+            })
+            sortByYear(books)
+            sortByYear(journals)
+            sortByYear(conferences)
+        }
         if (user != undefined) {
             res.render('facultyprof', {
                 title_top: 'faculty Profile',
@@ -92,7 +95,8 @@ router.get('/', async (req, res) => {
             res.redirect("/login")
         }
     } catch (err) {
-        res.send(err)
+        // res.send(err)
+        console.log(err);
     }
 });
 

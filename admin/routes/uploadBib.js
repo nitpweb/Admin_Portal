@@ -24,6 +24,7 @@ router.post("/", (req, res) => {
             if (results && results.length == 1) {
                 const fileId = results[0].publication_id;
                 storage.updateFile(fileId, file.path)
+                res.redirect('/profile')
             } else {
                 const data = await storage.uploadFile(file.path, file.type, user.id + ".bib", file.size)
                 // console.log(data);
@@ -34,9 +35,9 @@ router.post("/", (req, res) => {
                         res.json(err)
                     }
                     res.json({ fields, results })
+                    res.redirect('/profile')
                 }))
             }
-            res.redirect('/profile')
         })
     })
 })
