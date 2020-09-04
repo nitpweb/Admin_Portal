@@ -230,7 +230,7 @@
                         <% if(subjects != null) {%>
                         <ul>
                             <%subjects.forEach((item) => {%>
-                            <li><span class="col s9"><span> - </span><%=item.subject%></span><span class="col s3"><a class="waves-teal waves-effect" href="#"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s9"><span> - </span><%=item.subject%></span><span class="col s3"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=item.id%>&tableName=subjects_teaching"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <%});%>
                         </ul>
                         <%} else {%>
@@ -330,6 +330,7 @@
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Work Experiences</span>
+                        <% if(works!=null){%>
                         <ul style="margin-left: 10px;">
                             <% var ittr=1%>
                             <% works.forEach(work=>{ %>
@@ -337,6 +338,9 @@
                             <% ittr++ %>
                             <%})%>
                         </ul>
+                        <%}else{%>
+                        <p style="font-size:medium;">None</p>
+                        <%}%>
                     </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal7" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
@@ -348,68 +352,68 @@
                     <div class="col s11"><span style="font-weight:bold;">Add Bib File</span>
                         <ul class="collapsible">
                             <% if(books.length!=0){%>
-                            <li>
-                                <div class="collapsible-header"><span style="font-weight:bold;">Books</span></div>
-                                <div class="collapsible-body">
-                                    <ol>
-                                        <% books.forEach(entry=>{%>
-                                        <li>
-                                            <div class="entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
-                                                <span class="title"><b>"<%= entry.entryTags.TITLE %>"</b></span>,
-                                                <span class="publisher"><b><%= entry.entryTags.PUBLISHER %></b></span>,
-                                                <% if(entry.entryTags.ADDRESS){%>
-                                                <span class="address"><%=entry.entryTags.ADDRESS %>-</span><%}%>
+                        <li>
+                            <div class="collapsible-header"><span style="font-weight:bold;">Books</span></div>
+                            <div class="collapsible-body">
+                                <ol>
+                                    <% books.forEach(entry=>{%>
+                                    <li>
+                                        <div class="entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
+                                            <span class="title"><b>"<%= entry.entryTags.TITLE %>"</b></span>,
+                                            <span class="publisher"><b><%= entry.entryTags.PUBLISHER %></b></span>,
+                                            <% if(entry.entryTags.ADDRESS){%>
+                                            <span class="address"><%=entry.entryTags.ADDRESS %>-</span><%}%>
                                                     <span class="year"><%= entry.entryTags.YEAR %></span></div>
-                                        </li>
-                                        <%})%>
-                                    </ol>
-                                </div>
-                            </li>
-                            <%}%>
+                                    </li>
+                                    <%})%>
+                                </ol>
+                            </div>
+                        </li>
+                        <%}%>
                             <% if(journals.length!=0){%>
-                            <li>
-                                <div class="collapsible-header"><span style="font-weight:bold;">Journals</span></div>
-                                <div class="collapsible-body">
-                                    <ol>
-                                        <% journals.forEach(entry=>{%>
-                                        <li>
-                                            <div class=" entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
-                                                <span class="title"><em><%= entry.entryTags.TITLE %></em></span>,
-                                                <span class="journal"><em>"<%= entry.entryTags.JOURNAL %>"</em></span>,
-                                                <% if(entry.entryTags.MONTH){%>
-                                                <span class="month"><%=entry.entryTags.MONTH %>-</span><%}%>
+                        <li>
+                            <div class="collapsible-header"><span style="font-weight:bold;">Journals</span></div>
+                            <div class="collapsible-body">
+                                <ol>
+                                    <% journals.forEach(entry=>{%>
+                                    <li>
+                                        <div class=" entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
+                                            <span class="title"><em><%= entry.entryTags.TITLE %></em></span>,
+                                            <span class="journal"><em>"<%= entry.entryTags.JOURNAL %>"</em></span>,
+                                            <% if(entry.entryTags.MONTH){%>
+                                            <span class="month"><%=entry.entryTags.MONTH %>-</span><%}%>
                                                     <span class="year"><%= entry.entryTags.YEAR %></span>,
-                                                <span class="pages">p.<%= entry.entryTags.PAGES %></span><br>
-                                                <% if(entry.entryTags.URL){%>
-                                                <span class="url"><a href="<%=entry.entryTags.URL %>">Read more</a></span><%}%></div>
+                                            <span class="pages">p.<%= entry.entryTags.PAGES %></span><br>
+                                            <% if(entry.entryTags.URL){%>
+                                            <span class="url"><a href="<%=entry.entryTags.URL %>">Read more</a></span><%}%></div>
                                             </li>
                                             <%})%>
-                                    </ol>
-                                </div>
-                            </li>
-                            <%}%>
+                                </ol>
+                            </div>
+                        </li>
+                        <%}%>
                             <% if(conferences.length!=0){%>
-                            <li>
-                                <div class="collapsible-header"><span style="font-weight:bold;">Conferences</span></div>
-                                <div class="collapsible-body">
-                                    <ol>
-                                        <% conferences.forEach(entry=>{%>
-                                        <li>
-                                            <div class="entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
-                                                <span class="title"><em><%= entry.entryTags.TITLE %></em></span>,
-                                                <span class="booktitle"><em>"<%= entry.entryTags.BOOKTITLE%>"</em></span>,
-                                                <span class="pages">p.<%= entry.entryTags.PAGES %></span>,
-                                                <% if(entry.entryTags.LOCATION){%>
-                                                <span class="location"><%=entry.entryTags.LOCATION %>,</span><%}%>
+                        <li>
+                            <div class="collapsible-header"><span style="font-weight:bold;">Conferences</span></div>
+                            <div class="collapsible-body">
+                                <ol>
+                                    <% conferences.forEach(entry=>{%>
+                                    <li>
+                                        <div class="entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
+                                            <span class="title"><em><%= entry.entryTags.TITLE %></em></span>,
+                                            <span class="booktitle"><em>"<%= entry.entryTags.BOOKTITLE%>"</em></span>,
+                                            <span class="pages">p.<%= entry.entryTags.PAGES %></span>,
+                                            <% if(entry.entryTags.LOCATION){%>
+                                            <span class="location"><%=entry.entryTags.LOCATION %>,</span><%}%>
                                                 <% if(entry.entryTags.MONTH){%>
-                                                <span class="month"><%=entry.entryTags.MONTH %>-</span><%}%>
+                                            <span class="month"><%=entry.entryTags.MONTH %>-</span><%}%>
                                                 <span class="year"><%= entry.entryTags.YEAR %></span></div>
-                                        </li>
-                                        <%})%>
-                                    </ol>
-                                </div>
-                            </li>
-                            <%}%>
+                                    </li>
+                                    <%})%>
+                                </ol>
+                            </div>
+                        </li>
+                        <%}%>
                          </ul>     
                     </div>
                     <div class="col s1 add">
@@ -421,16 +425,16 @@
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Professional Services</span>
                         <% if(services !=null){ %>
-                            <ul style="margin-left: 10px;">
-                                <% var ittr=1 %>
-                                <% services.forEach(service=>{ %>
-                                <li><span><%= ittr %>.</span>&nbsp;&nbsp;<span><%= service.services %></span></li>
-                                <% ittr++ %>
-                                <%})%>
-                            </ul>
-                            <% }else{%>
-                            <p style="font-size: medium;">None</p>
-                            <%}%>
+                        <ul style="margin-left: 10px;">
+                            <% var ittr=1 %>
+                            <% services.forEach(service=>{ %>
+                            <li><span><%= ittr %>.</span>&nbsp;&nbsp;<span><%= service.services %></span></li>
+                            <% ittr++ %>
+                            <%})%>
+                        </ul>
+                        <% }else{%>
+                        <p style="font-size: medium;">None</p>
+                        <%}%>
                     </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal9" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
@@ -441,16 +445,16 @@
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Projects</span>
                         <% if(projects !=null){ %>
-                            <ul style="margin-left: 10px;">
-                                <% var ittr=1 %>
-                                <% projects.forEach(project=>{ %>
-                                <li><span><%= ittr %>.</span>&nbsp;&nbsp;<span><%= project.project %></span></li>
-                                <% ittr++ %>
-                                <%})%>
-                            </ul>
-                            <% }else{%>
-                            <p style="font-size: medium;">None</p>
-                            <%}%>
+                        <ul style="margin-left: 10px;">
+                            <% var ittr=1 %>
+                            <% projects.forEach(project=>{ %>
+                            <li><span><%= ittr %>.</span>&nbsp;&nbsp;<span><%= project.project %></span></li>
+                            <% ittr++ %>
+                            <%})%>
+                        </ul>
+                        <% }else{%>
+                        <p style="font-size: medium;">None</p>
+                        <%}%>
                     </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal10" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
@@ -461,31 +465,31 @@
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Ph.D Candidates</span>
                         <%if(phd!=null){%>
-                            <div class="row list" style="margin-left: 10px;">
-                                <table class="striped higlight">
-                                    <thead>
-                                        <tr>
-                                            <td><b>Name</b></td>
-                                            <td><b>Thesis Name</b></td>
-                                            <td><b>Start Year</b></td>
-                                            <td><b>Completion Year</b></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <%phd.forEach(candidate=>{%>
-                                        <tr>
-                                            <td><%= candidate.phd_student_name %></td>
-                                            <td><%= candidate.thesis_topic %></td>
-                                            <td><%= candidate.start_year %></td>
-                                            <td><%= candidate.completion_year %></td>
-                                        </tr>
-                                        <%})%>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <%}else{%>
-                            <p style="font-weight:medium;">None</p>
-                            <%}%>                     
+                        <div class="row list" style="margin-left: 10px;">
+                            <table class="striped higlight">
+                                <thead>
+                                    <tr>
+                                        <td><b>Name</b></td>
+                                        <td><b>Thesis Name</b></td>
+                                        <td><b>Start Year</b></td>
+                                        <td><b>Completion Year</b></td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%phd.forEach(candidate=>{%>
+                                    <tr>
+                                        <td><%= candidate.phd_student_name %></td>
+                                        <td><%= candidate.thesis_topic %></td>
+                                        <td><%= candidate.start_year %></td>
+                                        <td><%= candidate.completion_year %></td>
+                                    </tr>
+                                    <%})%>
+                                </tbody>
+                            </table>
+                        </div>
+                        <%}else{%>
+                        <p style="font-weight:medium;">None</p>
+                        <%}%>                     
                     </div>
                     <div class="col s1 add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal11" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
@@ -504,9 +508,9 @@
     // });
 </script>
 <%- include('partials/footer') -%>
-                            <script>
-                                $(document).ready(function() {
-                                    $(".modal").modal();
-                                    $(".collapsible").collapsible();
-                                });
-                            </script>
+                        <script>
+                            $(document).ready(function() {
+                                $(".modal").modal();
+                                $(".collapsible").collapsible();
+                            });
+                        </script>

@@ -169,5 +169,18 @@ router.get('/image', (req, res) => {
         }
     )
 })
+router.get("/delete", (req, res) => {
+    const id = req.query.id
+    const tableName = req.query.tableName
+    const user = req.session.user
+    db.query(`delete from ${tableName} where id=${id} and email='${user.email}'`, (err, results, fields) => {
+        if (err) {
+            console.log(err);
+            res.send(err)
+        }
+        res.redirect("/profile")
+    })
+
+})
 
 module.exports = router
