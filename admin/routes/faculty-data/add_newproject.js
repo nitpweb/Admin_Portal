@@ -12,7 +12,7 @@ router.post('/',(req,res) => {
         }
         console.log(fields.project);
         if(fields.project){
-            db.query(`insert into ${newproject.tableName} set ?`, { userId: user.id, emailId: user.email,project:fields.project }, (err, results, fields) => {
+            db.query(`insert into ${newproject.tableName} set ?`, { userId: user.id, email: user.email,project:fields.project }, (err, results, fields) => {
                 if (err) {
                     console.log(err);
                     res.send(err)

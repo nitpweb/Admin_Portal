@@ -14,7 +14,7 @@ class Workexpreience {
         CREATE TABLE ${Workexpreience.tableName} (
             id int NOT NULL AUTO_INCREMENT,
             userId int NOT NULL,
-            emailId varchar(250) NOT NULL,
+            email varchar(250) NOT NULL,
             work_experiences text NOT NULL,
             PRIMARY KEY(id)
         )AUTO_INCREMENT=60000;
@@ -23,7 +23,7 @@ class Workexpreience {
     }
     static getWorkExperience(email) {
         return new Promise((res, rej) => {
-            db.find({ emailId: email }, this.tableName)
+            db.find({ email: email }, this.tableName)
                 .then(results => {
                     res(results)
                 })

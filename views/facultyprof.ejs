@@ -253,7 +253,7 @@
                         </ul>
                         <ul>
                             <%memberships.forEach((item) => {%>
-                            <li><span class="col s6"><%=item.membership_society%></span><span class="col s4"><%=item.membership_id%></span><span class="col s2"><a class="waves-teal waves-effect" href="#"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s6"><%=item.membership_society%></span><span class="col s4"><%=item.membership_id%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=item.id%>&tableName=memberships"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <%});%>
                         </ul>
                         <%} else {%>
@@ -277,7 +277,7 @@
                         </ul>
                         <ul>
                             <%qualification.forEach((item) => {%>
-                            <li><span class="col s3"><%=item.certification%></span><span class="col s5"><%=item.institution%></span><span class="col s2"><%=item.passing_year%></span><span class="col s2"><a class="waves-teal waves-effect" href="#"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s3"><%=item.certification%></span><span class="col s5"><%=item.institution%></span><span class="col s2"><%=item.passing_year%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=item.id%>&tableName=education"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <%});%>
                         </ul>
                         <%} else {%>
@@ -297,7 +297,7 @@
 
                         <ul>
                             <%administration.forEach((item) => {%>
-                            <li><span class="col s9"><%=item.curr_responsibility%></span><span class="col s3"><a class="waves-teal waves-effect" href="#"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s9"><%=item.curr_responsibility%></span><span class="col s3"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=item.id%>&tableName=curr_admin_responsibility"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <%});%>
                         </ul>
                         <%} else {%>
@@ -315,7 +315,7 @@
                         <% if(lastreponsibility != null) {%>
                         <ul>
                             <%lastreponsibility.forEach((item) => {%>
-                            <li><span class="col s9"><%=item.past_responsibility%></span><span class="col s3"><a class="waves-teal waves-effect" href="#"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s9"><%=item.past_responsibility%></span><span class="col s3"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=item.id%>&tableName=past_admin_responsibility"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <%});%>
                         </ul>
                         <%} else {%>
@@ -331,10 +331,10 @@
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Work Experiences</span>
                         <% if(works!=null){%>
-                        <ul style="margin-left: 10px;">
+                        <ul>
                             <% var ittr=1%>
                             <% works.forEach(work=>{ %>
-                            <li><span><%= ittr %>.</span> &nbsp;&nbsp;<span><%= work.work_experiences %></span></li>
+                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= work.work_experiences %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=work.id%>&tableName=work_experience"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <% ittr++ %>
                             <%})%>
                         </ul>
@@ -425,10 +425,10 @@
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Professional Services</span>
                         <% if(services !=null){ %>
-                        <ul style="margin-left: 10px;">
+                        <ul>
                             <% var ittr=1 %>
                             <% services.forEach(service=>{ %>
-                            <li><span><%= ittr %>.</span>&nbsp;&nbsp;<span><%= service.services %></span></li>
+                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= service.services %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=service.id%>&tableName=professional_service"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <% ittr++ %>
                             <%})%>
                         </ul>
@@ -445,10 +445,10 @@
                 <div class="row">
                     <div class="col s11"><span style="font-weight:bold;">Projects</span>
                         <% if(projects !=null){ %>
-                        <ul style="margin-left: 10px;">
+                        <ul>
                             <% var ittr=1 %>
                             <% projects.forEach(project=>{ %>
-                            <li><span><%= ittr %>.</span>&nbsp;&nbsp;<span><%= project.project %></span></li>
+                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= project.project %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=project.id%>&tableName=project"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <% ittr++ %>
                             <%})%>
                         </ul>

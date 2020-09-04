@@ -14,7 +14,7 @@ class Project {
         CREATE TABLE ${Project.tableName} (
             id int NOT NULL AUTO_INCREMENT,
             userId int NOT NULL,
-            emailId varchar(250) NOT NULL,
+            email varchar(250) NOT NULL,
             project text NOT NULL,
             PRIMARY KEY(id)
         )AUTO_INCREMENT=80000;
@@ -23,7 +23,7 @@ class Project {
     }
     static getProjects(email) {
         return new Promise((res, rej) => {
-            db.find({ emailId: email }, this.tableName)
+            db.find({ email: email }, this.tableName)
                 .then(results => {
                     res(results)
                 })

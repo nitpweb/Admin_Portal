@@ -12,7 +12,7 @@ router.post('/',(req,res) => {
         }
         console.log(fields.workexperience);
         if(fields.workexperience){
-            db.query(`insert into ${workexperience.tableName} set ?`, { userId: user.id, emailId: user.email,work_experiences:fields.workexperience }, (err, results, fields) => {
+            db.query(`insert into ${workexperience.tableName} set ?`, { userId: user.id, email: user.email,work_experiences:fields.workexperience }, (err, results, fields) => {
                 if (err) {
                     console.log(err);
                     res.send(err)

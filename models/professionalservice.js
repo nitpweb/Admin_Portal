@@ -14,7 +14,7 @@ class Professional_Service {
         CREATE TABLE ${Professional_Service.tableName} (
             id int NOT NULL AUTO_INCREMENT,
             userId int NOT NULL,
-            emailId varchar(250) NOT NULL,
+            email varchar(250) NOT NULL,
             services text NOT NULL,
             PRIMARY KEY(id)
         )AUTO_INCREMENT=140000;
@@ -23,7 +23,7 @@ class Professional_Service {
     }
     static getProfessionalService(email) {
         return new Promise((res, rej) => {
-            db.find({ emailId: email }, this.tableName)
+            db.find({ email: email }, this.tableName)
                 .then(results => {
                     res(results)
                 })
