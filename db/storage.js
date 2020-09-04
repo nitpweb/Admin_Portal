@@ -1,6 +1,6 @@
 const google = require('googleapis').google;
 const fs = require('fs');
-const { drive_v3 } = require('googleapis');
+const request = require('request')
 const TOKEN_PATH = 'token.json';
 const FOLDER_PATH = 'folder_id.json';
 
@@ -156,5 +156,19 @@ module.exports = {
             .then(res => {
                 return res.data
             })
+    },
+    getFile: fileId => {
+        const url = `https://drive.google.com/uc?id=${fileId}&export=download`
+        return new Promise((resolve, reject) => {
+            request(url, function(err, response, body) {
+                if(!err && response.statusCode == 200) {
+                    resolve(body)
+                }
+                else {
+                    reject(err)
+                }
+            })
+        })
+        
     }
 }

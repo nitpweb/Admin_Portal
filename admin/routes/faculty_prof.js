@@ -2,7 +2,6 @@ const router = require('express').Router()
 var formidable = require('formidable');
 var fs = require('fs');
 const db = require('../../db');
-const request = require('request-promise')
 const User = require('../../models/user');
 const Subject = require('../../models/subjects');
 const Membership = require('../../models/memberships');
@@ -15,7 +14,8 @@ const Phd = require('../../models/phdcandidates')
 const Services = require('../../models/professionalservice')
 const Work = require('../../models/workexperience')
 const Publications = require('../../models/publications')
-const bibParser = require('../middleware/bibParser')
+const bibParser = require('../middleware/bibParser');
+const storage = require('../../db/storage');
 
 /*remove special character from bib data*/
 function removeSpecial(params) {
@@ -51,8 +51,8 @@ router.get('/', async (req, res) => {
             journals = [],
             conferences = []
         if (fileId) {
-            url = `https://drive.google.com/uc?id=${fileId}&export=download`
-            data = await request.get(url)
+            // url = `https://drive.google.com/uc?id=${fileId}&export=download`
+            data = await storage.getFile(fileId)
             publications = bibParser.toJSON(data)
             removeSpecial(publications)
             publications.forEach(entry => {

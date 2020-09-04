@@ -338,7 +338,7 @@
                     <div class="col s11"><span style="font-weight:bold;">Work Experiences</span>
                         <ul style="margin-left: 10px;">
                             <% var ittr=1%>
-                            <% for(let work of works){ %>
+                            <% for(let work in works){ %>
                             <li><span><%= ittr %>.</span> &nbsp;&nbsp;<span><%= work.work_experiences %></span></li>
                             <% ittr++ %>
                             <%}%>
@@ -420,7 +420,7 @@
                     <div class="col s11"><span style="font-weight:bold;">Professional Services</span>
                         <ul style="margin-left: 10px;">
                             <% var ittr=1%>
-                            <% for(let service of services){ %>
+                            <% for(let service in services){ %>
                             <li><span><%= ittr %>.</span> &nbsp;&nbsp;<span><%= service.services %></span></li>
                             <% ittr++ %>
                             <%}%>
@@ -436,7 +436,7 @@
                     <div class="col s11"><span style="font-weight:bold;">Projects</span>
                         <ul style="margin-left: 10px;">
                             <% var ittr=1%>
-                            <% for(let project of projects){ %>
+                            <% for(let project in projects){ %>
                             <li><span><%= ittr %>.</span> &nbsp;&nbsp;<span><%= project.project %></span></li>
                             <% ittr++ %>
                             <%}%>
@@ -461,7 +461,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% for(let candidate of phd){%>
+                                    <% for(let candidate in phd){%>
                             <% console.log(candidate.phd_student_name) %>
                             <tr>
                                 <td><%= candidate.phd_student_name %></td>
