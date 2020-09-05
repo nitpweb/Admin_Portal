@@ -315,7 +315,7 @@
                         <% if(lastreponsibility != null) {%>
                         <ul>
                             <%lastreponsibility.forEach((item) => {%>
-                            <li><span class="col s9"><%=item.past_responsibility%></span><span class="col s3"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=item.id%>&tableName=past_admin_responsibility"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s9"><%=item.past_responsibility%></span><span class="col s3"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=item.id%>','past_admin_responsibility')"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <%});%>
                         </ul>
                         <%} else {%>
@@ -507,10 +507,46 @@
     // var instance = M.Collapsible.init(elem);
     // });
 </script>
+<script>
+    var xhttp = new XMLHttpRequest();
+    function deleteItem(id,tableName){
+    xhttp.open("POST", "/profile/delete", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`id=${id}&tableName=${tableName}`);
+    }
+
+</script>
 <%- include('partials/footer') -%>
                         <script>
                             $(document).ready(function() {
                                 $(".modal").modal();
                                 $(".collapsible").collapsible();
+                                // $(".delete").on("click",function(e) {
+                                //     e.preventDefault(); // cancel the link itself
+                                //     var url = this.href;
+                                //     var url_link = url.split('?')[0];
+                                //     var url_data = url.split('?')[1];
+                                //     alert(url_link);
+                                //     $.ajax({
+                                //         type: "POST",
+                                //         url: url_link,
+                                //         data: url_data,
+                                //         success: function(data, status){
+                                //             if (status != "success") {
+                                //                 log("Error loading data");
+                                //                 return;
+                                //             }
+                                //             log("Data loaded!");
+                                //         },
+                                //         error: function(result, status, err) {
+                                //             log("Error loading data");
+                                //             return;
+                                //         }
+                                //     });
+                                //     // $.post(this.href,{data:url_data},function(data,status) {
+                                //     //     alert("Data: " + data + "\nStatus: " + status);
+                                //     // });
+                                // });
+                                
                             });
                         </script>

@@ -147,6 +147,8 @@ router.post('/', (req, res) => {
 
     })
 })
+
+
 router.get('/image', (req, res) => {
     const id = req.query.id
     console.log(id)
@@ -169,18 +171,24 @@ router.get('/image', (req, res) => {
         }
     )
 })
-router.get("/delete", (req, res) => {
-    const id = req.query.id
-    const tableName = req.query.tableName
+router.post("/delete", (req, res) => {
     const user = req.session.user
-    db.query(`delete from ${tableName} where id=${id} and email='${user.email}'`, (err, results, fields) => {
-        if (err) {
-            console.log(err);
-            res.send(err)
+    let form = new formidable.IncomingForm()
+    form.parse(req,(err,fields,files)=>{
+        if (user != undefined) {
+            const tableName = fields["tableName"];
+            const id = fields["id"];
+            db.query(`delete from ${tableName} where id=${id} and email='${user.email}'`, (err, results, fields) => {
+                if (err) {
+                    console.log(err);
+                    res.send(err)
+                }
+            });
         }
-        res.redirect("/profile")
-    })
+            
+    });
+});
 
-})
+
 
 module.exports = router
