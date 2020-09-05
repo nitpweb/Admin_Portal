@@ -31,8 +31,12 @@
 
     @media(min-width: 768px) {
         .main img {
-            max-width: 100%;
-            height: auto;
+            height: 20vh;
+            width: 20vh;
+        }
+
+        .main #user_info {
+            position: relative;
         }
 
         .add {
@@ -41,6 +45,15 @@
     }
 
     @media(max-width:768px) {
+        .main img {
+            height: 9vh;
+            width: 9vh;
+        }
+
+        .main #user_info {
+            position: relative;
+        }
+
         .add {
             display: contents;
         }
@@ -221,14 +234,16 @@
                         <img class="circle" src="<%= user.imgUrl %>" alt="">
                     </div>
                     <div class="col s9" id="user-info">
-                        <span style="font-weight: bold;"><%= user.name %></span><br>
-                        <span><%= user.designation %></span><br>
-                        <span><i class="fa fa-envelope">&nbsp;</i><%= user.email %></span><br>
-                        <span style="font-weight: bold;">Department : </span><span><%= user.department %></span><br>
-                        <span style="font-weight: bold;">Extn_no : </span><span><%= user.ext_no %></span><br>
-                        <span style="font-weight: bold;">Research Interests : </span><span><%= user.research_interest %></span>
+                        <div class="col s10" id="user_info">
+                            <span style="font-weight: bold;"><%= user.name %></span><br>
+                            <span><%= user.designation %></span><br>
+                            <span><i class="fa fa-envelope">&nbsp;</i><%= user.email %></span><br>
+                            <span style="font-weight: bold;">Department : </span><span><%= user.department %></span><br>
+                            <span style="font-weight: bold;">Extn_no : </span><span><%= user.ext_no %></span><br>
+                            <span style="font-weight: bold;">Research Interests : </span><span><%= user.research_interest %></span>
+                        </div>
                     </div>
-                    <div class="col s1 add">
+                    <div class="row add">
                         <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal1" style="font-size:medium;">Edit<i class="fa fa-pencil fa-sm "></i></a>
                     </div>
                 </div>
