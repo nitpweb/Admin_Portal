@@ -3,8 +3,6 @@ const formidable = require('formidable')
 const fs = require('fs')
 const storage = require('../../db/storage')
 const session = require('express-session')
-const bibParser = require("../middleware/bibParser")
-const request = require('request')
 const Publications = require('../../models/publications')
 const db = require('../../db')
 const User = require('../../models/user')
@@ -17,27 +15,36 @@ router.post("/", (req, res) => {
             console.log(err);
             res.send("Parsing error")
         }
-        let file = files.bib_file
+        let file = files.bib_file.path
         const user = req.session.user
-
-        db.query(`select publication_id from ${Publications.tableName} where user_id=${user.id}`, async function(err, results, fields) {
-            if (results && results.length == 1) {
-                const fileId = results[0].publication_id;
-                storage.updateFile(fileId, file.path)
-                res.redirect('/profile')
-            } else {
-                const data = await storage.uploadFile(file.path, file.type, user.id + ".bib", file.size)
-                // console.log(data);
-
-                db.query(`insert into ${Publications.tableName} set ?`, { user_id: user.id, email: user.email, publication_id: data.id }, (err, results, fields => {
-                    if (err) {
-                        console.log(err);
-                        res.json(err)
-                    }
-                    res.redirect('/profile')
-                }))
-            }
-        })
+        const data = fs.readFileSync(file, { encoding: "utf8" })
+        db.find({ user_id: user.id }, Publications.tableName)
+            .then(results => {
+                if (results && results.length == 1) {
+                    const fileId = results[0].publication_id
+                    db.query(`update ${Publications.tableName} set publications="${data}" where publication_id=${fileId}`, (err, results, fields) => {
+                        if (err) {
+                            console.log(err);
+                            res.send(err)
+                        }
+                    })
+                } else {
+                    db.query(`insert into ${Publications.tableName} set ?`, {
+                        user_id: user.id,
+                        email: user.email,
+                        publications: data
+                    }, (err, results, fields) => {
+                        if (err) {
+                            console.log(err);
+                            res.send(err)
+                        }
+                    })
+                }
+                res.redirect("/profile")
+            })
+            .catch(err => {
+                res.json(err)
+            })
     })
 })
 module.exports = router

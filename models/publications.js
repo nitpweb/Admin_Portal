@@ -30,21 +30,22 @@ class Publications {
             CREATE TABLE ${this.tableName}(
                 user_id int,
                 email varchar(50),
-                publication_id varchar(100),
+                publication_id int NOT NULL AUTO_INCREMENT,
+                publications text NOT NULL,
                 PRIMARY KEY(publication_id),
                 UNIQUE KEY(email)
-            );
+            )AUTO_INCREMENT=160000;
         `
         return db.createTable(this.tableName, query)
     }
 
-    static getFileId(email) {
+    static getFileData(email) {
         return new Promise((res, rej) => {
             db.find({ email: email }, this.tableName)
                 .then(results => {
                     if (results) {
-                        const fileId = results[0].publication_id
-                        res(fileId)
+                        const fileData = results[0].publications
+                        res(fileData)
                     } else {
                         res(null)
                     }
