@@ -239,7 +239,7 @@
                         <% if(subjects != null) {%>
                         <ul>
                             <%subjects.forEach((item) => {%>
-                            <li><span class="col s9"><span> - </span><%=item.subject%></span><span class="col s3"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=item.id%>&tableName=subjects_teaching"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s10"><span> - </span><%=item.subject%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=item.id%>','subjects_teaching')"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <%});%>
                         </ul>
                         <%} else {%>
@@ -262,7 +262,7 @@
                         </ul>
                         <ul>
                             <%memberships.forEach((item) => {%>
-                            <li><span class="col s6"><%=item.membership_society%></span><span class="col s4"><%=item.membership_id%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=item.id%>&tableName=memberships"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s6"><%=item.membership_society%></span><span class="col s4"><%=item.membership_id%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=item.id%>','memberships')"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <%});%>
                         </ul>
                         <%} else {%>
@@ -286,7 +286,7 @@
                         </ul>
                         <ul>
                             <%qualification.forEach((item) => {%>
-                            <li><span class="col s3"><%=item.certification%></span><span class="col s5"><%=item.institution%></span><span class="col s2"><%=item.passing_year%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=item.id%>&tableName=education"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s3"><%=item.certification%></span><span class="col s5"><%=item.institution%></span><span class="col s2"><%=item.passing_year%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=item.id%>','education')"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <%});%>
                         </ul>
                         <%} else {%>
@@ -306,7 +306,7 @@
 
                         <ul>
                             <%administration.forEach((item) => {%>
-                            <li><span class="col s9"><%=item.curr_responsibility%></span><span class="col s3"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=item.id%>&tableName=curr_admin_responsibility"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s10"><%=item.curr_responsibility%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=item.id%>','curr_admin_responsibility')"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <%});%>
                         </ul>
                         <%} else {%>
@@ -324,7 +324,7 @@
                         <% if(lastreponsibility != null) {%>
                         <ul>
                             <%lastreponsibility.forEach((item) => {%>
-                            <li><span class="col s9"><%=item.past_responsibility%></span><span class="col s3"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=item.id%>&tableName=past_admin_responsibility"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s10"><%=item.past_responsibility%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=item.id%>','past_admin_responsibility')"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <%});%>
                         </ul>
                         <%} else {%>
@@ -343,7 +343,7 @@
                         <ul>
                             <% var ittr=1%>
                             <% works.forEach(work=>{ %>
-                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= work.work_experiences %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=work.id%>&tableName=work_experience"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= work.work_experiences %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=work.id%>','work_experience')"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <% ittr++ %>
                             <%})%>
                         </ul>
@@ -437,7 +437,7 @@
                         <ul>
                             <% var ittr=1 %>
                             <% services.forEach(service=>{ %>
-                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= service.services %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=service.id%>&tableName=professional_service"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= service.services %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=service.id%>','professional_service')"><i class="fa fa-trash fa-sm" ></i></a></span></li>
                             <% ittr++ %>
                             <%})%>
                         </ul>
@@ -457,7 +457,7 @@
                         <ul>
                             <% var ittr=1 %>
                             <% projects.forEach(project=>{ %>
-                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= project.project %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile/delete?id=<%=project.id%>&tableName=project"><i class="fa fa-trash fa-sm"></i></a></span></li>
+                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= project.project %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=project.id%>','project')"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <% ittr++ %>
                             <%})%>
                         </ul>
@@ -515,6 +515,16 @@
     // var elem = getComputedStyle(document.querySelector('.collapsible'));
     // var instance = M.Collapsible.init(elem);
     // });
+</script>
+<script>
+    //ajax call for deleting data from specific database
+    var xhttp = new XMLHttpRequest();
+    function deleteItem(id,tableName){
+    xhttp.open("POST", "/profile/delete", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(`id=${id}&tableName=${tableName}`);
+    }
+
 </script>
 <%- include('partials/footer') -%>
                         <script>
