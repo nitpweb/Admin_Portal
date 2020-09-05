@@ -13,7 +13,7 @@ class Workexpreience {
         const query = `
         CREATE TABLE ${Workexpreience.tableName} (
             id int NOT NULL AUTO_INCREMENT,
-            userId int NOT NULL,
+            user_id int NOT NULL,
             email varchar(250) NOT NULL,
             work_experiences text NOT NULL,
             PRIMARY KEY(id)
@@ -21,9 +21,9 @@ class Workexpreience {
         `
         return db.createTable(this.tableName, query);
     }
-    static getWorkExperience(email) {
+    static getWorkExperience(id) {
         return new Promise((res, rej) => {
-            db.find({ email: email }, this.tableName)
+            db.find({ user_id: id }, this.tableName)
                 .then(results => {
                     res(results)
                 })

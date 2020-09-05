@@ -9,11 +9,11 @@ class User {
      * @param {string} imgUrl 
      */
     constructor(name, email, imgUrl) {
-        
+
         this.name = name;
         this.email = email || ''
         this.imgUrl = imgUrl || ''
-        
+
     }
     /**
      * 
@@ -50,9 +50,9 @@ class User {
                 UNIQUE KEY (email)
             )AUTO_INCREMENT=1000;
         `
-        
+
         return db.createTable(this.tableName, query)
-        
+
     }
 
     /**
@@ -78,7 +78,7 @@ class User {
         //         else {
         //             resolve(User.parse(results[0]))
         //         }
-                
+
         //     })
         // })
 
@@ -88,9 +88,19 @@ class User {
                 throw err
             })
 
-        
-    }
 
+    }
+    static getUser(id) {
+        return new Promise((res, rej) => {
+            db.find({ id: id }, this.tableName)
+                .then(results => {
+                    res(results)
+                })
+                .catch(err => {
+                    rej(err)
+                });
+        });
+    }
     /**
      * 
      * @param {User} user User Object
@@ -100,12 +110,12 @@ class User {
         const query = `
             INSERT INTO ${User.tableName} SET ?;
         `
-        if(user.id) {
+        if (user.id) {
             delete user.id
         }
-        return new Promise((res,rej) => {
+        return new Promise((res, rej) => {
             db.query(query, user, (err, results, fields) => {
-                if(err) {
+                if (err) {
                     console.log(err)
                     rej(err)
                 }
@@ -114,7 +124,7 @@ class User {
             })
         })
 
-        
+
     }
 
     /**
@@ -138,7 +148,7 @@ class User {
      * @returns {User} 
      */
     static parse(object) {
-        const {id, name, email, imgUrl} = object
+        const { id, name, email, imgUrl } = object
         return new User(id, name, email, imgUrl)
     }
 
@@ -152,9 +162,9 @@ class User {
             SET name = '${this.name}', email = '${this.email}', imgUrl = '${this.imgUrl}'
             WHERE id = ${this.id};
         `
-        return new Promise((res,rej) => {
+        return new Promise((res, rej) => {
             db.query(query, (err, results, fields) => {
-                if(err) {
+                if (err) {
                     console.log(err)
                     rej(err)
                 }

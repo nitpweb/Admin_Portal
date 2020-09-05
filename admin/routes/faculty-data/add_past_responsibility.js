@@ -12,7 +12,7 @@ router.post("/", (req, res) => {
             res.send("Parsing error")
         }
         if (fields.past_responsibility) {
-            db.query(`insert into ${pastResponsibility.tableName} set ?`, { userId: user.id, email: user.email, past_responsibility: fields.past_responsibility }, (err, results, fields) => {
+            db.query(`insert into ${pastResponsibility.tableName} set ?`, { user_id: user.id, email: user.email, past_responsibility: fields.past_responsibility }, (err, results, fields) => {
                 if (err) {
                     console.log(err);
                     res.send(err)

@@ -26,16 +26,16 @@ class Subjects {
             CREATE TABLE ${Subjects.tableName} (
                 id int NOT NULL AUTO_INCREMENT,
                 email varchar(100),
-                userId int NOT NULL,
+                user_id int NOT NULL,
                 subject text NOT NULL,
                 PRIMARY KEY(id)
             )AUTO_INCREMENT=20000;
         `
         return db.createTable(this.tableName, query)
     }
-    static getSubjects(email) {
+    static getSubjects(id) {
         return new Promise((res, rej) => {
-            db.find({ email: email }, this.tableName)
+            db.find({ user_id: id }, this.tableName)
                 .then(results => {
                     res(results)
                 })

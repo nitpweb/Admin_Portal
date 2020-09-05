@@ -36,9 +36,9 @@ class Education {
         `
         return db.createTable(this.tableName, query)
     }
-    static getQualification(email) {
+    static getQualification(id) {
         return new Promise((res, rej) => {
-            db.find({ email: email }, this.tableName)
+            db.find({ user_id: id }, this.tableName)
                 .then(results => {
                     res(results)
                 })

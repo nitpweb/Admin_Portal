@@ -36,9 +36,9 @@ class Memberships {
         return db.createTable(this.tableName, query)
     }
 
-    static getMemberships(email) {
+    static getMemberships(id) {
         return new Promise((res, rej) => {
-            db.find({ email: email }, this.tableName)
+            db.find({ user_id: id }, this.tableName)
                 .then(results => {
                     res(results)
                 })

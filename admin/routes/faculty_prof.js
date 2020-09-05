@@ -36,16 +36,19 @@ function sortByYear(params) {
 router.get('/', async (req, res) => {
     try {
         var user = req.session.user;
-        var subjects = await Subject.getSubjects(user.email);
-        var memberships = await Membership.getMemberships(user.email);
-        var qualification = await Education.getQualification(user.email);
-        var administration = await Administration.getAdministration(user.email);
-        var lastreponsibility = await Lastreponsibility.getReponsibility(user.email);
-        var projects = await Projects.getProjects(user.email);
-        var services = await Services.getProfessionalService(user.email);
-        var works = await Work.getWorkExperience(user.email);
-        var phd = await Phd.getPhdCandidates(user.email);
-        var fileData = await Publications.getFileData(user.email)
+        if (user == undefined) {
+            res.redirect("./login")
+        }
+        var subjects = await Subject.getSubjects(user.id);
+        var memberships = await Membership.getMemberships(user.id);
+        var qualification = await Education.getQualification(user.id);
+        var administration = await Administration.getAdministration(user.id);
+        var lastreponsibility = await Lastreponsibility.getReponsibility(user.id);
+        var projects = await Projects.getProjects(user.id);
+        var services = await Services.getProfessionalService(user.id);
+        var works = await Work.getWorkExperience(user.id);
+        var phd = await Phd.getPhdCandidates(user.id);
+        var fileData = await Publications.getFileData(user.id)
         // let url = ''
         var publications, books = [],
             journals = [],
@@ -173,7 +176,7 @@ router.get('/image', (req, res) => {
 router.post("/delete", (req, res) => {
     const user = req.session.user
     let form = new formidable.IncomingForm()
-    form.parse(req,(err,fields,files)=>{
+    form.parse(req, (err, fields, files) => {
         if (user != undefined) {
             const tableName = fields["tableName"];
             const id = fields["id"];

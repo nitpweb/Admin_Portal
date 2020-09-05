@@ -13,7 +13,7 @@ class Project {
         const query = `
         CREATE TABLE ${Project.tableName} (
             id int NOT NULL AUTO_INCREMENT,
-            userId int NOT NULL,
+            user_id int NOT NULL,
             email varchar(250) NOT NULL,
             project text NOT NULL,
             PRIMARY KEY(id)
@@ -21,9 +21,9 @@ class Project {
         `
         return db.createTable(this.tableName, query);
     }
-    static getProjects(email) {
+    static getProjects(id) {
         return new Promise((res, rej) => {
-            db.find({ email: email }, this.tableName)
+            db.find({ user_id: id }, this.tableName)
                 .then(results => {
                     res(results)
                 })

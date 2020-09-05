@@ -13,7 +13,7 @@ class Professional_Service {
         const query = `
         CREATE TABLE ${Professional_Service.tableName} (
             id int NOT NULL AUTO_INCREMENT,
-            userId int NOT NULL,
+            user_id int NOT NULL,
             email varchar(250) NOT NULL,
             services text NOT NULL,
             PRIMARY KEY(id)
@@ -21,9 +21,9 @@ class Professional_Service {
         `
         return db.createTable(this.tableName, query);
     }
-    static getProfessionalService(email) {
+    static getProfessionalService(id) {
         return new Promise((res, rej) => {
-            db.find({ email: email }, this.tableName)
+            db.find({ user_id: id }, this.tableName)
                 .then(results => {
                     res(results)
                 })

@@ -15,7 +15,7 @@ router.use((req, res, next) => {
 
 router.get('/', (req, res) => {
     db.query(`select * from users`, (err, results, fields) => {
-        if(err) {
+        if (err) {
             User.createTable()
             results = []
         }
@@ -24,34 +24,34 @@ router.get('/', (req, res) => {
 })
 
 
-router.get('/create/:id',async (req, res, next) => {
+router.get('/create/:id', async (req, res, next) => {
     const id = req.params.id
     const user = new User(id, 'Manish Kumar', 'manish@gmail.com', 'images/profile.png')
     User.create(user)
-    .then(result => {
-        res.json(result)
-    })
-    .catch(err => {
-        next(err)
-    })
-    
+        .then(result => {
+            res.json(result)
+        })
+        .catch(err => {
+            next(err)
+        })
+
 })
 
-router.get('/user/:id',async (req, res, next) => {
+router.get('/user/:id', async (req, res, next) => {
     const id = req.params.id
     // res.send(req.params)
     try {
         const user = await User.findById(id)
         user.name = 'Kundan'
         user.save()
-        .then(data => {
-            res.json({user,data})
-        })
+            .then(data => {
+                res.json({ user, data })
+            })
     } catch (error) {
         next(error)
     }
-    
-    
+
+
 })
 
 const noticeRouter = require('./routes/notice');
@@ -59,6 +59,9 @@ router.use('/notice', noticeRouter)
 
 const eventRouter = require('./routes/event');
 router.use('/event', eventRouter)
+
+const profileRouter = require('./routes/faculty-profile');
+router.use('/facultyprofile', profileRouter)
 
 router.get('/env', (req, res) => {
     res.json(process.env)

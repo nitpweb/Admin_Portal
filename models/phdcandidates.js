@@ -13,7 +13,7 @@ class PhdCandidates {
         const query = `
         CREATE TABLE ${PhdCandidates.tableName} (
             id int NOT NULL AUTO_INCREMENT,
-            userId int NOT NULL,
+            user_id int NOT NULL,
             email varchar(250) NOT NULL,
             phd_student_name text NOT NULL,
             thesis_topic text NOT NULL,
@@ -24,9 +24,9 @@ class PhdCandidates {
         `
         return db.createTable(this.tableName, query);
     }
-    static getPhdCandidates(email) {
+    static getPhdCandidates(id) {
         return new Promise((res, rej) => {
-            db.find({ email: email }, this.tableName)
+            db.find({ user_id: id }, this.tableName)
                 .then(results => {
                     res(results)
                 })

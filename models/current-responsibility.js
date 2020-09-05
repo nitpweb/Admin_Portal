@@ -27,16 +27,16 @@ class Curr_Responsibility {
             CREATE TABLE ${Curr_Responsibility.tableName} (
                 id int NOT NULL AUTO_INCREMENT,
                 email varchar(100),
-                userId int NOT NULL,
+                user_id int NOT NULL,
                 curr_responsibility text NOT NULL,
                 PRIMARY KEY(id)
             )AUTO_INCREMENT=34000;
         `
         return db.createTable(this.tableName, query)
     }
-    static getAdministration(email) {
+    static getAdministration(id) {
         return new Promise((res, rej) => {
-            db.find({ email: email }, this.tableName)
+            db.find({ user_id:id }, this.tableName)
                 .then(results => {
                     res(results)
                 })

@@ -3,16 +3,16 @@ const db = require('../../../db');
 const newproject = require('../../../models/newproject');
 const formidable = require('formidable');
 
-router.post('/',(req,res) => {
+router.post('/', (req, res) => {
     const user = req.session.user;
     var form = new formidable.IncomingForm();
-    form.parse(req,(err, fields, files)=>{
-        if(err) {
+    form.parse(req, (err, fields, files) => {
+        if (err) {
             res.send("Parsing Error");
         }
         console.log(fields.project);
-        if(fields.project){
-            db.query(`insert into ${newproject.tableName} set ?`, { userId: user.id, email: user.email,project:fields.project }, (err, results, fields) => {
+        if (fields.project) {
+            db.query(`insert into ${newproject.tableName} set ?`, { user_id: user.id, email: user.email, project: fields.project }, (err, results, fields) => {
                 if (err) {
                     console.log(err);
                     res.send(err)

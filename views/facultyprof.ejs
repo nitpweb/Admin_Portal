@@ -31,8 +31,8 @@
 
     @media(min-width: 768px) {
         .main img {
-            height: 20vh;
-            width: 20vh;
+            max-width: 100%;
+            height: auto;
         }
 
         .add {
@@ -46,8 +46,8 @@
         }
 
         .main img {
-            height: 20vh;
-            width: 20vh;
+            max-width: 100%;
+            height: auto;
         }
 
         .main #user-info {
@@ -437,7 +437,7 @@
                         <ul>
                             <% var ittr=1 %>
                             <% services.forEach(service=>{ %>
-                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= service.services %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=service.id%>','professional_service')"><i class="fa fa-trash fa-sm" ></i></a></span></li>
+                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= service.services %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=service.id%>','professional_service')"><i class="fa fa-trash fa-sm"></i></a></span></li>
                             <% ittr++ %>
                             <%})%>
                         </ul>
