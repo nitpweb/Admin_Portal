@@ -45,15 +45,14 @@ router.get('/', async (req, res) => {
         var services = await Services.getProfessionalService(user.email);
         var works = await Work.getWorkExperience(user.email);
         var phd = await Phd.getPhdCandidates(user.email);
-        var fileId = await Publications.getFileId(user.email)
-        let url = ''
-        var data, publications, books = [],
+        var fileData = await Publications.getFileData(user.email)
+        // let url = ''
+        var publications, books = [],
             journals = [],
             conferences = []
-        if (fileId) {
-            // url = `https://drive.google.com/uc?id=${fileId}&export=download`
-            data = await storage.getFile(fileId)
-            publications = bibParser.toJSON(data)
+        if (fileData) {
+            // data = await storage.getFile(fileId)
+            publications = bibParser.toJSON(fileData)
             removeSpecial(publications)
             publications.forEach(entry => {
                 if (entry.entryType === "INPROCEEDINGS") conferences.push(entry)
