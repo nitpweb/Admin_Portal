@@ -184,7 +184,6 @@ router.post("/delete", (req, res) => {
                 }
             });
         }
-            
     });
 });
 
