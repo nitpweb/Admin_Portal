@@ -31,16 +31,25 @@
 
     @media(min-width: 768px) {
         .main img {
-            height: 25vh;
-            width: 25vh;
+            height: 20vh;
+            width: 20vh;
         }
-
+        .main #user_info{
+            position: relative;
+        }
         .add {
             display: contents;
         }
     }
 
     @media(max-width:768px) {
+        .main img {
+            height: 9vh;
+            width: 9vh;
+        }
+        .main #user_info{
+            position: relative;
+        }
         .add {
             display: contents;
         }
@@ -207,11 +216,11 @@
     <div class="main">
         <div class="col s12 m8 offset-m2 l6 offset-l3">
             <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row valign-wrapper">
+                <div class="row">
                     <div class="col s2">
                         <img class="circle" src="<%= user.imgUrl %>" alt="">
                     </div>
-                    <div class="col s9">
+                    <div class="col s10" id="user_info">
                         <span style="font-weight: bold;"><%= user.name %></span><br>
                         <span><%= user.designation %></span><br>
                         <span><i class="fa fa-envelope">&nbsp;</i><%= user.email %></span><br>
@@ -219,10 +228,11 @@
                         <span style="font-weight: bold;">Extn_no : </span><span><%= user.ext_no %></span><br>
                         <span style="font-weight: bold;">Research Interests : </span><span><%= user.research_interest %></span>
                     </div>
-                    <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal1" style="font-size:medium;">Edit<i class="fa fa-pencil fa-sm "></i></a>
-                    </div>
                 </div>
+                <div class="row add">
+                    <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal1" style="font-size:medium;">Edit<i class="fa fa-pencil fa-sm "></i></a>
+                </div>
+            </div>
             </div>
             <div class="card-panel grey lighten-5 z-depth-1">
                 <div class="row">
