@@ -2,15 +2,9 @@ const db = require('../db')
 const Users = require('./user')
 
 class Past_Responsibility {
-    /** 
-     * @param {number} name
-     * @param {string} email
-     * @param {string} imgUrl
-     */
+    
     constructor(userId, email, imgUrl) {
-        this.userId = userId
-        this.email = email || ''
-        this.imgUrl = imgUrl || ''
+        
     }
     /**
      * @private

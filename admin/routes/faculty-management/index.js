@@ -20,6 +20,10 @@ router.get('/', (req, res) => {
 
     User.getAllUsers()
         .then(faculties => {
+            const roles = [null, 'Admin', 'HOD', 'Faculty']
+            faculties.forEach(fac => {
+                fac.role = roles[fac.role]
+            })
             res.render('fac-management', {
                 profileimgsrc: 'images/profiledefault.jfif',
                 title_top: 'Faculty Management',

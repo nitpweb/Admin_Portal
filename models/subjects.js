@@ -44,6 +44,22 @@ class Subjects {
                 });
         });
     }
+
+    static getSubjectByUser(userId) {
+        return new Promise((resolve, reject) => {
+            const query = `select subject from ${this.tableName} where user_id=${userId}`
+            db.query(query, (err, results, fields) => {
+                if(err) {
+                    reject(err)
+                }
+                let arr = []
+                for(let i = 0; i<results.length; i++) {
+                    arr.push(results[i].subject)
+                }
+                resolve(arr)
+            })
+        })
+    }
 }
 Subjects.createTable()
 

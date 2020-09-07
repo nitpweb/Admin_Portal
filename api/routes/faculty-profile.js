@@ -31,14 +31,16 @@ function sortByYear(params) {
     })
 }
 /*get all users*/
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
     db.find({}, User.tableName)
         .then(results => {
             if (!results) {
-                User.createTable()
                 results = []
             }
             res.json(results)
+        })
+        .catch(err => {
+            next(err)
         })
 })
 
@@ -47,7 +49,8 @@ router.get('/:facultyId', async (req, res) => {
         const userId = req.params.facultyId
         console.log(userId);
         var user = await User.getUser(userId)
-        var subjects = await Subject.getSubjects(userId);
+        user.imgUrl = `/profile/image?id=${userId}`
+        var subjects = await Subject.getSubjectByUser(userId);
         var memberships = await Membership.getMemberships(userId);
         var qualification = await Education.getQualification(userId);
         var administration = await Administration.getAdministration(userId);
@@ -57,8 +60,7 @@ router.get('/:facultyId', async (req, res) => {
         var works = await Work.getWorkExperience(userId);
         var phd = await Phd.getPhdCandidates(userId);
         var fileData = await Publications.getFileData(userId)
-        var BASEURL = `http://nitpadmin.herokuapp.com`
-        var imgUrl = BASEURL + `/profile/image?id=${userId}`
+        
         var publications, books = [],
             journals = [],
             conferences = []
@@ -75,8 +77,7 @@ router.get('/:facultyId', async (req, res) => {
             sortByYear(conferences)
         }
         res.json({
-            user: user,
-            imgUrl: imgUrl,
+            profile: user,
             subjects: subjects,
             memberships: memberships,
             qualification: qualification,

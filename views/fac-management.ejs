@@ -28,6 +28,73 @@
         <%- include('partials/banner'); -%>
 
     </section>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <h4>Edit Faculty</h4>
+            <div class="row">
+                <div class="col s12 m6">
+                    <div class="input-field">
+                        <i class="fa fa-user prefix"></i>
+                        <input id="name_edit" type="text"` name="name">
+                        <label for="name_edit" class="active">Name</l_ediname_editabel>
+                    </div>
+                    <div class="input-field">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input id="email_edit" type="email" name="email">
+                        <label for="email_edit" class="active">Email</label>
+                    </div>
+
+                    <div class="input-field">
+                        <select id="desg" name="designation">
+                            <option value="" disabled>Choose your option</option>
+                            <option value="Assistant Professor">Assistant Professor</option>
+                            <option value="Assossiate Professor">Assossiate Professor</option>
+                            <option value="Professor">Professor</option>
+                        </select>
+                        <label>Designation</label>
+                    </div>
+
+                </div>
+                <div class="col s12 m6">
+                    <div class="input-field">
+                        <select name="department" id="dept">
+                            <option value="" disabled>Choose your option</option>
+                            <option value="Architecture">Architecture</option>
+                            <option value="Civil Engineering">Civil Engineering</option>
+                            <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+                            <option value="Electrical Engineering">Electrical Engineering</option>
+                            <option value="Mechanical Engineering">Mechanical Engineering</option>
+                        </select>
+                        <label>Department</label>
+                    </div>
+
+                    <div class="input-field">
+                        <i class="fa fa-phone prefix"></i>
+                        <input id="phone_edit" type="tel" name="ext_no">
+                        <label for="phone_edit" class="active">Ext-no</label>
+                    </div>
+
+                    <div class="input-field">
+                        <select id="role" name="role">
+                            <option value="" disabled>Choose your option</option>
+                            <option value="3">Faculty</option>
+                            <option value="2">HOD</option>
+                        </select>
+                        <label>Role</label>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-green btn">Update</button>
+            <button class="waves-effect waves-green btn red">Delete</button>
+            <button class="modal-close waves-effect waves-green btn">Cancle</button>
+        </div>
+    </div>
+
     <div class="main">
         <div class="row">
             <div class="col s12 m6 flex">
@@ -66,6 +133,8 @@
                         <div class="input-field">
                             <select name="department">
                                 <option value="" disabled selected>Choose your option</option>
+                                <option value="Architecture">Architecture</option>
+                                <option value="Civil Engineering">Civil Engineering</option>
                                 <option value="Computer Science and Engineering">Computer Science and Engineering</option>
                                 <option value="Electrical Engineering">Electrical Engineering</option>
                                 <option value="Mechanical Engineering">Mechanical Engineering</option>
@@ -106,6 +175,7 @@
                         <th>Email</th>
                         <th>Designation</th>
                         <th>Department</th>
+                        <th>Role</th>
                         <th>Ext-no</th>
                         <th>Modify</th>
                     </tr>
@@ -114,32 +184,26 @@
 
                 <tbody>
                     <% for(let faculty of faculties) { %>
-                        <tr>
+                        <tr id="<%= faculty.id %>">
                             <td><%= faculty.name %></td>
                             <td><%= faculty.email %></td>
                             <td><%= faculty.designation %></td>
                             <td><%= faculty.department %></td>
+                            <td><%= faculty.role %></td>
                             <td><%= faculty.ext_no %></td>
-                            <td><a href="#">edit</a></td>
+                            <td><a class="modal-trigger" href="#modal1">edit</a></td>
                         </tr>
                     <% } %>
                     
-                    <tr>
-                        <td>Manish Kumar</td>
-                        <td>manishkumarsh120@gmail.com</td>
-                        <td>Assistant Professor</td>
-                        <td>Computer Science and Engineering</td>
-                        <td>7654</td>
-                        <td><a href="#">edit</a></td>
-                    </tr>
-                    <tr>
+                    
+                    <!-- <tr>
                         <td>Manish Kumar</td>
                         <td>manish.cs18@nitp.ac.in</td>
                         <td>Assistant Professor</td>
                         <td>Computer Science and Engineering</td>
                         <td>7654</td>
                         <td><a href="#">edit</a></td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
@@ -158,7 +222,57 @@
 <%- include('partials/footer') -%>
 <script>
     $(document).ready(function () {
-        $('select').formSelect();
-        
+        const modal = document.querySelector(".modal")
+        let modalInstance;
+        let instance = {}
+        window.inst = instance
+        window.modal = modal
+        let children;
+        $('.main select').formSelect()
+        $('.modal').modal({
+            onOpenStart: function() {
+                console.log(children)
+                
+                // updateModal(children[0].textContent, children[1].textContent, children[2].textContent, children[3].textContent, children[5].textContent, children[4].textContent)
+
+                window.ch = children
+            },
+            onCloseEnd: function() {
+                
+            }
+        });
+        $('.modal-trigger').click(evt => {
+            console.log(evt.target)
+            const tableRow = (evt.target.parentElement.parentElement)
+
+            children = tableRow.children
+            updateModal(children[0].textContent, children[1].textContent, children[2].textContent, children[3].textContent, children[5].textContent, children[4].textContent)
+
+
+        })
+
+        function updateModal(name, email, designation, department, ext_no, role) {
+            modal.querySelector('#name_edit').value = name
+            modal.querySelector('#email_edit').value = email
+            
+            modal.querySelector(`#desg [value="${designation}"]`).selected = true;
+            instance.desg = M.FormSelect.init(modal.querySelector('#desg'))
+
+            dept = modal.querySelector(`#dept [value="${department}"]`)
+            dept.selected = true
+            instance.dept = M.FormSelect.init(modal.querySelector('#dept'))
+
+            modal.querySelector('#phone_edit').value = ext_no
+
+            let options = modal.querySelector(`#role`).options
+            for(let i=0; i<options.length; i++) {
+                if(options[i].text == role) {
+                    options[i].selected = true;
+                    break;
+                }
+            }
+            instance.role = M.FormSelect.init(modal.querySelector('#role'))
+            
+        }
     })
 </script>

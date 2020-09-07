@@ -94,7 +94,12 @@ class User {
         return new Promise((res, rej) => {
             db.find({ id: id }, this.tableName)
                 .then(results => {
-                    res(results)
+                    if(results.length == 1) {
+                        res(results[0])
+                    }
+                    else {
+                        rej("No User or Duplicate found")
+                    }
                 })
                 .catch(err => {
                     rej(err)

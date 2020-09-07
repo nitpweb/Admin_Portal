@@ -93,7 +93,7 @@ router.get('/oauth2callback', function(req, res, next) {
                 id: 'events'
             }, {
                 link: '/profile',
-                title: 'Faculty Profile',
+                title: 'Profile',
                 id: 'profile'
             }, {
                 link: '/faculty-management',
@@ -117,7 +117,7 @@ router.get('/oauth2callback', function(req, res, next) {
                 id: 'events'
             }, {
                 link: '/profile',
-                title: 'Faculty Profile',
+                title: 'Profile',
                 id: 'profile'
             }]
             req.session.Navbar = Navbar;
@@ -126,7 +126,7 @@ router.get('/oauth2callback', function(req, res, next) {
         } else if (user.role == FACULTY) {
             Navbar = [{
                 link: '/profile',
-                title: 'Faculty Profile',
+                title: 'Profile',
                 id: 'profile'
             }]
             req.session.Navbar = Navbar;

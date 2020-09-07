@@ -61,7 +61,7 @@ const eventRouter = require('./routes/event');
 router.use('/event', eventRouter)
 
 const profileRouter = require('./routes/faculty-profile');
-router.use('/facultyprofile', profileRouter)
+router.use('/faculty', profileRouter)
 
 router.get('/env', (req, res) => {
     res.json(process.env)
