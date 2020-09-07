@@ -36,7 +36,7 @@ class Curr_Responsibility {
     }
     static getAdministration(id) {
         return new Promise((res, rej) => {
-            db.find({ user_id:id }, this.tableName)
+            db.find({ user_id: id }, this.tableName)
                 .then(results => {
                     res(results)
                 })
@@ -44,6 +44,22 @@ class Curr_Responsibility {
                     rej(err)
                 });
         });
+    }
+
+    static getResponsibilityByUser(userId) {
+        return new Promise((resolve, reject) => {
+            const query = `select curr_responsibility from ${this.tableName} where user_id=${userId}`
+            db.query(query, (err, results, fields) => {
+                if (err) {
+                    reject(err)
+                }
+                let arr = []
+                for (let i = 0; i < results.length; i++) {
+                    arr.push(results[i].curr_responsibility)
+                }
+                resolve(arr)
+            })
+        })
     }
 
 }

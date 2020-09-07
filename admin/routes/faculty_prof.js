@@ -153,7 +153,7 @@ router.post('/', (req, res) => {
 
 router.get('/image', (req, res) => {
     const id = req.query.id
-    console.log(id)
+    // console.log(id)
     db.query(
         `select image from ${Image.tableName} where user_id='${id}';`,
         (err, results, fields) => {
