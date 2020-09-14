@@ -48,6 +48,22 @@ class Memberships {
         });
     }
 
+    static getMembershipsByUser(userId) {
+        return new Promise((resolve, reject) => {
+            const query = `select membership_id,membership_society from ${this.tableName} where user_id=${userId}`
+            db.query(query, (err, results, fields) => {
+                if (err) {
+                    reject(err)
+                }
+                let arr = []
+                for (let i = 0; i < results.length; i++) {
+                    arr.push(results[i])
+                }
+                resolve(arr)
+            })
+        })
+    }
+
 }
 
 Memberships.createTable()

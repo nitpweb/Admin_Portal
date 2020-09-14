@@ -2,9 +2,9 @@ const db = require('../db')
 const Users = require('./user')
 
 class Past_Responsibility {
-    
+
     constructor(userId, email, imgUrl) {
-        
+
     }
     /**
      * @private
@@ -38,6 +38,22 @@ class Past_Responsibility {
                     rej(err)
                 });
         });
+    }
+
+    static getResponsibilityByUser(userId) {
+        return new Promise((resolve, reject) => {
+            const query = `select past_responsibility from ${this.tableName} where user_id=${userId}`
+            db.query(query, (err, results, fields) => {
+                if (err) {
+                    reject(err)
+                }
+                let arr = []
+                for (let i = 0; i < results.length; i++) {
+                    arr.push(results[i].past_responsibility)
+                }
+                resolve(arr)
+            })
+        })
     }
 }
 

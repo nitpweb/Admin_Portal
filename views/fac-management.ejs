@@ -3,18 +3,23 @@
     h2 {
         margin: 0;
     }
-    .form{
+
+    .form {
         display: none;
     }
-    .main{
+
+    .main {
         background-color: transparent;
     }
+
     .list {
         overflow: auto;
     }
+
     table {
         border-top: 2px solid gray;
     }
+
     .btn {
         border-radius: 7px;
     }
@@ -111,7 +116,7 @@
                     <div class="col s12 m6">
                         <div class="input-field">
                             <i class="fa fa-user prefix"></i>
-                            <input id="name" type="text"` name="name">
+                            <input id="name" type="text" ` name="name">
                             <label for="name">Name</label>
                         </div>
                         <div class="input-field">
@@ -119,7 +124,7 @@
                             <input id="email" type="email" name="email">
                             <label for="email">Email</label>
                         </div>
-    
+
                         <div class="input-field">
                             <select name="designation">
                                 <option value="" disabled selected>Choose your option</option>
@@ -129,7 +134,7 @@
                             </select>
                             <label>Designation</label>
                         </div>
-    
+
                     </div>
                     <div class="col s12 m6">
                         <div class="input-field">
@@ -143,7 +148,7 @@
                             </select>
                             <label>Department</label>
                         </div>
-    
+
                         <div class="input-field">
                             <i class="fa fa-phone prefix"></i>
                             <input id="phone" type="tel" name="ext_no">
@@ -158,14 +163,14 @@
                             </select>
                             <label>Role</label>
                         </div>
-    
+
                     </div>
                 </div>
                 <div class="center">
                     <input class="btn" type="submit" value="Add +">
                 </div>
-                
-                
+
+
             </form>
         </div>
 
@@ -186,18 +191,18 @@
 
                 <tbody>
                     <% for(let faculty of faculties) { %>
-                        <tr id="<%= faculty.id %>">
-                            <td><%= faculty.name %></td>
-                            <td><%= faculty.email %></td>
-                            <td><%= faculty.designation %></td>
-                            <td><%= faculty.department %></td>
-                            <td><%= faculty.role %></td>
-                            <td><%= faculty.ext_no %></td>
-                            <td><a class="modal-trigger" href="#modal1">edit</a></td>
-                        </tr>
+                    <tr id="<%= faculty.id %>">
+                        <td><%= faculty.name %></td>
+                        <td><%= faculty.email %></td>
+                        <td><%= faculty.designation %></td>
+                        <td><%= faculty.department %></td>
+                        <td><%= faculty.role %></td>
+                        <td><%= faculty.ext_no %></td>
+                        <td><a class="modal-trigger" href="#modal1">edit</a></td>
+                    </tr>
                     <% } %>
-                    
-                    
+
+
                     <!-- <tr>
                         <td>Manish Kumar</td>
                         <td>manish.cs18@nitp.ac.in</td>
@@ -216,6 +221,7 @@
     var listitem = document.getElementById('fac-management');
     listitem.classList.add('active')
     document.querySelector("#add-fac-btn").addEventListener('click', toggleForm)
+
     function toggleForm() {
         // alert('toggle')
         $('.form').slideToggle()
@@ -223,7 +229,7 @@
 </script>
 <%- include('partials/footer') -%>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         const modal = document.querySelector(".modal")
         let modalInstance;
         let instance = {}
@@ -234,13 +240,13 @@
         $('.modal').modal({
             onOpenStart: function() {
                 console.log(children)
-                
+
                 // updateModal(children[0].textContent, children[1].textContent, children[2].textContent, children[3].textContent, children[5].textContent, children[4].textContent)
 
                 window.ch = children
             },
             onCloseEnd: function() {
-                
+
             }
         });
         $('.modal-trigger').click(evt => {
@@ -350,7 +356,7 @@
             modal.querySelector('input[name="id"]').value = id
             modal.querySelector('#name_edit').value = name
             modal.querySelector('#email_edit').value = email
-            
+
             modal.querySelector(`#desg [value="${designation}"]`).selected = true;
             instance.desg = M.FormSelect.init(modal.querySelector('#desg'))
 
@@ -361,14 +367,14 @@
             modal.querySelector('#phone_edit').value = ext_no
 
             let options = modal.querySelector(`#role`).options
-            for(let i=0; i<options.length; i++) {
-                if(options[i].text == role) {
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].text == role) {
                     options[i].selected = true;
                     break;
                 }
             }
             instance.role = M.FormSelect.init(modal.querySelector('#role'))
-            
+
         }
     })
 </script>

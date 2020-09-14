@@ -47,6 +47,22 @@ class Education {
                 });
         });
     }
+
+    static getEducationByUser(userId) {
+        return new Promise((resolve, reject) => {
+            const query = `select certification,institution,passing_year from ${this.tableName} where user_id=${userId}`
+            db.query(query, (err, results, fields) => {
+                if (err) {
+                    reject(err)
+                }
+                let arr = []
+                for (let i = 0; i < results.length; i++) {
+                    arr.push(results[i])
+                }
+                resolve(arr)
+            })
+        })
+    }
 }
 
 Education.createTable()

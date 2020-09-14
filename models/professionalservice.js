@@ -32,6 +32,22 @@ class Professional_Service {
                 })
         })
     }
+
+    static getServiceyByUser(userId) {
+        return new Promise((resolve, reject) => {
+            const query = `select services from ${this.tableName} where user_id=${userId}`
+            db.query(query, (err, results, fields) => {
+                if (err) {
+                    reject(err)
+                }
+                let arr = []
+                for (let i = 0; i < results.length; i++) {
+                    arr.push(results[i].services)
+                }
+                resolve(arr)
+            })
+        })
+    }
 }
 
 Professional_Service.createTable();

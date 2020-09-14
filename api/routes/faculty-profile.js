@@ -47,20 +47,20 @@ router.get('/', (req, res, next) => {
 router.get('/:facultyId', async (req, res) => {
     try {
         const userId = req.params.facultyId
-        console.log(userId);
+        // console.log(userId);
         var user = await User.getUser(userId)
         user.imgUrl = `/profile/image?id=${userId}`
         var subjects = await Subject.getSubjectByUser(userId);
-        var memberships = await Membership.getMemberships(userId);
-        var qualification = await Education.getQualification(userId);
-        var administration = await Administration.getAdministration(userId);
-        var lastreponsibility = await Lastreponsibility.getReponsibility(userId);
-        var projects = await Projects.getProjects(userId);
-        var services = await Services.getProfessionalService(userId);
-        var works = await Work.getWorkExperience(userId);
-        var phd = await Phd.getPhdCandidates(userId);
+        var memberships = await Membership.getMembershipsByUser(userId);
+        var qualification = await Education.getEducationByUser(userId);
+        var administration = await Administration.getResponsibilityByUser(userId);
+        var lastreponsibility = await Lastreponsibility.getResponsibilityByUser(userId);
+        var projects = await Projects.getProjectsByUser(userId);
+        var services = await Services.getServiceyByUser(userId);
+        var works = await Work.getWorkExperienceByUser(userId);
+        var phd = await Phd.getCandidatesByUser(userId);
         var fileData = await Publications.getFileData(userId)
-        
+
         var publications, books = [],
             journals = [],
             conferences = []
