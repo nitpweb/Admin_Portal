@@ -87,7 +87,55 @@ router.post('/', (req, res) => {
 })
 
 router.patch('/', (req, res) => {
+    let form = new formidable.IncomingForm()
+    form.parse(req, (err, fields, files) => {
+        const query = `
+            update ${User.tableName} set ? where id=${fields.id}
+        `
+        if(fields.id)
+            delete fields.id
+        const user = {
+            name: fields.name,
+            email: fields.email,
+            designation: fields.desg,
+            department: fields.dept,
+            ext_no: fields.ext_no
+        }
+        if(fields.role == 'Faculty') user.role = User.FACULTY
+        else if(fields.role == 'HOD') user.role = User.HOD
 
+        db.query(query, user, (err, results, fields) => {
+            if(err) {
+                console.log(err)
+                res.json({err})
+            }
+            // console.log(results, fields)
+            res.status(201).json({status: 'ok'})
+        })
+        
+    })
+})
+
+router.delete('/', (req, res) => {
+    let form = new formidable.IncomingForm()
+    form.parse(req, (err, fields, files) => {
+        const query = `
+            delete from ${User.tableName} where ?
+        `
+        const obj = {
+            id: fields.id
+        }
+        // console.log(fields)
+        db.query(query, obj, (err, results, fields) => {
+            if(err) {
+                console.log(err)
+                res.json({err})
+            }
+            // console.log(results, fields)
+            res.status(200).json({status: 'ok'})
+        })
+        
+    })
 })
 
 module.exports = router
