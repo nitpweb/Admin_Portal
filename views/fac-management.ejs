@@ -39,11 +39,12 @@
         <div class="modal-content">
             <h4>Edit Faculty</h4>
             <div class="row">
+                <input type="hidden" name="id">
                 <div class="col s12 m6">
                     <div class="input-field">
                         <i class="fa fa-user prefix"></i>
-                        <input id="name_edit" type="text" ` name="name">
-                        <label for="name_edit" class="active">Name</l_ediname_editabel>
+                        <input id="name_edit" type="text"` name="name">
+                        <label for="name_edit" class="active">Name</label>
                     </div>
                     <div class="input-field">
                         <i class="fa fa-envelope prefix"></i>
@@ -92,11 +93,12 @@
 
                 </div>
             </div>
+            
         </div>
         <div class="modal-footer">
-            <button class="waves-effect waves-green btn">Update</button>
-            <button class="waves-effect waves-green btn red">Delete</button>
-            <button class="modal-close waves-effect waves-green btn">Cancel</button>
+            <button id="update-btn" class="waves-effect waves-green blue btn">Update</button>
+            <button id="delete-btn" class="waves-effect waves-red btn red">Delete</button>
+            <button class="modal-close waves-effect waves-green btn">Cancle</button>
         </div>
     </div>
 
@@ -257,12 +259,106 @@
             const tableRow = (evt.target.parentElement.parentElement)
 
             children = tableRow.children
-            updateModal(children[0].textContent, children[1].textContent, children[2].textContent, children[3].textContent, children[5].textContent, children[4].textContent)
+            updateModal(children[0].textContent, children[1].textContent, children[2].textContent, children[3].textContent, children[5].textContent, children[4].textContent, tableRow.id)
 
-
+            
         })
 
-        function updateModal(name, email, designation, department, ext_no, role) {
+        $("#update-btn").click(evt => {
+            $('#update-btn').addClass('disabled').text('updating')
+            // get info to be updated
+            let inputs = modal.querySelectorAll('input')
+            
+            // update the faculty info
+            updateFaculty(inputs[0].value, inputs[1].value,inputs[2].value, inputs[3].value,inputs[4].value, inputs[5].value,inputs[6].value)
+            .then(res => {
+                console.log(res);
+                M.toast({
+                    html: `Update Successful &nbsp;&nbsp; <i class="fa fa-check-circle"></i>`
+                })
+                $('#update-btn').removeClass('disabled').text('update')
+
+            })
+            .catch(err => {
+                console.log(err)
+                M.toast({
+                    html: `Update Failed &nbsp;&nbsp; <i class="fa fa-times-circle"></i>`
+                })
+                $('#update-btn').removeClass('disabled').text('update')
+            })
+        })
+
+        $('#delete-btn').click(evt => {
+            // delete faculty
+            if(confirm('Are You sure to delete this user?')) {
+                $('#delete-btn').addClass('disabled').text('deleting')
+                // get id
+                const id = modal.querySelector('input[name="id"]').value
+                
+                // delete user
+                deleteFaculty(id)
+                .then(res => {
+                    console.log(res)
+                    M.toast({
+                        html: `Delete Successful &nbsp;&nbsp; <i class="fa fa-check-circle"></i>`
+                    })
+                    $('#delete-btn').removeClass('disabled').text('delete')
+                })
+                .catch(err => {
+                    M.toast({
+                        html: `Delete Failed &nbsp;&nbsp; <i class="fa fa-times-circle"></i>`
+                    })
+                    $('#delete-btn').removeClass('disabled').text('delete')
+                })
+            }
+            else {
+                console.log('no')
+            }
+        })
+
+        function updateFaculty(id, name, email, desg, dept, ext_no, role) {
+            // console.log(id, name, email, desg, dept, ext_no, role)
+            // const fd = new FormData(modal)
+            return fetch('/faculty-management/', {
+                method: 'PATCH',
+                body: JSON.stringify({id,name,email,desg,dept,ext_no,role}),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': '*'
+                }
+            })
+            .then(res => {
+                if(res.ok == true && res.status == 201) {
+                    return res.json()
+                }
+                else {
+                    throw "error"
+                }
+            })
+        }
+
+        function deleteFaculty(id) {
+            return fetch('/faculty-management', {
+                method: 'DELETE',
+                body: JSON.stringify({id: id}),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': '*'
+                }
+            })
+            .then(res => {
+                if(res.ok == true && res.status == 200) {
+                    return res.json()
+                }
+                else {
+                    throw "error"
+                }
+            })
+        }
+
+        // updates the modal detail with current given data
+        function updateModal(name, email, designation, department, ext_no, role, id) {
+            modal.querySelector('input[name="id"]').value = id
             modal.querySelector('#name_edit').value = name
             modal.querySelector('#email_edit').value = email
 

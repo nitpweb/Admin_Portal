@@ -27,6 +27,7 @@ router.post("/", (req, res) => {
                             console.log(err);
                             res.send(err)
                         }
+                        res.redirect("/profile")
                     })
                 } else {
                     db.query(`insert into ${Publications.tableName} set ?`, {
@@ -38,9 +39,10 @@ router.post("/", (req, res) => {
                             console.log(err);
                             res.send(err)
                         }
+                        res.redirect("/profile")
                     })
                 }
-                res.redirect("/profile")
+                
             })
             .catch(err => {
                 res.json(err)

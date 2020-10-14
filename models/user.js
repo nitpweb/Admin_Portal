@@ -151,13 +151,7 @@ class User {
      * @returns {Promise<Array<User>>}
      */
     static getAllUsers() {
-        // return new Promise((resolve, reject) => {
-        //     const query = `
-        //         select * from ${this.tableName} 
-        //     `
-
-
-        // })
+        
         return db.find({}, this.tableName)
 
     }
@@ -176,23 +170,23 @@ class User {
      * updates current user data to SQL database
      * @returns {Promise<import('mysql').OkPacket>}
      */
-    save() {
-        const query = `
-            UPDATE ${User.tableName}
-            SET name = '${this.name}', email = '${this.email}', imgUrl = '${this.imgUrl}'
-            WHERE id = ${this.id};
-        `
-        return new Promise((res, rej) => {
-            db.query(query, (err, results, fields) => {
-                if (err) {
-                    console.log(err)
-                    rej(err)
-                }
-                // console.log(results)
-                res(results)
-            })
-        })
-    }
+    // save() {
+    //     const query = `
+    //         UPDATE ${User.tableName}
+    //         SET name = '${this.name}', email = '${this.email}', imgUrl = '${this.imgUrl}'
+    //         WHERE id = ${this.id};
+    //     `
+    //     return new Promise((res, rej) => {
+    //         db.query(query, (err, results, fields) => {
+    //             if (err) {
+    //                 console.log(err)
+    //                 rej(err)
+    //             }
+    //             // console.log(results)
+    //             res(results)
+    //         })
+    //     })
+    // }
 
 }
 
