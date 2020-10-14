@@ -94,10 +94,9 @@ class User {
         return new Promise((res, rej) => {
             db.find({ id: id }, this.tableName)
                 .then(results => {
-                    if(results.length == 1) {
+                    if (results.length == 1) {
                         res(results[0])
-                    }
-                    else {
+                    } else {
                         rej("No User or Duplicate found")
                     }
                 })
@@ -105,6 +104,22 @@ class User {
                     rej(err)
                 });
         });
+    }
+
+    static getUsersByDept(dept) {
+        return new Promise((res, rej) => {
+            db.find({ department: dept }, this.tableName)
+                .then(results => {
+                    if (results.length != 0) {
+                        res(results)
+                    } else {
+                        rej("No users found")
+                    }
+                })
+                .catch(err => {
+                    rej(err)
+                });
+        })
     }
     /**
      * 
