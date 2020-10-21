@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
             notices.forEach(notice => {
                 notice.attachments = JSON.parse(notice.attachments)
             })
-            res.json(notices)
+            res.json(notices.reverse())
         })
         .catch(err => res.json(err))
 })
@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 router.get('/active', (req, res) => {
     Notice.getActiveNotices()
     .then(notices => {
-        res.json(notices)
+        res.json(notices.reverse())
     })
     .catch(err => {
         res.json(err)
@@ -28,7 +28,7 @@ router.get('/active', (req, res) => {
 router.get('/archive', (req, res) => {
     Notice.getArchivedNotices()
     .then(notices => {
-        res.json(notices)
+        res.json(notices.reverse())
     })
     .catch(err => {
         res.json(err)
