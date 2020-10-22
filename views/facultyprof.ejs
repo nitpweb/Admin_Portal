@@ -82,6 +82,7 @@
             <h4>Edit Profile</h4>
             <form action="/profile" method="POST" enctype="multipart/form-data" id="change_profile">
                 <label>Research Interests</label><textarea name="research_interests" cols="30" rows="10"><%= user.research_interest %></textarea>
+                <span class="help-block">Write your research interests separated with commas.</span>
                 <div class="file-field input-field">
                     <div class="btn">
                         <span>Choose Image</span>

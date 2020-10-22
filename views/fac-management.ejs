@@ -1,214 +1,237 @@
 <%- include('partials/header'); -%>
 <style>
-    h2 {
-        margin: 0;
-    }
+  h2 {
+    margin: 0;
+  }
 
-    .form {
-        display: none;
-    }
+  .form {
+    display: none;
+  }
 
-    .main {
-        background-color: transparent;
-    }
+  .main {
+    background-color: transparent;
+  }
 
-    .list {
-        overflow: auto;
-    }
+  .list {
+    overflow: auto;
+  }
 
-    table {
-        border-top: 2px solid gray;
-    }
+  table {
+    border-top: 2px solid gray;
+  }
 
-    .btn {
-        border-radius: 7px;
-    }
+  .btn {
+    border-radius: 7px;
+  }
 </style>
 
 <body class="has-fixed-sidenav">
+  <%- include('partials/sidebar'); -%>
 
-    <%- include('partials/sidebar'); -%>
+  <section><%- include('partials/banner'); -%></section>
 
-    <section>
-        <%- include('partials/banner'); -%>
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Edit Faculty</h4>
+      <div class="row">
+        <input type="hidden" name="id" />
+        <div class="col s12 m6">
+          <div class="input-field">
+            <i class="fa fa-user prefix"></i>
+            <input id="name_edit" type="text" ` name="name" />
+            <label for="name_edit" class="active">Name</label>
+          </div>
+          <div class="input-field">
+            <i class="fa fa-envelope prefix"></i>
+            <input id="email_edit" type="email" name="email" />
+            <label for="email_edit" class="active">Email</label>
+          </div>
 
-    </section>
+          <div class="input-field">
+            <select id="desg" name="designation">
+              <option value="" disabled>Choose your option</option>
+              <option value="Assistant Professor">Assistant Professor</option>
+              <option value="Assossiate Professor">Assossiate Professor</option>
+              <option value="Professor">Professor</option>
+            </select>
+            <label>Designation</label>
+          </div>
+        </div>
+        <div class="col s12 m6">
+          <div class="input-field">
+            <select name="department" id="dept">
+              <option value="" disabled selected>Choose your option</option>
+              <option value="Architecture">Architecture</option>
+              <option value="Chemistry">Chemistry</option>
+              <option value="Civil Engineering">Civil Engineering</option>
+              <option value="Computer Science and Engineering">
+                Computer Science and Engineering
+              </option>
+              <option value="Electrical Engineering">
+                Electrical Engineering
+              </option>
+              <option value="Electronics and Communication Engineering">
+                Electronics and Communication Engineering
+              </option>
+              <option value="Humanities & Social Sciences">
+                Humanities & Social Sciences
+              </option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="Mechanical Engineering">
+                Mechanical Engineering
+              </option>
+              <option value="Physics">Physics</option>
+            </select>
+            <label>Department</label>
+          </div>
 
-    <!-- Modal Structure -->
-    <div id="modal1" class="modal">
-        <div class="modal-content">
-            <h4>Edit Faculty</h4>
-            <div class="row">
-                <input type="hidden" name="id">
-                <div class="col s12 m6">
-                    <div class="input-field">
-                        <i class="fa fa-user prefix"></i>
-                        <input id="name_edit" type="text"` name="name">
-                        <label for="name_edit" class="active">Name</label>
-                    </div>
-                    <div class="input-field">
-                        <i class="fa fa-envelope prefix"></i>
-                        <input id="email_edit" type="email" name="email">
-                        <label for="email_edit" class="active">Email</label>
-                    </div>
+          <div class="input-field">
+            <i class="fa fa-phone prefix"></i>
+            <input id="phone_edit" type="tel" name="ext_no" />
+            <label for="phone_edit" class="active">Ext-no</label>
+          </div>
 
-                    <div class="input-field">
-                        <select id="desg" name="designation">
-                            <option value="" disabled>Choose your option</option>
-                            <option value="Assistant Professor">Assistant Professor</option>
-                            <option value="Assossiate Professor">Assossiate Professor</option>
-                            <option value="Professor">Professor</option>
-                        </select>
-                        <label>Designation</label>
-                    </div>
+          <div class="input-field">
+            <select id="role" name="role">
+              <option value="" disabled>Choose your option</option>
+              <option value="3">Faculty</option>
+              <option value="2">HOD</option>
+            </select>
+            <label>Role</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button id="update-btn" class="waves-effect waves-green blue btn">
+        Update
+      </button>
+      <button id="delete-btn" class="waves-effect waves-red btn red">
+        Delete
+      </button>
+      <button class="modal-close waves-effect waves-green btn">Cancle</button>
+    </div>
+  </div>
 
-                </div>
-                <div class="col s12 m6">
-                    <div class="input-field">
-                        <select name="department" id="dept">
-                            <option value="" disabled>Choose your option</option>
-                            <option value="Architecture">Architecture</option>
-                            <option value="Civil Engineering">Civil Engineering</option>
-                            <option value="Computer Science and Engineering">Computer Science and Engineering</option>
-                            <option value="Electrical Engineering">Electrical Engineering</option>
-                            <option value="Mechanical Engineering">Mechanical Engineering</option>
-                        </select>
-                        <label>Department</label>
-                    </div>
-
-                    <div class="input-field">
-                        <i class="fa fa-phone prefix"></i>
-                        <input id="phone_edit" type="tel" name="ext_no">
-                        <label for="phone_edit" class="active">Ext-no</label>
-                    </div>
-
-                    <div class="input-field">
-                        <select id="role" name="role">
-                            <option value="" disabled>Choose your option</option>
-                            <option value="3">Faculty</option>
-                            <option value="2">HOD</option>
-                        </select>
-                        <label>Role</label>
-                    </div>
-
-                </div>
+  <div class="main">
+    <div class="row">
+      <div class="col s12 m6 flex">
+        <h2 class="flow-text">Manage Faculties</h2>
+        <button
+          class="waves-effect waves-light btn"
+          onclick="toggleForm"
+          id="add-fac-btn"
+        >
+          Add Faculty
+        </button>
+      </div>
+    </div>
+    <div class="row form">
+      <form action="/faculty-management" method="POST">
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="input-field">
+              <i class="fa fa-user prefix"></i>
+              <input id="name" type="text" ` name="name" />
+              <label for="name">Name</label>
             </div>
-            
+            <div class="input-field">
+              <i class="fa fa-envelope prefix"></i>
+              <input id="email" type="email" name="email" />
+              <label for="email">Email</label>
+            </div>
+
+            <div class="input-field">
+              <select name="designation">
+                <option value="" disabled selected>Choose your option</option>
+                <option value="Assistant Professor">Assistant Professor</option>
+                <option value="Assossiate Professor">
+                  Assossiate Professor
+                </option>
+                <option value="Professor">Professor</option>
+              </select>
+              <label>Designation</label>
+            </div>
+          </div>
+          <div class="col s12 m6">
+            <div class="input-field">
+              <select name="department">
+                <option value="" disabled selected>Choose your option</option>
+                <option value="Architecture">Architecture</option>
+                <option value="Chemistry">Chemistry</option>
+                <option value="Civil Engineering">Civil Engineering</option>
+                <option value="Computer Science and Engineering">
+                  Computer Science and Engineering
+                </option>
+                <option value="Electrical Engineering">
+                  Electrical Engineering
+                </option>
+                <option value="Electronics and Communication Engineering">
+                  Electronics and Communication Engineering
+                </option>
+                <option value="Humanities & Social Sciences">
+                  Humanities & Social Sciences
+                </option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Mechanical Engineering">
+                  Mechanical Engineering
+                </option>
+                <option value="Physics">Physics</option>
+              </select>
+              <label>Department</label>
+            </div>
+
+            <div class="input-field">
+              <i class="fa fa-phone prefix"></i>
+              <input id="phone" type="tel" name="ext_no" />
+              <label for="phone">Ext-no</label>
+            </div>
+
+            <div class="input-field">
+              <select name="role">
+                <option value="" disabled selected>Choose your option</option>
+                <option value="3">Faculty</option>
+                <option value="2">HOD</option>
+              </select>
+              <label>Role</label>
+            </div>
+          </div>
         </div>
-        <div class="modal-footer">
-            <button id="update-btn" class="waves-effect waves-green blue btn">Update</button>
-            <button id="delete-btn" class="waves-effect waves-red btn red">Delete</button>
-            <button class="modal-close waves-effect waves-green btn">Cancle</button>
+        <div class="center">
+          <input class="btn" type="submit" value="Add +" />
         </div>
+      </form>
     </div>
 
-    <div class="main">
-        <div class="row">
-            <div class="col s12 m6 flex">
-                <h2 class="flow-text">Manage Faculties</h2>
-                <button class="waves-effect waves-light btn" onclick="toggleForm" id="add-fac-btn">Add Faculty</button>
+    <div class="row list">
+      <table class="striped highlight">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Designation</th>
+            <th>Department</th>
+            <th>Role</th>
+            <th>Ext-no</th>
+            <th>Modify</th>
+          </tr>
+        </thead>
 
-            </div>
-        </div>
-        <div class="row form">
-            <form action="/faculty-management" method="POST">
-                <div class="row">
-                    <div class="col s12 m6">
-                        <div class="input-field">
-                            <i class="fa fa-user prefix"></i>
-                            <input id="name" type="text" ` name="name">
-                            <label for="name">Name</label>
-                        </div>
-                        <div class="input-field">
-                            <i class="fa fa-envelope prefix"></i>
-                            <input id="email" type="email" name="email">
-                            <label for="email">Email</label>
-                        </div>
+        <tbody>
+          <% for(let faculty of faculties) { %>
+          <tr id="<%= faculty.id %>">
+            <td><%= faculty.name %></td>
+            <td><%= faculty.email %></td>
+            <td><%= faculty.designation %></td>
+            <td><%= faculty.department %></td>
+            <td><%= faculty.role %></td>
+            <td><%= faculty.ext_no %></td>
+            <td><a class="modal-trigger" href="#modal1">edit</a></td>
+          </tr>
+          <% } %>
 
-                        <div class="input-field">
-                            <select name="designation">
-                                <option value="" disabled selected>Choose your option</option>
-                                <option value="Assistant Professor">Assistant Professor</option>
-                                <option value="Assossiate Professor">Assossiate Professor</option>
-                                <option value="Professor">Professor</option>
-                            </select>
-                            <label>Designation</label>
-                        </div>
-
-                    </div>
-                    <div class="col s12 m6">
-                        <div class="input-field">
-                            <select name="department">
-                                <option value="" disabled selected>Choose your option</option>
-                                <option value="Architecture">Architecture</option>
-                                <option value="Chemistry">Chemistry</option>
-                                <option value="Civil Engineering">Civil Engineering</option>
-                                <option value="Computer Science and Engineering">Computer Science and Engineering</option>
-                                <option value="Electrical Engineering">Electrical Engineering</option>
-                                <option value="Electronics and Communication Engineering">Electronics and Communication Engineering</option>
-                                <option value="Humanities & Social Sciences">Humanities & Social Sciences</option>
-                                <option value="Mathematics">Mathematics</option>
-                                <option value="Mechanical Engineering">Mechanical Engineering</option>
-                                <option value="Physics">Physics</option>
-                            </select>
-                            <label>Department</label>
-                        </div>
-
-                        <div class="input-field">
-                            <i class="fa fa-phone prefix"></i>
-                            <input id="phone" type="tel" name="ext_no">
-                            <label for="phone">Ext-no</label>
-                        </div>
-
-                        <div class="input-field">
-                            <select name="role">
-                                <option value="" disabled selected>Choose your option</option>
-                                <option value="3">Faculty</option>
-                                <option value="2">HOD</option>
-                            </select>
-                            <label>Role</label>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="center">
-                    <input class="btn" type="submit" value="Add +">
-                </div>
-
-
-            </form>
-        </div>
-
-        <div class="row list">
-            <table class="striped highlight">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Designation</th>
-                        <th>Department</th>
-                        <th>Role</th>
-                        <th>Ext-no</th>
-                        <th>Modify</th>
-                    </tr>
-                </thead>
-
-
-                <tbody>
-                    <% for(let faculty of faculties) { %>
-                    <tr id="<%= faculty.id %>">
-                        <td><%= faculty.name %></td>
-                        <td><%= faculty.email %></td>
-                        <td><%= faculty.designation %></td>
-                        <td><%= faculty.department %></td>
-                        <td><%= faculty.role %></td>
-                        <td><%= faculty.ext_no %></td>
-                        <td><a class="modal-trigger" href="#modal1">edit</a></td>
-                    </tr>
-                    <% } %>
-
-
-                    <!-- <tr>
+          <!-- <tr>
                         <td>Manish Kumar</td>
                         <td>manish.cs18@nitp.ac.in</td>
                         <td>Assistant Professor</td>
@@ -216,170 +239,182 @@
                         <td>7654</td>
                         <td><a href="#">edit</a></td>
                     </tr> -->
-                </tbody>
-            </table>
-        </div>
-
+        </tbody>
+      </table>
     </div>
+  </div>
 </body>
 <script>
-    var listitem = document.getElementById('fac-management');
-    listitem.classList.add('active')
-    document.querySelector("#add-fac-btn").addEventListener('click', toggleForm)
+  var listitem = document.getElementById("fac-management");
+  listitem.classList.add("active");
+  document.querySelector("#add-fac-btn").addEventListener("click", toggleForm);
 
-    function toggleForm() {
-        // alert('toggle')
-        $('.form').slideToggle()
-    }
+  function toggleForm() {
+    // alert('toggle')
+    $(".form").slideToggle();
+  }
 </script>
 <%- include('partials/footer') -%>
 <script>
-    $(document).ready(function() {
-        const modal = document.querySelector(".modal")
-        let modalInstance;
-        let instance = {}
-        window.inst = instance
-        window.modal = modal
-        let children;
-        $('.main select').formSelect()
-        $('.modal').modal({
-            onOpenStart: function() {
-                console.log(children)
+  $(document).ready(function () {
+    const modal = document.querySelector(".modal");
+    let modalInstance;
+    let instance = {};
+    window.inst = instance;
+    window.modal = modal;
+    let children;
+    $(".main select").formSelect();
+    $(".modal").modal({
+      onOpenStart: function () {
+        console.log(children);
 
-                // updateModal(children[0].textContent, children[1].textContent, children[2].textContent, children[3].textContent, children[5].textContent, children[4].textContent)
+        // updateModal(children[0].textContent, children[1].textContent, children[2].textContent, children[3].textContent, children[5].textContent, children[4].textContent)
 
-                window.ch = children
-            },
-            onCloseEnd: function() {
+        window.ch = children;
+      },
+      onCloseEnd: function () {},
+    });
+    $(".modal-trigger").click((evt) => {
+      console.log(evt.target);
+      const tableRow = evt.target.parentElement.parentElement;
 
-            }
+      children = tableRow.children;
+      updateModal(
+        children[0].textContent,
+        children[1].textContent,
+        children[2].textContent,
+        children[3].textContent,
+        children[5].textContent,
+        children[4].textContent,
+        tableRow.id
+      );
+    });
+
+    $("#update-btn").click((evt) => {
+      $("#update-btn").addClass("disabled").text("updating");
+      // get info to be updated
+      let inputs = modal.querySelectorAll("input");
+
+      // update the faculty info
+      updateFaculty(
+        inputs[0].value,
+        inputs[1].value,
+        inputs[2].value,
+        inputs[3].value,
+        inputs[4].value,
+        inputs[5].value,
+        inputs[6].value
+      )
+        .then((res) => {
+          console.log(res);
+          M.toast({
+            html: `Update Successful &nbsp;&nbsp; <i class="fa fa-check-circle"></i>`,
+          });
+          $("#update-btn").removeClass("disabled").text("update");
+        })
+        .catch((err) => {
+          console.log(err);
+          M.toast({
+            html: `Update Failed &nbsp;&nbsp; <i class="fa fa-times-circle"></i>`,
+          });
+          $("#update-btn").removeClass("disabled").text("update");
         });
-        $('.modal-trigger').click(evt => {
-            console.log(evt.target)
-            const tableRow = (evt.target.parentElement.parentElement)
+    });
 
-            children = tableRow.children
-            updateModal(children[0].textContent, children[1].textContent, children[2].textContent, children[3].textContent, children[5].textContent, children[4].textContent, tableRow.id)
+    $("#delete-btn").click((evt) => {
+      // delete faculty
+      if (confirm("Are You sure to delete this user?")) {
+        $("#delete-btn").addClass("disabled").text("deleting");
+        // get id
+        const id = modal.querySelector('input[name="id"]').value;
 
-            
-        })
+        // delete user
+        deleteFaculty(id)
+          .then((res) => {
+            console.log(res);
+            M.toast({
+              html: `Delete Successful &nbsp;&nbsp; <i class="fa fa-check-circle"></i>`,
+            });
+            $("#delete-btn").removeClass("disabled").text("delete");
+          })
+          .catch((err) => {
+            M.toast({
+              html: `Delete Failed &nbsp;&nbsp; <i class="fa fa-times-circle"></i>`,
+            });
+            $("#delete-btn").removeClass("disabled").text("delete");
+          });
+      } else {
+        console.log("no");
+      }
+    });
 
-        $("#update-btn").click(evt => {
-            $('#update-btn').addClass('disabled').text('updating')
-            // get info to be updated
-            let inputs = modal.querySelectorAll('input')
-            
-            // update the faculty info
-            updateFaculty(inputs[0].value, inputs[1].value,inputs[2].value, inputs[3].value,inputs[4].value, inputs[5].value,inputs[6].value)
-            .then(res => {
-                console.log(res);
-                M.toast({
-                    html: `Update Successful &nbsp;&nbsp; <i class="fa fa-check-circle"></i>`
-                })
-                $('#update-btn').removeClass('disabled').text('update')
-
-            })
-            .catch(err => {
-                console.log(err)
-                M.toast({
-                    html: `Update Failed &nbsp;&nbsp; <i class="fa fa-times-circle"></i>`
-                })
-                $('#update-btn').removeClass('disabled').text('update')
-            })
-        })
-
-        $('#delete-btn').click(evt => {
-            // delete faculty
-            if(confirm('Are You sure to delete this user?')) {
-                $('#delete-btn').addClass('disabled').text('deleting')
-                // get id
-                const id = modal.querySelector('input[name="id"]').value
-                
-                // delete user
-                deleteFaculty(id)
-                .then(res => {
-                    console.log(res)
-                    M.toast({
-                        html: `Delete Successful &nbsp;&nbsp; <i class="fa fa-check-circle"></i>`
-                    })
-                    $('#delete-btn').removeClass('disabled').text('delete')
-                })
-                .catch(err => {
-                    M.toast({
-                        html: `Delete Failed &nbsp;&nbsp; <i class="fa fa-times-circle"></i>`
-                    })
-                    $('#delete-btn').removeClass('disabled').text('delete')
-                })
-            }
-            else {
-                console.log('no')
-            }
-        })
-
-        function updateFaculty(id, name, email, desg, dept, ext_no, role) {
-            // console.log(id, name, email, desg, dept, ext_no, role)
-            // const fd = new FormData(modal)
-            return fetch('/faculty-management/', {
-                method: 'PATCH',
-                body: JSON.stringify({id,name,email,desg,dept,ext_no,role}),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'accept': '*'
-                }
-            })
-            .then(res => {
-                if(res.ok == true && res.status == 201) {
-                    return res.json()
-                }
-                else {
-                    throw "error"
-                }
-            })
+    function updateFaculty(id, name, email, desg, dept, ext_no, role) {
+      // console.log(id, name, email, desg, dept, ext_no, role)
+      // const fd = new FormData(modal)
+      return fetch("/faculty-management/", {
+        method: "PATCH",
+        body: JSON.stringify({ id, name, email, desg, dept, ext_no, role }),
+        headers: {
+          "Content-Type": "application/json",
+          accept: "*",
+        },
+      }).then((res) => {
+        if (res.ok == true && res.status == 201) {
+          return res.json();
+        } else {
+          throw "error";
         }
+      });
+    }
 
-        function deleteFaculty(id) {
-            return fetch('/faculty-management', {
-                method: 'DELETE',
-                body: JSON.stringify({id: id}),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'accept': '*'
-                }
-            })
-            .then(res => {
-                if(res.ok == true && res.status == 200) {
-                    return res.json()
-                }
-                else {
-                    throw "error"
-                }
-            })
+    function deleteFaculty(id) {
+      return fetch("/faculty-management", {
+        method: "DELETE",
+        body: JSON.stringify({ id: id }),
+        headers: {
+          "Content-Type": "application/json",
+          accept: "*",
+        },
+      }).then((res) => {
+        if (res.ok == true && res.status == 200) {
+          return res.json();
+        } else {
+          throw "error";
         }
+      });
+    }
 
-        // updates the modal detail with current given data
-        function updateModal(name, email, designation, department, ext_no, role, id) {
-            modal.querySelector('input[name="id"]').value = id
-            modal.querySelector('#name_edit').value = name
-            modal.querySelector('#email_edit').value = email
+    // updates the modal detail with current given data
+    function updateModal(
+      name,
+      email,
+      designation,
+      department,
+      ext_no,
+      role,
+      id
+    ) {
+      modal.querySelector('input[name="id"]').value = id;
+      modal.querySelector("#name_edit").value = name;
+      modal.querySelector("#email_edit").value = email;
 
-            modal.querySelector(`#desg [value="${designation}"]`).selected = true;
-            instance.desg = M.FormSelect.init(modal.querySelector('#desg'))
+      modal.querySelector(`#desg [value="${designation}"]`).selected = true;
+      instance.desg = M.FormSelect.init(modal.querySelector("#desg"));
 
-            dept = modal.querySelector(`#dept [value="${department}"]`)
-            dept.selected = true
-            instance.dept = M.FormSelect.init(modal.querySelector('#dept'))
+      dept = modal.querySelector(`#dept [value="${department}"]`);
+      dept.selected = true;
+      instance.dept = M.FormSelect.init(modal.querySelector("#dept"));
 
-            modal.querySelector('#phone_edit').value = ext_no
+      modal.querySelector("#phone_edit").value = ext_no;
 
-            let options = modal.querySelector(`#role`).options
-            for (let i = 0; i < options.length; i++) {
-                if (options[i].text == role) {
-                    options[i].selected = true;
-                    break;
-                }
-            }
-            instance.role = M.FormSelect.init(modal.querySelector('#role'))
-
+      let options = modal.querySelector(`#role`).options;
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].text == role) {
+          options[i].selected = true;
+          break;
         }
-    })
+      }
+      instance.role = M.FormSelect.init(modal.querySelector("#role"));
+    }
+  });
 </script>
