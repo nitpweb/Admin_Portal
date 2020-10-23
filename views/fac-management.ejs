@@ -40,19 +40,23 @@
           <div class="input-field">
             <i class="fa fa-user prefix"></i>
             <input id="name_edit" type="text" ` name="name" />
-            <label for="name_edit" class="active">Name</label>
+            <label for="name_edit" style="transform: translateY(-14px) scale(0.8);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;">Name</label>
           </div>
           <div class="input-field">
             <i class="fa fa-envelope prefix"></i>
             <input id="email_edit" type="email" name="email" />
-            <label for="email_edit" class="active">Email</label>
+            <label for="email_edit" style="transform: translateY(-14px) scale(0.8);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;">Email</label>
           </div>
 
           <div class="input-field">
             <select id="desg" name="designation">
               <option value="" disabled>Choose your option</option>
               <option value="Assistant Professor">Assistant Professor</option>
-              <option value="Assossiate Professor">Assossiate Professor</option>
+              <option value="Associate Professor">Associate Professor</option>
               <option value="Professor">Professor</option>
             </select>
             <label>Designation</label>
@@ -61,7 +65,7 @@
         <div class="col s12 m6">
           <div class="input-field">
             <select name="department" id="dept">
-              <option value="" disabled selected>Choose your option</option>
+              <option value="disabled selected">Choose your option</option>
               <option value="Architecture">Architecture</option>
               <option value="Chemistry">Chemistry</option>
               <option value="Civil Engineering">Civil Engineering</option>
@@ -89,7 +93,9 @@
           <div class="input-field">
             <i class="fa fa-phone prefix"></i>
             <input id="phone_edit" type="tel" name="ext_no" />
-            <label for="phone_edit" class="active">Ext-no</label>
+            <label for="phone_edit" style="transform: translateY(-14px) scale(0.8);
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;">Ext-no</label>
           </div>
 
           <div class="input-field">
@@ -110,7 +116,7 @@
       <button id="delete-btn" class="waves-effect waves-red btn red">
         Delete
       </button>
-      <button class="modal-close waves-effect waves-green btn">Cancle</button>
+      <button class="modal-close waves-effect waves-green btn">Cancel</button>
     </div>
   </div>
 
@@ -118,11 +124,7 @@
     <div class="row">
       <div class="col s12 m6 flex">
         <h2 class="flow-text">Manage Faculties</h2>
-        <button
-          class="waves-effect waves-light btn"
-          onclick="toggleForm"
-          id="add-fac-btn"
-        >
+        <button class="waves-effect waves-light btn" onclick="toggleForm" id="add-fac-btn">
           Add Faculty
         </button>
       </div>
@@ -146,8 +148,8 @@
               <select name="designation">
                 <option value="" disabled selected>Choose your option</option>
                 <option value="Assistant Professor">Assistant Professor</option>
-                <option value="Assossiate Professor">
-                  Assossiate Professor
+                <option value="Associate Professor">
+                  Associate Professor
                 </option>
                 <option value="Professor">Professor</option>
               </select>
@@ -245,8 +247,8 @@
   </div>
 </body>
 <script>
-  var listitem = document.getElementById("fac-management");
-  listitem.classList.add("active");
+  // var listitem = document.getElementById("fac-management");
+  // listitem.classList.add("active");
   document.querySelector("#add-fac-btn").addEventListener("click", toggleForm);
 
   function toggleForm() {
@@ -272,7 +274,7 @@
 
         window.ch = children;
       },
-      onCloseEnd: function () {},
+      onCloseEnd: function () { },
     });
     $(".modal-trigger").click((evt) => {
       console.log(evt.target);
@@ -347,9 +349,24 @@
         console.log("no");
       }
     });
+    function trim_text(el) {
+      el.value = el.value.
+        replace(/(^\s*)|(\s*$)/gi, ""). // removes leading and trailing spaces
+        replace(/[ ]{2,}/gi, " "). // replaces multiple spaces with one space
+        replace(/\n +/, "\n"); // Removes spaces after newlines
+      return;
+    }
+    $(function () {
+      $("textarea").change(function () {
+        trim_text(this);
+      });
 
+      $("input").change(function () {
+        trim_text(this);
+      });
+    });
     function updateFaculty(id, name, email, desg, dept, ext_no, role) {
-      // console.log(id, name, email, desg, dept, ext_no, role)
+      console.log(id, name, email, desg, dept, ext_no, role)
       // const fd = new FormData(modal)
       return fetch("/faculty-management/", {
         method: "PATCH",
@@ -397,7 +414,6 @@
       modal.querySelector('input[name="id"]').value = id;
       modal.querySelector("#name_edit").value = name;
       modal.querySelector("#email_edit").value = email;
-
       modal.querySelector(`#desg [value="${designation}"]`).selected = true;
       instance.desg = M.FormSelect.init(modal.querySelector("#desg"));
 
