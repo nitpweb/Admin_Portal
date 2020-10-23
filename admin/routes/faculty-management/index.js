@@ -56,34 +56,33 @@ function check(...args) {
 router.post('/', (req, res) => {
     var form = new formidable.IncomingForm();
     form.parse(req, (err, fields, files) => {
-        if(err) {
+        if (err) {
             res.send('server error')
         }
-        const {name, email, designation, department, ext_no, role} = fields
+        const { name, email, designation, department, ext_no, role } = fields
 
-        if(check(name, email, designation, department, role) && role != 1) {
+        if (check(name, email, designation, department, role) && role != 1) {
             // create user
             User.create({
-                name,
-                email,
-                designation,
-                department,
-                ext_no,
-                role
-            })
-            .then(value => {
-                res.redirect('/faculty-management')
-            })
-            .catch(err => {
-                res.json(err)
-            })
-        }
-        else {
+                    name,
+                    email,
+                    designation,
+                    department,
+                    ext_no,
+                    role
+                })
+                .then(value => {
+                    res.redirect('/faculty-management')
+                })
+                .catch(err => {
+                    res.json(err)
+                })
+        } else {
             res.send("all field are neccessary")
         }
     })
-    
-    
+
+
 })
 
 router.patch('/', (req, res) => {
@@ -92,27 +91,27 @@ router.patch('/', (req, res) => {
         const query = `
             update ${User.tableName} set ? where id=${fields.id}
         `
-        if(fields.id)
+        if (fields.id)
             delete fields.id
         const user = {
             name: fields.name,
             email: fields.email,
             designation: fields.desg,
-            department: fields.dept,
+            department: fields.dept.trim(),
             ext_no: fields.ext_no
         }
-        if(fields.role == 'Faculty') user.role = User.FACULTY
-        else if(fields.role == 'HOD') user.role = User.HOD
+        if (fields.role == 'Faculty') user.role = User.FACULTY
+        else if (fields.role == 'HOD') user.role = User.HOD
 
         db.query(query, user, (err, results, fields) => {
-            if(err) {
+            if (err) {
                 console.log(err)
-                res.json({err})
+                res.json({ err })
             }
             // console.log(results, fields)
-            res.status(201).json({status: 'ok'})
+            res.status(201).json({ status: 'ok' })
         })
-        
+
     })
 })
 
@@ -127,14 +126,14 @@ router.delete('/', (req, res) => {
         }
         // console.log(fields)
         db.query(query, obj, (err, results, fields) => {
-            if(err) {
+            if (err) {
                 console.log(err)
-                res.json({err})
+                res.json({ err })
             }
             // console.log(results, fields)
-            res.status(200).json({status: 'ok'})
+            res.status(200).json({ status: 'ok' })
         })
-        
+
     })
 })
 

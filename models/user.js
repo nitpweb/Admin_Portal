@@ -13,7 +13,6 @@ class User {
         this.name = name;
         this.email = email || ''
         this.imgUrl = imgUrl || ''
-
     }
     /**
      * 
@@ -151,7 +150,7 @@ class User {
      * @returns {Promise<Array<User>>}
      */
     static getAllUsers() {
-        
+
         return db.find({}, this.tableName)
 
     }
