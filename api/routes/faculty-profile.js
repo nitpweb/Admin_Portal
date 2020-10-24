@@ -1,48 +1,51 @@
-const router = require('express').Router()
-const db = require('../../db')
-const User = require('../../models/user');
-const Subject = require('../../models/subjects');
-const Membership = require('../../models/memberships');
-const Administration = require('../../models/current-responsibility');
-const Lastreponsibility = require('../../models/past-responsibility');
-const Image = require('../../models/image');
-const Education = require('../../models/education')
-const Projects = require('../../models/newproject')
-const Phd = require('../../models/phdcandidates')
-const Services = require('../../models/professionalservice')
-const Work = require('../../models/workexperience')
-const Publications = require('../../models/publications')
-const bibParser = require('../../admin/middleware/bibParser');
-
+const router = require("express").Router();
+const db = require("../../db");
+const User = require("../../models/user");
+const Subject = require("../../models/subjects");
+const Membership = require("../../models/memberships");
+const Administration = require("../../models/current-responsibility");
+const Lastreponsibility = require("../../models/past-responsibility");
+const Image = require("../../models/image");
+const Education = require("../../models/education");
+const Projects = require("../../models/newproject");
+const Phd = require("../../models/phdcandidates");
+const Services = require("../../models/professionalservice");
+const Work = require("../../models/workexperience");
+const Publications = require("../../models/publications");
+const bibParser = require("../../admin/middleware/bibParser");
 
 /*remove special character from bib data*/
 function removeSpecial(params) {
-    params.forEach(entry => {
-        var newTags = entry.entryTags
+    params.forEach((entry) => {
+        var newTags = entry.entryTags;
         for (let key in newTags) {
-            newTags[key] = newTags[key].replace(/{/g, "").replace(/}/g, "").replace(/\\/g, "").replace(/[\u{0080}-\u{FFFF}]/gu, "\"")
+            newTags[key] = newTags[key]
+                .replace(/{/g, "")
+                .replace(/}/g, "")
+                .replace(/\\/g, "")
+                .replace(/[\u{0080}-\u{FFFF}]/gu, '"');
         }
-    })
+    });
 }
 /* sort entries by year*/
 function sortByYear(params) {
     params.sort(function(a, b) {
-        return b.entryTags.YEAR - a.entryTags.YEAR
-    })
+        return b.entryTags.YEAR - a.entryTags.YEAR;
+    });
 }
 /*get all users*/
-router.get('/', (req, res, next) => {
+router.get("/", (req, res, next) => {
     db.find({}, User.tableName)
-        .then(results => {
+        .then((results) => {
             if (!results) {
-                results = []
+                results = [];
             }
-            res.json(results)
+            res.json(results);
         })
-        .catch(err => {
-            next(err)
-        })
-})
+        .catch((err) => {
+            next(err);
+        });
+});
 /*get faculties dept-wise */
 
 var fdept = {
@@ -120,9 +123,8 @@ router.get('/:dept', async (req, res, next) => {
                 phdCandidates: phd
             })
         }
-
     } catch (err) {
-        res.json(err)
+        res.json(err);
     }
-})
-module.exports = router
+});
+module.exports = router;
