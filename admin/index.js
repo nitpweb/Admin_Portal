@@ -11,7 +11,7 @@ router.use(session({
 }));
 
 router.get('/', (req, res) => {
-    res.redirect('/notices')
+    res.redirect('/profile')
 })
 
 // Handling events route
@@ -70,10 +70,10 @@ const addnewproject = require("./routes/faculty-data/add_newproject")
 router.use('/add-newproject', addnewproject)
 
 const addnewprofessionalservice = require("./routes/faculty-data/add_professionalservice")
-router.use('/add-professional-service',addnewprofessionalservice)
+router.use('/add-professional-service', addnewprofessionalservice)
 
 const addworkexperience = require("./routes/faculty-data/add_workexperience")
-router.use('/add-work-experience' , addworkexperience)
+router.use('/add-work-experience', addworkexperience)
 
 
 const memberships = require("./routes/faculty-data/add_memberships")

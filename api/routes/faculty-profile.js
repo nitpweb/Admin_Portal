@@ -68,6 +68,7 @@ router.get('/:dept', async (req, res, next) => {
                 users.forEach(user => {
                     user.imgUrl = `/profile/image?id=${user.id}`
                 })
+                console.log(users);
                 res.json({
                     faculties: users
                 })

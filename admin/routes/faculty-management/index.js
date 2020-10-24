@@ -100,6 +100,7 @@ router.patch('/', (req, res) => {
             department: fields.dept.trim(),
             ext_no: fields.ext_no
         }
+        console.log(user.department);
         if (fields.role == 'Faculty') user.role = User.FACULTY
         else if (fields.role == 'HOD') user.role = User.HOD
 
