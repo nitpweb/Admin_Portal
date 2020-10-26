@@ -69,7 +69,7 @@ router.get('/:dept', async (req, res, next) => {
             if (dept in fdept) {
                 var users = await User.getUsersByDept(fdept[dept])
                 users.forEach(user => {
-                    user.imgUrl = `/profile/image?id=${user.id}`
+                    user.imgUrl = `profile/image?id=${user.id}`
                 })
                 console.log(users);
                 res.json({
@@ -80,7 +80,7 @@ router.get('/:dept', async (req, res, next) => {
             }
         } else {
             var user = await User.getUser(userId)
-            user.imgUrl = `/profile/image?id=${userId}`
+            user.imgUrl = `profile/image?id=${userId}`
             var subjects = await Subject.getSubjectByUser(userId);
             var memberships = await Membership.getMembershipsByUser(userId);
             var qualification = await Education.getEducationByUser(userId);
