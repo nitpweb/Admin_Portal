@@ -81,33 +81,44 @@ router.get('/oauth2callback', function(req, res, next) {
     getUser(req.query.code, function(err, user) {
         if (err) return next(err);
 
-        req.session.isAdmin = "false";
+        req.session.isAdmin = false;
+        req.session.isHod=false;
         if (user.role == ADMIN) {
-            Navbar = [{
-                link: '/notices',
-                title: 'Notices',
-                id: "notices"
-            }, {
-                link: '/events',
-                title: 'Events',
-                id: 'events'
-            }, {
-                link: '/profile',
-                title: 'Profile',
-                id: 'profile'
-            }, {
-                link: '/faculty-management',
-                title: 'Faculty Management',
-                id: 'fac-management'
-            }]
+           let Navbar = [
+              {
+                link: "/notices",
+                title: "Notices",
+                id: "notices",
+              },
+              {
+                link: "/news",
+                title: "News",
+                id: "news",
+              },
+              {
+                link: "/events",
+                title: "Events",
+                id: "events",
+              },
+              {
+                link: "/profile",
+                title: "Profile",
+                id: "profile",
+              },
+              {
+                link: "/faculty-management",
+                title: "Faculty Management",
+                id: "fac-management",
+              },
+            ];
 
             req.session.Navbar = Navbar;
-            req.session.isAdmin = "true";
+            req.session.isAdmin = true;
             // console.log(mainAdmin);
         } else if (user.role == HOD) {
 
 
-            Navbar = [{
+           let Navbar = [{
                 link: '/notices',
                 title: 'Notices',
                 id: "notices"
@@ -121,6 +132,7 @@ router.get('/oauth2callback', function(req, res, next) {
                 id: 'profile'
             }]
             req.session.Navbar = Navbar;
+        req.session.isHod=true;
 
 
         } else if (user.role == FACULTY) {
