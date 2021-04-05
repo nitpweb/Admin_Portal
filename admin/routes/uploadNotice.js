@@ -2,7 +2,6 @@ const router = require('express').Router()
 var formidable = require('formidable');
 var fs = require('fs');
 const {Notice, Attachment} = require('../../models/notice') 
-
 const storage = require('../../db/storage')
 const session = require('express-session')
 
@@ -53,8 +52,6 @@ router.post('/', (req, res)=>{
             .catch(err => {
                 res.send("db update error")
             });
-
-        
     });
 })
 

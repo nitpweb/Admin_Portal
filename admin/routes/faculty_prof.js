@@ -167,7 +167,7 @@ router.get('/image', (req, res) => {
                 res.send(image);
             } else {
                 // console.log(process.env.PWD)
-                res.send(fs.readFileSync(process.env.PWD + '/public/images/img_avatar.png'))
+                res.send(fs.readFileSync(process.cwd() + '/public/images/img_avatar.png'))
             }
 
         }
