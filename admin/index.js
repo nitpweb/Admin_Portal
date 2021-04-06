@@ -26,6 +26,9 @@ router.use("/notices", noticeRouter);
 const newsRouter = require("./routes/news");
 router.use("/news", newsRouter);
 
+const innovationRouter = require("./routes/innovation");
+router.use("/innovation", innovationRouter);
+
 const profileRouter = require("./routes/faculty_prof");
 router.use("/profile", profileRouter);
 

@@ -1,20 +1,26 @@
 <ul id="slide-out" class="sidenav sidenav-fixed">
-    <div>
-          <li>
-              <div class="user-view">
-                  <div class="background">
-                      
-                  </div>
-                  <a href="#user"><img loading="lazy" class="circle" src="<%= user.imgUrl %>"></a>
-                  <a href="#name"><span class="white-text name"><%= user.name %></span></a>
-                  <a href="#email"><span class="white-text email"><%= user.email %></span></a>
-              </div>
-          </li>
-          <!-- <li><div class="divider"></div></li> -->
-          <% for(var i=0;i<Navbar.length;i++){ %>
-            <li><a class="waves-effect" href="<%= Navbar[i].link %>" id="<%= Navbar[i].id %>"><%= Navbar[i].title %></a></li>
-          <% } %>
-          <% if(Drive=="true"){ %>
+  <div>
+    <li>
+      <div class="user-view">
+        <div class="background">
+
+        </div>
+        <a href="#user"><img loading="lazy" class="circle" src="<%= user.imgUrl %>"></a>
+        <a href="#name"><span class="white-text name">
+            <%= user.name %>
+          </span></a>
+        <a href="#email"><span class="white-text email">
+            <%= user.email %>
+          </span></a>
+      </div>
+    </li>
+    <!-- <li><div class="divider"></div></li> -->
+    <% for(var i=0;i<Navbar.length;i++){ %>
+      <li><a class="waves-effect" href="<%= Navbar[i].link %>" id="<%= Navbar[i].id %>">
+          <%= Navbar[i].title %>
+        </a></li>
+      <% } %>
+        <% if(Drive){ %>
           <li><a class="waves-effect" onclick="changeDrive()">changeDrive</a></li>
           <script>
             function changeDrive() {
@@ -27,11 +33,14 @@
             }
           </script>
           <% } %>
-          <li><a class="waves-effect" href="/logout">Logout</a>
-          </li>
-    </div>
-    <footer>
-        &copy; <span><%= new Date().getFullYear() %></script></span>
+            <li><a class="waves-effect" href="/logout">Logout</a>
+            </li>
+  </div>
+  <footer>
+    &copy; <span>
+      <%= new Date().getFullYear() %>
+        </script>
+    </span>
   </footer>
-  
+
 </ul>

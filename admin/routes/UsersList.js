@@ -24,7 +24,7 @@ const mainAdmin = [
   "prabhkiratntw99@gmail.com",
   "akshayd@nitp.ac.in",
   "divyap.ug19.cs@nitp.ac.in",
-  "webteam@nitp.ac.in"
+  "webteam@nitp.ac.in",
 ];
 
 module.exports.onlyprofile = onlyprofile;
