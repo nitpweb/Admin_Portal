@@ -61,6 +61,9 @@ router.use("/event", eventRouter);
 const newsRouter = require("./routes/news");
 router.use("/news", newsRouter);
 
+const innovationRouter = require("./routes/innovation");
+router.use("/innovation", innovationRouter);
+
 const profileRouter = require("./routes/faculty-profile");
 router.use("/faculty", profileRouter);
 

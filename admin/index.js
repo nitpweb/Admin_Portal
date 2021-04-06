@@ -57,6 +57,9 @@ router.use("/uploadNotices", uploadNotices);
 const uploadNews = require("./routes/uploadNews");
 router.use("/uploadNews", uploadNews);
 
+const uploadInnovation = require("./routes/uploadInnovation");
+router.use("/uploadInnovation", uploadInnovation);
+
 const saving_folder_id = require("./routes/saving_folder_id");
 router.use("/saving_folder_id", saving_folder_id);
 
