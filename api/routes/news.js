@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
       newss.forEach((news) => {
         news.attachments = JSON.parse(news.attachments);
       });
-      res.json(newss);
+      res.json(newss.reverse());
     })
     .catch((err) => res.json(err));
 });
@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 router.get("/active", (req, res) => {
   News.getActiveNewss()
     .then((newss) => {
-      res.json(newss);
+      res.json(newss.reverse());
     })
     .catch((err) => {
       res.json(err);
@@ -28,7 +28,7 @@ router.get("/active", (req, res) => {
 router.get("/archive", (req, res) => {
   News.getArchivedNewss()
     .then((newss) => {
-      res.json(newss);
+      res.json(newss.reverse());
     })
     .catch((err) => {
       res.json(err);
@@ -40,7 +40,7 @@ router.get("/:id", (req, res) => {
   console.log(id);
   News.findById(id)
     .then((news) => {
-      res.json(news);
+      res.json(news.reverse());
     })
     .catch((err) => {
       res.json(err);

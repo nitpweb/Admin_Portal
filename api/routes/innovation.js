@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
       innovations.forEach((innovation) => {
         innovation.attachments = JSON.parse(innovation.attachments);
       });
-      res.json(innovations);
+      res.json(innovations.reverse());
     })
     .catch((err) => res.json(err));
 });
@@ -28,7 +28,7 @@ router.get("/active", (req, res) => {
 router.get("/archive", (req, res) => {
   Innovation.getArchivedInnovations()
     .then((innovations) => {
-      res.json(innovations);
+      res.json(innovations.reverse());
     })
     .catch((err) => {
       res.json(err);
@@ -40,7 +40,7 @@ router.get("/:id", (req, res) => {
   console.log(id);
   Innovation.findById(id)
     .then((innovation) => {
-      res.json(innovation);
+      res.json(innovation.reverse());
     })
     .catch((err) => {
       res.json(err);
