@@ -1,551 +1,709 @@
 <%- include('partials/header'); -%>
-<style>
-    .main {
-        padding: 2% 2%;
-    }
-
-    .btn-flat i {
-        font-size: 0.8rem;
-    }
-
-    ol li {
-        margin-top: 20px;
-    }
-
-    ol li:hover {
-        background: #eee
-    }
-
-    .header {
-        padding: 0px 0px 0px 10px;
-        background: rgb(202, 199, 199);
-    }
-
-    .entry {
-        font-size: medium;
-    }
-
-    .entry em {
-        font-weight: bold;
-    }
-
-    @media(min-width: 768px) {
-        .main img {
-            height: 20vh;
-            width: 20vh;
+    <style>
+        .main {
+            padding: 2% 2%;
         }
 
-        .main #user_info {
-            position: relative;
+        .btn-flat i {
+            font-size: 0.8rem;
         }
 
-        .add {
-            display: contents;
-        }
-    }
-
-    @media(max-width:768px) {
-        .main img {
-            height: 9vh;
-            width: 9vh;
+        ol li {
+            margin-top: 20px;
         }
 
-        .main #user_info {
-            position: relative;
+        ol li:hover {
+            background: #eee
         }
 
-        .add {
-            display: contents;
+        .header {
+            padding: 0px 0px 0px 10px;
+            background: rgb(202, 199, 199);
         }
 
-        .main img {
-            max-width: 100%;
-            height: auto;
+        .entry {
+            font-size: medium;
         }
 
-        .main #user-info {
-            margin-left: 2em;
+        .entry em {
+            font-weight: bold;
         }
-    }
-</style>
 
-<body class="has-fixed-sidenav">
+        @media(min-width: 768px) {
+            .main img {
+                height: 20vh;
+                width: 20vh;
+            }
 
-    <%- include('partials/sidebar'); -%>
+            .main #user_info {
+                position: relative;
+            }
 
-    <section>
-        <%- include('partials/banner'); -%>
+            .add {
+                display: contents;
+            }
+        }
 
-    </section>
-    <div id="modal1" class="modal">
-        <div class="modal-content">
-            <h4>Edit Profile</h4>
-            <form action="/profile" method="POST" enctype="multipart/form-data" id="change_profile">
-                <label>Research Interests</label><textarea name="research_interests" cols="30" rows="10"><%= user.research_interest %></textarea>
-                <span class="help-block">Write your research interests separated with commas.</span>
-                <div class="file-field input-field">
-                    <div class="btn">
-                        <span>Choose Image</span>
-                        <input type="file" name="profile_img">
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" placeholder="No file chosen">
-                    </div>
+        @media(max-width:768px) {
+            .main img {
+                height: 9vh;
+                width: 9vh;
+            }
+
+            .main #user_info {
+                position: relative;
+            }
+
+            .add {
+                display: contents;
+            }
+
+            .main img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .main #user-info {
+                margin-left: 2em;
+            }
+        }
+    </style>
+
+    <body class="has-fixed-sidenav">
+
+        <%- include('partials/sidebar'); -%>
+
+            <section>
+                <%- include('partials/banner'); -%>
+
+            </section>
+            <div id="modal1" class="modal">
+                <div class="modal-content">
+                    <h4>Edit Profile</h4>
+                    <form action="/profile" method="POST" enctype="multipart/form-data" id="change_profile">
+                        <label>Research Interests</label><textarea name="research_interests" cols="30"
+                            rows="10"><%= user.research_interest %></textarea>
+                        <span class="help-block">Write your research interests separated with commas.</span>
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>Choose Image</span>
+                                <input type="file" name="profile_img">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text" placeholder="No file chosen">
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="waves-effect waves-green btn" type="submit" form="change_profile">Update</button>
-            <button class="modal-close waves-effect waves-green btn">Cancel</button>
-        </div>
-    </div>
-    <div id="modal2" class="modal">
-        <div class="modal-content">
-            <h4>Add Subjects</h4>
-            <form action="/add-subject" method="POST" id="add_subjects">
-                <div class="row"><input type="text" placeholder="Subject Name" name="subject_name" value="" /></div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="waves-effect waves-green btn" type="submit" form="add_subjects">Update</button>
-            <button class="modal-close waves-effect waves-green btn">Cancel</button>
-        </div>
-    </div>
-    <div id="modal3" class="modal">
-        <div class="modal-content">
-            <h4>Add New Membership & Society</h4>
-            <form action="/memberships" method="POST" id="add_memberships">
-                <div class="row valign-wrapper"><input type="text" placeholder="Society Name" name="society_name" value="" />&nbsp;&nbsp;<input type="text" placeholder="Membership Id" name="membership_id" value="" /></div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="waves-effect waves-green btn" type="submit" form="add_memberships">Update</button>
-            <button class="modal-close waves-effect waves-green btn">Cancel</button>
-        </div>
-    </div>
-    <div id="modal4" class="modal">
-        <div class="modal-content">
-            <h4>Add Educational Qualification</h4>
-            <form action="/education" method="POST" id="add_education">
-                <div class="row valign-wrapper"><input type="text" style="width:20%" placeholder="Certification" name="certi_name" value="" />&nbsp;&nbsp;<input type="text" style="width:60%" placeholder="Institute Name" name="institute_name" value="" />&nbsp;&nbsp;<input type="text" style="width:20%" placeholder="Year" name="year" value="" /></div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="waves-effect waves-green btn" type="submit" form="add_education">Update</button>
-            <button class="modal-close waves-effect waves-green btn">Cancel</button>
-        </div>
-    </div>
-    <div id="modal5" class="modal">
-        <div class="modal-content">
-            <h4>Add New Responsibility</h4>
-            <form action="/currResponsibility" method="POST" id="add_curr_responsibility">
-                <div class="row"><input type="text" placeholder="Responsibility" name="curr_responsibility" value="" /></div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="waves-effect waves-green btn" type="submit" form="add_curr_responsibility">Update</button>
-            <button class="modal-close waves-effect waves-green btn">Cancel</button>
-        </div>
-    </div>
-    <div id="modal6" class="modal">
-        <div class="modal-content">
-            <h4>Add Past Responsibility</h4>
-            <form action="/pastResponsibility" method="POST" id="add_past_responsibility">
-                <div class="row"><input type="text" placeholder="Responsibility" name="past_responsibility" value="" /></div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="waves-effect waves-green btn" type="submit" form="add_past_responsibility">Update</button>
-            <button class="modal-close waves-effect waves-green btn">Cancel</button>
-        </div>
-    </div>
-    <div id="modal7" class="modal">
-        <div class="modal-content">
-            <h4>Add New Experience</h4>
-            <form action="/add-work-experience" method="POST" id="add_experience">
-                <div class="row"><input type="text" placeholder="Work Experience" name="workexperience" value="" /></div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="waves-effect waves-green btn" type="submit" form="add_experience">Update</button>
-            <button class="modal-close waves-effect waves-green btn">Cancel</button>
-        </div>
-    </div>
-    <div id="modal8" class="modal">
-        <div class="modal-content">
-            <h4>Add Bib File</h4>
-            <form action="/uploadBib" method="POST" enctype="multipart/form-data" id="add_bib">
-                <div class="file-field input-field">
-                    <div class="btn">
-                        <span>Choose File</span>
-                        <input type="file" name="bib_file">
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text" placeholder="No file chosen">
-                    </div>
+                <div class="modal-footer">
+                    <button class="waves-effect waves-green btn" type="submit" form="change_profile">Update</button>
+                    <button class="modal-close waves-effect waves-green btn">Cancel</button>
                 </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="waves-effect waves-green btn" type="submit" form="add_bib">Update</button>
-            <button class="modal-close waves-effect waves-green btn">Cancel</button>
-        </div>
-    </div>
-    <div id="modal9" class="modal">
-        <div class="modal-content">
-            <h4>Add New Professional Service</h4>
-            <form action="/add-professional-service" method="POST" id="add_service">
-                <div class="row"><input type="text" placeholder="Professional Service" name="prof_service" value="" /></div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="waves-effect waves-green btn" type="submit" form="add_service">Update</button>
-            <button class="modal-close waves-effect waves-green btn">Cancel</button>
-        </div>
-    </div>
-    <div id="modal10" class="modal">
-        <div class="modal-content">
-            <h4>Add New Project</h4>
-            <form action="/add-newproject" method="POST" id="add_project">
-                <div class="row"><input type="text" placeholder="Project" name="project" value="" /></div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="waves-effect waves-green btn" type="submit" form="add_project">Update</button>
-            <button class="modal-close waves-effect waves-green btn">Cancel</button>
-        </div>
-    </div>
-    <div id="modal11" class="modal">
-        <div class="modal-content">
-            <h4>Add Ph.D Candidate</h4>
-            <form action="/add-phdcandidates" method="POST" id="add_phd_candidate">
-                <div class="row valign-wrapper"><input type="text" style="width:30%" placeholder="Student Name" name="student_name" value="" />&nbsp;&nbsp;<input type="text" style="width:30%" placeholder="Thesis Topic" name="thesis_name" value="" />&nbsp;&nbsp;<input type="text" style="width:20%" placeholder="Start Year" name="start_year" value="" />&nbsp;&nbsp;<input type="text" style="width:20%" placeholder="Completion Year" name="completion_year" value="" /></div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="waves-effect waves-green btn" type="submit" form="add_phd_candidate">Update</button>
-            <button class="modal-close waves-effect waves-green btn">Cancel</button>
-        </div>
-    </div>
-    <div class="main">
-        <div class="col s12 m8 offset-m2 l6 offset-l3">
-            <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row">
-                    <div class="col s2">
-                        <img class="circle" src="<%= user.imgUrl %>" alt="">
-                    </div>
-                    <div class="col s9" id="user-info">
-                        <div class="col s10" id="user_info">
-                            <span style="font-weight: bold;"><%= user.name %></span><br>
-                            <span><%= user.designation %></span><br>
-                            <span><i class="fa fa-envelope">&nbsp;</i><%= user.email %></span><br>
-                            <span style="font-weight: bold;">Department : </span><span><%= user.department %></span><br>
-                            <span style="font-weight: bold;">Extn_no / Phone no. : </span><span><%= user.ext_no %></span><br>
-                            <span style="font-weight: bold;">Research Interests : </span><span><%= user.research_interest %></span>
+            </div>
+            <div id="modal2" class="modal">
+                <div class="modal-content">
+                    <h4>Add Subjects</h4>
+                    <form action="/add-subject" method="POST" id="add_subjects">
+                        <div class="row"><input type="text" placeholder="Subject Name" name="subject_name" value="" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="waves-effect waves-green btn" type="submit" form="add_subjects">Update</button>
+                    <button class="modal-close waves-effect waves-green btn">Cancel</button>
+                </div>
+            </div>
+            <div id="modal3" class="modal">
+                <div class="modal-content">
+                    <h4>Add New Membership & Society</h4>
+                    <form action="/memberships" method="POST" id="add_memberships">
+                        <div class="row valign-wrapper"><input type="text" placeholder="Society Name"
+                                name="society_name" value="" />&nbsp;&nbsp;<input type="text"
+                                placeholder="Membership Id" name="membership_id" value="" /></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="waves-effect waves-green btn" type="submit" form="add_memberships">Update</button>
+                    <button class="modal-close waves-effect waves-green btn">Cancel</button>
+                </div>
+            </div>
+            <div id="modal4" class="modal">
+                <div class="modal-content">
+                    <h4>Add Educational Qualification</h4>
+                    <form action="/education" method="POST" id="add_education">
+                        <div class="row valign-wrapper"><input type="text" style="width:20%" placeholder="Certification"
+                                name="certi_name" value="" />&nbsp;&nbsp;<input type="text" style="width:60%"
+                                placeholder="Institute Name" name="institute_name" value="" />&nbsp;&nbsp;<input
+                                type="text" style="width:20%" placeholder="Year" name="year" value="" /></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="waves-effect waves-green btn" type="submit" form="add_education">Update</button>
+                    <button class="modal-close waves-effect waves-green btn">Cancel</button>
+                </div>
+            </div>
+            <div id="modal5" class="modal">
+                <div class="modal-content">
+                    <h4>Add New Responsibility</h4>
+                    <form action="/currResponsibility" method="POST" id="add_curr_responsibility">
+                        <div class="row"><input type="text" placeholder="Responsibility" name="curr_responsibility"
+                                value="" /></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="waves-effect waves-green btn" type="submit"
+                        form="add_curr_responsibility">Update</button>
+                    <button class="modal-close waves-effect waves-green btn">Cancel</button>
+                </div>
+            </div>
+            <div id="modal6" class="modal">
+                <div class="modal-content">
+                    <h4>Add Past Responsibility</h4>
+                    <form action="/pastResponsibility" method="POST" id="add_past_responsibility">
+                        <div class="row"><input type="text" placeholder="Responsibility" name="past_responsibility"
+                                value="" /></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="waves-effect waves-green btn" type="submit"
+                        form="add_past_responsibility">Update</button>
+                    <button class="modal-close waves-effect waves-green btn">Cancel</button>
+                </div>
+            </div>
+            <div id="modal7" class="modal">
+                <div class="modal-content">
+                    <h4>Add New Experience</h4>
+                    <form action="/add-work-experience" method="POST" id="add_experience">
+                        <div class="row"><input type="text" placeholder="Work Experience" name="workexperience"
+                                value="" /></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="waves-effect waves-green btn" type="submit" form="add_experience">Update</button>
+                    <button class="modal-close waves-effect waves-green btn">Cancel</button>
+                </div>
+            </div>
+            <div id="modal8" class="modal">
+                <div class="modal-content">
+                    <h4>Add Bib File</h4>
+                    <form action="/uploadBib" method="POST" enctype="multipart/form-data" id="add_bib">
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>Choose File</span>
+                                <input type="file" name="bib_file">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" type="text" placeholder="No file chosen">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="waves-effect waves-green btn" type="submit" form="add_bib">Update</button>
+                    <button class="modal-close waves-effect waves-green btn">Cancel</button>
+                </div>
+            </div>
+            <div id="modal9" class="modal">
+                <div class="modal-content">
+                    <h4>Add New Professional Service</h4>
+                    <form action="/add-professional-service" method="POST" id="add_service">
+                        <div class="row"><input type="text" placeholder="Professional Service" name="prof_service"
+                                value="" /></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="waves-effect waves-green btn" type="submit" form="add_service">Update</button>
+                    <button class="modal-close waves-effect waves-green btn">Cancel</button>
+                </div>
+            </div>
+            <div id="modal10" class="modal">
+                <div class="modal-content">
+                    <h4>Add New Project</h4>
+                    <form action="/add-newproject" method="POST" id="add_project">
+                        <div class="row"><input type="text" placeholder="Project" name="project" value="" /></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="waves-effect waves-green btn" type="submit" form="add_project">Update</button>
+                    <button class="modal-close waves-effect waves-green btn">Cancel</button>
+                </div>
+            </div>
+            <div id="modal11" class="modal">
+                <div class="modal-content">
+                    <h4>Add Ph.D Candidate</h4>
+                    <form action="/add-phdcandidates" method="POST" id="add_phd_candidate">
+                        <div class="row valign-wrapper"><input type="text" style="width:30%" placeholder="Student Name"
+                                name="student_name" value="" />&nbsp;&nbsp;<input type="text" style="width:30%"
+                                placeholder="Thesis Topic" name="thesis_name" value="" />&nbsp;&nbsp;<input type="text"
+                                style="width:20%" placeholder="Start Year" name="start_year"
+                                value="" />&nbsp;&nbsp;<input type="text" style="width:20%"
+                                placeholder="Completion Year" name="completion_year" value="" /></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="waves-effect waves-green btn" type="submit" form="add_phd_candidate">Update</button>
+                    <button class="modal-close waves-effect waves-green btn">Cancel</button>
+                </div>
+            </div>
+            <div class="main">
+                <div class="col s12 m8 offset-m2 l6 offset-l3">
+                    <div class="card-panel grey lighten-5 z-depth-1">
+                        <div class="row">
+                            <div class="col s2">
+                                <img class="circle" src="<%= user.imgUrl %>" alt="">
+                            </div>
+                            <div class="col s9" id="user-info">
+                                <div class="col s10" id="user_info">
+                                    <span style="font-weight: bold;">
+                                        <%= user.name %>
+                                    </span><br>
+                                    <span>
+                                        <%= user.designation %>
+                                    </span><br>
+                                    <span><i class="fa fa-envelope">&nbsp;</i>
+                                        <%= user.email %>
+                                    </span><br>
+                                    <span style="font-weight: bold;">Department : </span><span>
+                                        <%= user.department %>
+                                    </span><br>
+                                    <span style="font-weight: bold;">Extn_no / Phone no. : </span><span>
+                                        <%= user.ext_no %>
+                                    </span><br>
+                                    <span style="font-weight: bold;">Research Interests : </span><span>
+                                        <%= user.research_interest %>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row add">
+                                <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal1"
+                                    style="font-size:medium;">Edit<i class="fa fa-pencil fa-sm "></i></a>
+                            </div>
                         </div>
                     </div>
-                    <div class="row add">
-                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal1" style="font-size:medium;">Edit<i class="fa fa-pencil fa-sm "></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Subjects Teaching in Department</span>
-                        <% if(subjects != null) {%>
-                        <ul>
-                            <%subjects.forEach((item) => {%>
-                            <li><span class="col s10"><span> - </span><%=item.subject%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=item.id%>','subjects_teaching')"><i class="fa fa-trash fa-sm"></i></a></span></li>
-                            <%});%>
-                        </ul>
-                        <%} else {%>
-                        <p style="font-size:medium;">None</p>
-                        <%} %>
-                    </div>
-                    <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal2" style="font-size:medium;">Add<i class="fa fa-plus fa-sm "></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Memberships & Society</span>
-                        <% if(memberships != null) {%>
-                        <ul>
-                            <li>
-                                <span class="col s6" style="font-weight:bold;">Society Name</span><span class="col s4" style="font-weight:bold;">Membership ID</span><span class="col s2"> </span></li>
-                            </li>
-                        </ul>
-                        <ul>
-                            <%memberships.forEach((item) => {%>
-                            <li><span class="col s6"><%=item.membership_society%></span><span class="col s4"><%=item.membership_id%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=item.id%>','memberships')"><i class="fa fa-trash fa-sm"></i></a></span></li>
-                            <%});%>
-                        </ul>
-                        <%} else {%>
-                        <p style="font-size:medium;">None</p>
-                        <%} %>
-                    </div>
-                    <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal3" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Educational Qualification</span>
-
-                        <% if(qualification != null) {%>
-                        <ul>
-                            <li>
-                                <span class="col s3" style="font-weight:bold;">Certification</span><span class="col s5" style="font-weight:bold;">Institute Name</span><span class="col s2" style="font-weight:bold;">Passing Year</span><span class="col s2"> </span></li>
-                            </li>
-                        </ul>
-                        <ul>
-                            <%qualification.forEach((item) => {%>
-                            <li><span class="col s3"><%=item.certification%></span><span class="col s5"><%=item.institution%></span><span class="col s2"><%=item.passing_year%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=item.id%>','education')"><i class="fa fa-trash fa-sm"></i></a></span></li>
-                            <%});%>
-                        </ul>
-                        <%} else {%>
-                        <p style="font-size:medium;">None</p>
-                        <%} %>
-
-                    </div>
-                    <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal4" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Current Administrative Responsibility</span>
-                        <% if(administration != null) {%>
-
-                        <ul>
-                            <%administration.forEach((item) => {%>
-                            <li><span class="col s10"><%=item.curr_responsibility%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=item.id%>','curr_admin_responsibility')"><i class="fa fa-trash fa-sm"></i></a></span></li>
-                            <%});%>
-                        </ul>
-                        <%} else {%>
-                        <p style="font-size:medium;">None</p>
-                        <%} %>
-                    </div>
-                    <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal5" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Past Administrative Responsibility</span>
-                        <% if(lastreponsibility != null) {%>
-                        <ul>
-                            <%lastreponsibility.forEach((item) => {%>
-                            <li><span class="col s10"><%=item.past_responsibility%></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=item.id%>','past_admin_responsibility')"><i class="fa fa-trash fa-sm"></i></a></span></li>
-                            <%});%>
-                        </ul>
-                        <%} else {%>
-                        <p style="font-size:medium;">None</p>
-                        <%} %>
-                    </div>
-                    <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal6" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Work Experiences</span>
-                        <% if(works!=null){%>
-                        <ul>
-                            <% var ittr=1%>
-                            <% works.forEach(work=>{ %>
-                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= work.work_experiences %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=work.id%>','work_experience')"><i class="fa fa-trash fa-sm"></i></a></span></li>
-                            <% ittr++ %>
-                            <%})%>
-                        </ul>
-                        <%}else{%>
-                        <p style="font-size:medium;">None</p>
-                        <%}%>
-                    </div>
-                    <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal7" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Add Bib File</span>
-                        <ul class="collapsible">
-                            <% if(books.length!=0){%>
-                        <li>
-                            <div class="collapsible-header"><span style="font-weight:bold;">Books</span></div>
-                            <div class="collapsible-body">
-                                <ol>
-                                    <% books.forEach(entry=>{%>
-                                    <li>
-                                        <div class="entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
-                                            <span class="title"><b>"<%= entry.entryTags.TITLE %>"</b></span>,
-                                            <span class="publisher"><b><%= entry.entryTags.PUBLISHER %></b></span>,
-                                            <% if(entry.entryTags.ADDRESS){%>
-                                            <span class="address"><%=entry.entryTags.ADDRESS %>-</span><%}%>
-                                                    <span class="year"><%= entry.entryTags.YEAR %></span></div>
-                                    </li>
-                                    <%})%>
-                                </ol>
+                    <div class="card-panel grey lighten-5 z-depth-1">
+                        <div class="row">
+                            <div class="col s11"><span style="font-weight:bold;">Subjects Teaching in Department</span>
+                                <% if(subjects !=null) {%>
+                                    <ul>
+                                        <%subjects.forEach((item)=> {%>
+                                            <li><span class="col s10"><span> - </span>
+                                                    <%=item.subject%>
+                                                </span><span class="col s2"><a class="waves-teal waves-effect"
+                                                        href="/profile"
+                                                        onclick="deleteItem('<%=item.id%>','subjects_teaching')"><i
+                                                            class="fa fa-trash fa-sm"></i></a></span></li>
+                                            <%});%>
+                                    </ul>
+                                    <%} else {%>
+                                        <p style="font-size:medium;">None</p>
+                                        <%} %>
                             </div>
-                        </li>
-                        <%}%>
-                            <% if(journals.length!=0){%>
-                        <li>
-                            <div class="collapsible-header"><span style="font-weight:bold;">Journals</span></div>
-                            <div class="collapsible-body">
-                                <ol>
-                                    <% journals.forEach(entry=>{%>
-                                    <li>
-                                        <div class=" entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
-                                            <span class="title"><em><%= entry.entryTags.TITLE %></em></span>,
-                                            <span class="journal"><em>"<%= entry.entryTags.JOURNAL %>"</em></span>,
-                                            <% if(entry.entryTags.MONTH){%>
-                                            <span class="month"><%=entry.entryTags.MONTH %>-</span><%}%>
-                                                    <span class="year"><%= entry.entryTags.YEAR %></span>,
-                                            <span class="pages">p.<%= entry.entryTags.PAGES %></span><br>
-                                            <% if(entry.entryTags.URL){%>
-                                            <span class="url"><a href="<%=entry.entryTags.URL %>">Read more</a></span><%}%></div>
-                                            </li>
-                                            <%})%>
-                                </ol>
+                            <div class="col s1 add">
+                                <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal2"
+                                    style="font-size:medium;">Add<i class="fa fa-plus fa-sm "></i></a>
                             </div>
-                        </li>
-                        <%}%>
-                            <% if(conferences.length!=0){%>
-                        <li>
-                            <div class="collapsible-header"><span style="font-weight:bold;">Conferences</span></div>
-                            <div class="collapsible-body">
-                                <ol>
-                                    <% conferences.forEach(entry=>{%>
-                                    <li>
-                                        <div class="entry"><span class="author"><%= entry.entryTags.AUTHOR %></span>,
-                                            <span class="title"><em><%= entry.entryTags.TITLE %></em></span>,
-                                            <span class="booktitle"><em>"<%= entry.entryTags.BOOKTITLE%>"</em></span>,
-                                            <span class="pages">p.<%= entry.entryTags.PAGES %></span>,
-                                            <% if(entry.entryTags.LOCATION){%>
-                                            <span class="location"><%=entry.entryTags.LOCATION %>,</span><%}%>
-                                                <% if(entry.entryTags.MONTH){%>
-                                            <span class="month"><%=entry.entryTags.MONTH %>-</span><%}%>
-                                                <span class="year"><%= entry.entryTags.YEAR %></span></div>
-                                    </li>
-                                    <%})%>
-                                </ol>
-                            </div>
-                        </li>
-                        <%}%>
-                         </ul>     
-                    </div>
-                    <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal8" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Professional Services</span>
-                        <% if(services !=null){ %>
-                        <ul>
-                            <% var ittr=1 %>
-                            <% services.forEach(service=>{ %>
-                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= service.services %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=service.id%>','professional_service')"><i class="fa fa-trash fa-sm"></i></a></span></li>
-                            <% ittr++ %>
-                            <%})%>
-                        </ul>
-                        <% }else{%>
-                        <p style="font-size: medium;">None</p>
-                        <%}%>
-                    </div>
-                    <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal9" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Projects</span>
-                        <% if(projects !=null){ %>
-                        <ul>
-                            <% var ittr=1 %>
-                            <% projects.forEach(project=>{ %>
-                            <li><span class="col s10"><span><%= ittr %>.</span>&nbsp;&nbsp;<%= project.project %></span><span class="col s2"><a class="waves-teal waves-effect" href="/profile" onclick="deleteItem('<%=project.id%>','project')"><i class="fa fa-trash fa-sm"></i></a></span></li>
-                            <% ittr++ %>
-                            <%})%>
-                        </ul>
-                        <% }else{%>
-                        <p style="font-size: medium;">None</p>
-                        <%}%>
-                    </div>
-                    <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal10" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-panel grey lighten-5 z-depth-1">
-                <div class="row">
-                    <div class="col s11"><span style="font-weight:bold;">Ph.D Candidates</span>
-                        <%if(phd!=null){%>
-                        <div class="row list" style="margin-left: 10px;">
-                            <table class="striped higlight">
-                                <thead>
-                                    <tr>
-                                        <td><b>Name</b></td>
-                                        <td><b>Thesis Name</b></td>
-                                        <td><b>Start Year</b></td>
-                                        <td><b>Completion Year</b></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <%phd.forEach(candidate=>{%>
-                                    <tr>
-                                        <td><%= candidate.phd_student_name %></td>
-                                        <td><%= candidate.thesis_topic %></td>
-                                        <td><%= candidate.start_year %></td>
-                                        <td><%= candidate.completion_year %></td>
-                                    </tr>
-                                    <%})%>
-                                </tbody>
-                            </table>
                         </div>
-                        <%}else{%>
-                        <p style="font-weight:medium;">None</p>
-                        <%}%>                     
                     </div>
-                    <div class="col s1 add">
-                        <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal11" style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                    <div class="card-panel grey lighten-5 z-depth-1">
+                        <div class="row">
+                            <div class="col s11"><span style="font-weight:bold;">Memberships & Society</span>
+                                <% if(memberships !=null) {%>
+                                    <ul>
+                                        <li>
+                                            <span class="col s6" style="font-weight:bold;">Society Name</span><span
+                                                class="col s4" style="font-weight:bold;">Membership ID</span><span
+                                                class="col s2"> </span>
+                                        </li>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <%memberships.forEach((item)=> {%>
+                                            <li><span class="col s6">
+                                                    <%=item.membership_society%>
+                                                </span><span class="col s4">
+                                                    <%=item.membership_id%>
+                                                </span><span class="col s2"><a class="waves-teal waves-effect"
+                                                        href="/profile"
+                                                        onclick="deleteItem('<%=item.id%>','memberships')"><i
+                                                            class="fa fa-trash fa-sm"></i></a></span></li>
+                                            <%});%>
+                                    </ul>
+                                    <%} else {%>
+                                        <p style="font-size:medium;">None</p>
+                                        <%} %>
+                            </div>
+                            <div class="col s1 add">
+                                <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal3"
+                                    style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-panel grey lighten-5 z-depth-1">
+                        <div class="row">
+                            <div class="col s11"><span style="font-weight:bold;">Educational Qualification</span>
+
+                                <% if(qualification !=null) {%>
+                                    <ul>
+                                        <li>
+                                            <span class="col s3" style="font-weight:bold;">Certification</span><span
+                                                class="col s5" style="font-weight:bold;">Institute Name</span><span
+                                                class="col s2" style="font-weight:bold;">Passing Year</span><span
+                                                class="col s2"> </span>
+                                        </li>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <%qualification.forEach((item)=> {%>
+                                            <li><span class="col s3">
+                                                    <%=item.certification%>
+                                                </span><span class="col s5">
+                                                    <%=item.institution%>
+                                                </span><span class="col s2">
+                                                    <%=item.passing_year%>
+                                                </span><span class="col s2"><a class="waves-teal waves-effect"
+                                                        href="/profile"
+                                                        onclick="deleteItem('<%=item.id%>','education')"><i
+                                                            class="fa fa-trash fa-sm"></i></a></span></li>
+                                            <%});%>
+                                    </ul>
+                                    <%} else {%>
+                                        <p style="font-size:medium;">None</p>
+                                        <%} %>
+
+                            </div>
+                            <div class="col s1 add">
+                                <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal4"
+                                    style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-panel grey lighten-5 z-depth-1">
+                        <div class="row">
+                            <div class="col s11"><span style="font-weight:bold;">Current Administrative
+                                    Responsibility</span>
+                                <% if(administration !=null) {%>
+
+                                    <ul>
+                                        <%administration.forEach((item)=> {%>
+                                            <li><span class="col s10">
+                                                    <%=item.curr_responsibility%>
+                                                </span><span class="col s2"><a class="waves-teal waves-effect"
+                                                        href="/profile"
+                                                        onclick="deleteItem('<%=item.id%>','curr_admin_responsibility')"><i
+                                                            class="fa fa-trash fa-sm"></i></a></span></li>
+                                            <%});%>
+                                    </ul>
+                                    <%} else {%>
+                                        <p style="font-size:medium;">None</p>
+                                        <%} %>
+                            </div>
+                            <div class="col s1 add">
+                                <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal5"
+                                    style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-panel grey lighten-5 z-depth-1">
+                        <div class="row">
+                            <div class="col s11"><span style="font-weight:bold;">Past Administrative
+                                    Responsibility</span>
+                                <% if(lastreponsibility !=null) {%>
+                                    <ul>
+                                        <%lastreponsibility.forEach((item)=> {%>
+                                            <li><span class="col s10">
+                                                    <%=item.past_responsibility%>
+                                                </span><span class="col s2"><a class="waves-teal waves-effect"
+                                                        href="/profile"
+                                                        onclick="deleteItem('<%=item.id%>','past_admin_responsibility')"><i
+                                                            class="fa fa-trash fa-sm"></i></a></span></li>
+                                            <%});%>
+                                    </ul>
+                                    <%} else {%>
+                                        <p style="font-size:medium;">None</p>
+                                        <%} %>
+                            </div>
+                            <div class="col s1 add">
+                                <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal6"
+                                    style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-panel grey lighten-5 z-depth-1">
+                        <div class="row">
+                            <div class="col s11"><span style="font-weight:bold;">Work Experiences</span>
+                                <% if(works!=null){%>
+                                    <ul>
+                                        <% var ittr=1%>
+                                            <% works.forEach(work=>{ %>
+                                                <li><span class="col s10"><span>
+                                                            <%= ittr %>.
+                                                        </span>&nbsp;&nbsp;<%= work.work_experiences %></span><span
+                                                        class="col s2"><a class="waves-teal waves-effect"
+                                                            href="/profile"
+                                                            onclick="deleteItem('<%=work.id%>','work_experience')"><i
+                                                                class="fa fa-trash fa-sm"></i></a></span></li>
+                                                <% ittr++ %>
+                                                    <%})%>
+                                    </ul>
+                                    <%}else{%>
+                                        <p style="font-size:medium;">None</p>
+                                        <%}%>
+                            </div>
+                            <div class="col s1 add">
+                                <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal7"
+                                    style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-panel grey lighten-5 z-depth-1">
+                        <div class="row">
+                            <div class="col s11"><span style="font-weight:bold;">Add Bib File</span>
+                                <ul class="collapsible">
+                                    <% if(books.length!=0){%>
+                                        <li>
+                                            <div class="collapsible-header"><span style="font-weight:bold;">Books</span>
+                                            </div>
+                                            <div class="collapsible-body">
+                                                <ol>
+                                                    <% books.forEach(entry=>{%>
+                                                        <li>
+                                                            <div class="entry"><span class="author">
+                                                                    <%= entry.entryTags.AUTHOR %>
+                                                                </span>,
+                                                                <span class="title"><b>"<%= entry.entryTags.TITLE %>
+                                                                            "</b></span>,
+                                                                <span class="publisher"><b>
+                                                                        <%= entry.entryTags.PUBLISHER %>
+                                                                    </b></span>,
+                                                                <% if(entry.entryTags.ADDRESS){%>
+                                                                    <span class="address">
+                                                                        <%=entry.entryTags.ADDRESS %>-
+                                                                    </span>
+                                                                    <%}%>
+                                                                        <span class="year">
+                                                                            <%= entry.entryTags.YEAR %>
+                                                                        </span>
+                                                            </div>
+                                                        </li>
+                                                        <%})%>
+                                                </ol>
+                                            </div>
+                                        </li>
+                                        <%}%>
+                                            <% if(journals.length!=0){%>
+                                                <li>
+                                                    <div class="collapsible-header"><span
+                                                            style="font-weight:bold;">Journals</span></div>
+                                                    <div class="collapsible-body">
+                                                        <ol>
+                                                            <% journals.forEach(entry=>{%>
+                                                                <li>
+                                                                    <div class=" entry"><span class="author">
+                                                                            <%= entry.entryTags.AUTHOR %>
+                                                                        </span>,
+                                                                        <span class="title"><em>
+                                                                                <%= entry.entryTags.TITLE %>
+                                                                            </em></span>,
+                                                                        <span class="journal"><em>"<%=
+                                                                                    entry.entryTags.JOURNAL %>
+                                                                                    "</em></span>,
+                                                                        <% if(entry.entryTags.MONTH){%>
+                                                                            <span class="month">
+                                                                                <%=entry.entryTags.MONTH %>-
+                                                                            </span>
+                                                                            <%}%>
+                                                                                <span class="year">
+                                                                                    <%= entry.entryTags.YEAR %>
+                                                                                </span>,
+                                                                                <span class="pages">p.<%=
+                                                                                        entry.entryTags.PAGES %>
+                                                                                </span><br>
+                                                                                <% if(entry.entryTags.URL){%>
+                                                                                    <span class="url"><a
+                                                                                            href="<%=entry.entryTags.URL %>">Read
+                                                                                            more</a></span>
+                                                                                    <%}%>
+                                                                    </div>
+                                                                </li>
+                                                                <%})%>
+                                                        </ol>
+                                                    </div>
+                                                </li>
+                                                <%}%>
+                                                    <% if(conferences.length!=0){%>
+                                                        <li>
+                                                            <div class="collapsible-header"><span
+                                                                    style="font-weight:bold;">Conferences</span></div>
+                                                            <div class="collapsible-body">
+                                                                <ol>
+                                                                    <% conferences.forEach(entry=>{%>
+                                                                        <li>
+                                                                            <div class="entry"><span class="author">
+                                                                                    <%= entry.entryTags.AUTHOR %>
+                                                                                </span>,
+                                                                                <span class="title"><em>
+                                                                                        <%= entry.entryTags.TITLE %>
+                                                                                    </em></span>,
+                                                                                <span class="booktitle"><em>"<%=
+                                                                                            entry.entryTags.BOOKTITLE%>
+                                                                                            "</em></span>,
+                                                                                <span class="pages">p.<%=
+                                                                                        entry.entryTags.PAGES %></span>,
+                                                                                <% if(entry.entryTags.LOCATION){%>
+                                                                                    <span class="location">
+                                                                                        <%=entry.entryTags.LOCATION %>,
+                                                                                    </span>
+                                                                                    <%}%>
+                                                                                        <% if(entry.entryTags.MONTH){%>
+                                                                                            <span class="month">
+                                                                                                <%=entry.entryTags.MONTH
+                                                                                                    %>-
+                                                                                            </span>
+                                                                                            <%}%>
+                                                                                                <span class="year">
+                                                                                                    <%= entry.entryTags.YEAR
+                                                                                                        %>
+                                                                                                </span>
+                                                                            </div>
+                                                                        </li>
+                                                                        <%})%>
+                                                                </ol>
+                                                            </div>
+                                                        </li>
+                                                        <%}%>
+                                </ul>
+                            </div>
+                            <div class="col s1 add">
+                                <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal8"
+                                    style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-panel grey lighten-5 z-depth-1">
+                        <div class="row">
+                            <div class="col s11"><span style="font-weight:bold;">Professional Services</span>
+                                <% if(services !=null){ %>
+                                    <ul>
+                                        <% var ittr=1 %>
+                                            <% services.forEach(service=>{ %>
+                                                <li><span class="col s10"><span>
+                                                            <%= ittr %>.
+                                                        </span>&nbsp;&nbsp;<%= service.services %></span><span
+                                                        class="col s2"><a class="waves-teal waves-effect"
+                                                            href="/profile"
+                                                            onclick="deleteItem('<%=service.id%>','professional_service')"><i
+                                                                class="fa fa-trash fa-sm"></i></a></span></li>
+                                                <% ittr++ %>
+                                                    <%})%>
+                                    </ul>
+                                    <% }else{%>
+                                        <p style="font-size: medium;">None</p>
+                                        <%}%>
+                            </div>
+                            <div class="col s1 add">
+                                <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal9"
+                                    style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-panel grey lighten-5 z-depth-1">
+                        <div class="row">
+                            <div class="col s11"><span style="font-weight:bold;">Projects</span>
+                                <% if(projects !=null){ %>
+                                    <ul>
+                                        <% var ittr=1 %>
+                                            <% projects.forEach(project=>{ %>
+                                                <li><span class="col s10"><span>
+                                                            <%= ittr %>.
+                                                        </span>&nbsp;&nbsp;<%= project.project %></span><span
+                                                        class="col s2"><a class="waves-teal waves-effect"
+                                                            href="/profile"
+                                                            onclick="deleteItem('<%=project.id%>','project')"><i
+                                                                class="fa fa-trash fa-sm"></i></a></span></li>
+                                                <% ittr++ %>
+                                                    <%})%>
+                                    </ul>
+                                    <% }else{%>
+                                        <p style="font-size: medium;">None</p>
+                                        <%}%>
+                            </div>
+                            <div class="col s1 add">
+                                <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal10"
+                                    style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-panel grey lighten-5 z-depth-1">
+                        <div class="row">
+                            <div class="col s11"><span style="font-weight:bold;">Ph.D Candidates</span>
+                                <%if(phd!=null){%>
+                                    <div class="row list" style="margin-left: 10px;">
+                                        <table class="striped higlight">
+                                            <thead>
+                                                <tr>
+                                                    <td><b>Name</b></td>
+                                                    <td><b>Thesis Name</b></td>
+                                                    <td><b>Start Year</b></td>
+                                                    <td><b>Completion Year</b></td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%phd.forEach(candidate=>{%>
+                                                    <tr>
+                                                        <td>
+                                                            <%= candidate.phd_student_name %>
+                                                        </td>
+                                                        <td>
+                                                            <%= candidate.thesis_topic %>
+                                                        </td>
+                                                        <td>
+                                                            <%= candidate.start_year %>
+                                                        </td>
+                                                        <td>
+                                                            <%= candidate.completion_year %>
+                                                        </td>
+                                                    </tr>
+                                                    <%})%>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <%}else{%>
+                                        <p style="font-weight:medium;">None</p>
+                                        <%}%>
+                            </div>
+                            <div class="col s1 add">
+                                <a class="waves-effect waves-teal btn-flat modal-trigger" href="#modal11"
+                                    style="font-size:medium;">Add<i class="fa fa-plus fa-sm"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</body>
-<script>
-    var listitem = document.getElementById('profile');
-    listitem.classList.add('active');
+    </body>
+    <script>
+        var listitem = document.getElementById('profile');
+        listitem.classList.add('active');
     // document.addEventListener('DOMContentLoaded', function() {
     // var elem = getComputedStyle(document.querySelector('.collapsible'));
     // var instance = M.Collapsible.init(elem);
     // });
-</script>
-<script>
-    //ajax call for deleting data from specific database
-    var xhttp = new XMLHttpRequest();
-    function deleteItem(id,tableName){
-    xhttp.open("POST", "/profile/delete", true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(`id=${id}&tableName=${tableName}`);
-    }
+    </script>
+    <script>
+        //ajax call for deleting data from specific database
+        var xhttp = new XMLHttpRequest();
+        function deleteItem(id, tableName) {
+            event.preventDefault()
+            xhttp.open("POST", "/profile/delete", true);
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send(`id=${id}&tableName=${tableName}`);
+            console.log(xhttp.response);
+        }
 
-</script>
-<%- include('partials/footer') -%>
-                        <script>
-                            $(document).ready(function() {
-                                $(".modal").modal();
-                                $(".collapsible").collapsible();
-                            });
-                        </script>
+    </script>
+    <%- include('partials/footer') -%>
+        <script>
+            $(document).ready(function () {
+                $(".modal").modal();
+                $(".collapsible").collapsible();
+            });
+        </script>

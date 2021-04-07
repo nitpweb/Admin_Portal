@@ -90,7 +90,7 @@ router.get("/oauth2callback", function (req, res, next) {
           id: "news",
         },
         {
-          link: "/innovation",
+          link: "/innovations",
           title: "Innovation",
           id: "innovation",
         },

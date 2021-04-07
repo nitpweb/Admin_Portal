@@ -59,7 +59,7 @@ router.post("/", (req, res) => {
     // creating to database
     Innovation.create(innovation_obj)
       .then((result) => {
-        res.redirect("/innovation");
+        res.redirect("/innovations");
       })
       .catch((err) => {
         res.send("db update error");

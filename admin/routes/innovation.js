@@ -20,49 +20,49 @@ router.get("/", (req, res) => {
   var user = req.session.user;
   if (req.session.isAdmin == true) {
     db.find({}, Innovation.tableName)
-      .then((innovation) => {
-        innovation.forEach((innovation) => {
-          // console.log(innovation)
-          innovation.attachments = JSON.parse(innovation.attachments);
+      .then((innovations) => {
+        innovations.forEach((innovations) => {
+          // console.log(innovations)
+          innovations.attachments = JSON.parse(innovations.attachments);
           const todaydate = new Date().getTime();
-          if (todaydate <= innovation.closeDate) {
-            innovation.isvisible = 1;
+          if (todaydate <= innovations.closeDate) {
+            innovations.isvisible = 1;
           } else {
-            innovation.isvisible = 0;
+            innovations.isvisible = 0;
           }
-          var d = new Date(innovation.closeDate);
-          innovation.closeDate =
+          var d = new Date(innovations.closeDate);
+          innovations.closeDate =
             d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
-          var d1 = new Date(innovation.openDate);
-          innovation.openDate =
+          var d1 = new Date(innovations.openDate);
+          innovations.openDate =
             d1.getDate() + "/" + (d1.getMonth() + 1) + "/" + d1.getFullYear();
         });
-        innovation.sort(compare);
-        // console.log(innovation);
-        res.render("innovation", {
+        innovations.sort(compare);
+        // console.log(innovations);
+        res.render("innovations", {
           profileimgsrc: "images/profiledefault.jfif",
-          title_top: "innovation",
+          title_top: "innovations",
           user: {
             imgUrl: user.imgUrl,
             name: user.name,
             email: user.email,
           },
           Navbar: req.session.Navbar,
-          innovation: innovation,
+          innovations: innovations,
           Drive: req.session.isAdmin,
         });
       })
       .catch((err) =>
-        res.render("innovation", {
+        res.render("innovations", {
           profileimgsrc: "images/profiledefault.jfif",
-          title_top: "innovation",
+          title_top: "innovations",
           user: {
             imgUrl: user.imgUrl,
             name: user.name,
             email: user.email,
           },
           Navbar: req.session.Navbar,
-          innovation: [],
+          innovations: [],
           Drive: req.session.isAdmin,
         })
       );
@@ -73,49 +73,49 @@ router.get("/", (req, res) => {
       },
       Innovation.tableName
     )
-      .then((innovation) => {
-        innovation.forEach((innovation) => {
-          // console.log(innovation)
-          innovation.attachments = JSON.parse(innovation.attachments);
+      .then((innovations) => {
+        innovations.forEach((innovations) => {
+          // console.log(innovations)
+          innovations.attachments = JSON.parse(innovations.attachments);
           const todaydate = new Date().getTime();
-          if (todaydate <= innovation.closeDate) {
-            innovation.isvisible = 1;
+          if (todaydate <= innovations.closeDate) {
+            innovations.isvisible = 1;
           } else {
-            innovation.isvisible = 0;
+            innovations.isvisible = 0;
           }
-          var d = new Date(innovation.closeDate);
-          innovation.closeDate =
+          var d = new Date(innovations.closeDate);
+          innovations.closeDate =
             d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
-          var d1 = new Date(innovation.openDate);
-          innovation.openDate =
+          var d1 = new Date(innovations.openDate);
+          innovations.openDate =
             d1.getDate() + "/" + (d1.getMonth() + 1) + "/" + d1.getFullYear();
         });
-        innovation.sort(compare);
-        // console.log(innovation);
-        res.render("innovation", {
+        innovations.sort(compare);
+        // console.log(innovations);
+        res.render("innovations", {
           profileimgsrc: "images/profiledefault.jfif",
-          title_top: "innovation",
+          title_top: "innovations",
           user: {
             imgUrl: user.imgUrl,
             name: user.name,
             email: user.email,
           },
           Navbar: req.session.Navbar,
-          innovation: innovation,
+          innovations: innovations,
           Drive: req.session.isAdmin,
         });
       })
       .catch((err) =>
-        res.render("innovation", {
+        res.render("innovations", {
           profileimgsrc: "images/profiledefault.jfif",
-          title_top: "innovation",
+          title_top: "innovations",
           user: {
             imgUrl: user.imgUrl,
             name: user.name,
             email: user.email,
           },
           Navbar: req.session.Navbar,
-          innovation: [],
+          innovations: [],
           Drive: req.session.isAdmin,
         })
       );
@@ -124,7 +124,7 @@ router.get("/", (req, res) => {
   }
 });
 
-//for deleting a innovation permanetly
+//for deleting a innovations permanetly
 router.post("/delete", (req, res) => {
   var form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
@@ -136,20 +136,20 @@ router.post("/delete", (req, res) => {
         },
         Innovation.tableName
       )
-        .then((innovation) => {
-          innovation.forEach((innovation) => {
-            if (innovation.id == fields["file_id"]) {
+        .then((innovations) => {
+          innovations.forEach((innovations) => {
+            if (innovations.id == fields["file_id"]) {
               Innovation.deleteRow(fields["file_id"]);
-              res.redirect("/innovation");
+              res.redirect("/innovations");
             }
           });
         })
-        .catch((err) => res.redirect("/innovation"));
+        .catch((err) => res.redirect("/innovations"));
     }
   });
 });
 
-//for editing innovation
+//for editing innovations
 router.post("/edit", (req, res) => {
   var form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
@@ -184,11 +184,11 @@ router.post("/edit", (req, res) => {
         },
         Innovation.tableName
       )
-        .then((innovation) => {
-          innovation.forEach((innovation) => {
+        .then((innovations) => {
+          innovations.forEach((innovations) => {
             var file_id_here = fields["file_id"];
-            if (innovation.id == file_id_here) {
-              var innovation_obj = new Innovation(
+            if (innovations.id == file_id_here) {
+              var innovations_obj = new Innovation(
                 file_id_here,
                 title,
                 attachments,
@@ -200,9 +200,9 @@ router.post("/edit", (req, res) => {
               );
 
               // updating to database
-              Innovation.updateWholeObj(file_id_here, innovation_obj)
+              Innovation.updateWholeObj(file_id_here, innovations_obj)
                 .then((result) => {
-                  res.redirect("/innovation");
+                  res.redirect("/innovations");
                 })
                 .catch((err) => {
                   res.send("db update error");
@@ -231,8 +231,8 @@ router.get("/closeDate/:id", (req, res) => {
   const id = req.params.id;
   console.log(id);
   Innovation.findById(id)
-    .then((innovation) => {
-      res.send(innovation);
+    .then((innovations) => {
+      res.send(innovations);
     })
     .catch((err) => {
       res.send(err);
@@ -257,7 +257,7 @@ router.get("/filter/:date", (req, res) => {
   end_date = temp_date;
   console.log(start_date);
   console.log(end_date);
-  var innovation_filter = [];
+  var innovations_filter = [];
   if (user != undefined) {
     db.find(
       {
@@ -265,32 +265,32 @@ router.get("/filter/:date", (req, res) => {
       },
       Innovation.tableName
     )
-      .then((innovation) => {
-        innovation.forEach((innovation) => {
-          // console.log(innovation)
-          innovation.attachments = JSON.parse(innovation.attachments);
+      .then((innovations) => {
+        innovations.forEach((innovations) => {
+          // console.log(innovations)
+          innovations.attachments = JSON.parse(innovations.attachments);
           const todaydate = new Date().getTime();
-          if (todaydate <= innovation.closeDate) {
-            innovation.isvisible = 1;
+          if (todaydate <= innovations.closeDate) {
+            innovations.isvisible = 1;
           } else {
-            innovation.isvisible = 0;
+            innovations.isvisible = 0;
           }
-          var d = new Date(innovation.closeDate);
-          innovation.closeDate =
+          var d = new Date(innovations.closeDate);
+          innovations.closeDate =
             d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
-          var d1 = new Date(innovation.openDate);
-          innovation.openDate =
+          var d1 = new Date(innovations.openDate);
+          innovations.openDate =
             d1.getDate() + "/" + (d1.getMonth() + 1) + "/" + d1.getFullYear();
           if (
-            innovation.timestamp >= new Date(start_date) &&
-            innovation.timestamp <= new Date(end_date)
+            innovations.timestamp >= new Date(start_date) &&
+            innovations.timestamp <= new Date(end_date)
           ) {
-            innovation_filter.push(innovation);
+            innovations_filter.push(innovations);
           }
         });
-        innovation.sort(compare);
-        // console.log(innovation);
-        res.json(innovation_filter);
+        innovations.sort(compare);
+        // console.log(innovations);
+        res.json(innovations_filter);
       })
       .catch((err) => res.send([]));
   } else {

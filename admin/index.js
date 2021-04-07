@@ -27,7 +27,7 @@ const newsRouter = require("./routes/news");
 router.use("/news", newsRouter);
 
 const innovationRouter = require("./routes/innovation");
-router.use("/innovation", innovationRouter);
+router.use("/innovations", innovationRouter);
 
 const profileRouter = require("./routes/faculty_prof");
 router.use("/profile", profileRouter);
@@ -58,7 +58,7 @@ const uploadNews = require("./routes/uploadNews");
 router.use("/uploadNews", uploadNews);
 
 const uploadInnovation = require("./routes/uploadInnovation");
-router.use("/uploadInnovation", uploadInnovation);
+router.use("/uploadInnovations", uploadInnovation);
 
 const saving_folder_id = require("./routes/saving_folder_id");
 router.use("/saving_folder_id", saving_folder_id);
